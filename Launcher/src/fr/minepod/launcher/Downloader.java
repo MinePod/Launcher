@@ -176,7 +176,7 @@ public class Downloader {
 				String Profile = ClassFile.ReadFile(ProfilesPath, StandardCharsets.UTF_8);
 				if(!Profile.contains("MinePod")) {
 					new File(ProfilesPath).delete();
-					Profile = Profile.substring(0, 19) + "    \"MinePod\": {\n      \"name\": \"MinePod\",\n      \"lastVersionId\": \"MinePod\"\n    }," + Profile.substring(20);
+					Profile = Profile.substring(0, 19) + "    \"MinePod\": {\n      \"name\": \"MinePod\",\n      \"lastVersionId\": \"MinePod\",\n      \"javaArgs\": \"-Xmx1G -Dfml.ignoreInvalidMinecraftCertificates\u003dtrue -Dfml.ignorePatchDiscrepancies\u003dtrue\"\n    }," + Profile.substring(20);
 					Profile = Profile.replace("\"selectedProfile\": \"(Default)\",", "\"selectedProfile\": \"MinePod\",");
 					ClassFile.WriteFile(ProfilesPath, Profile);
 				}
