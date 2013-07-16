@@ -40,6 +40,7 @@ public class Downloader {
 	 private String MinePodAppData;
 	 private String Minecraft;
 	 private String MinecraftAppData;
+	 private String Slash;
 	 
 	 private void Downloader(URL website, FileOutputStream fos) {
 		    System.out.println("Starting...");
@@ -99,14 +100,14 @@ public class Downloader {
 	 }
 	 
 	 public void Clean(String PathToClean) {
-			new File(PathToClean + "\\Libraries.txt").delete();
-			new File(PathToClean + "\\Libraries.zip").delete();
-			new File(PathToClean + "\\Libraries.z01").delete();
-			new File(PathToClean + "\\Libraries.md5").delete();
-			new File(PathToClean + "\\Versions.txt").delete();
-			new File(PathToClean + "\\Versions.zip").delete();
-			new File(PathToClean + "\\Versions.z01").delete();
-			new File(PathToClean + "\\Versions.md5").delete();
+			new File(PathToClean + Slash + "Libraries.txt").delete();
+			new File(PathToClean + Slash + "Libraries.zip").delete();
+			new File(PathToClean + Slash + "Libraries.z01").delete();
+			new File(PathToClean + Slash + "Libraries.md5").delete();
+			new File(PathToClean + Slash + "Versions.txt").delete();
+			new File(PathToClean + Slash + "Versions.zip").delete();
+			new File(PathToClean + Slash + "Versions.z01").delete();
+			new File(PathToClean + Slash + "Versions.md5").delete();
 			System.out.println("Directory cleaned up!");
 	 }
 	 
@@ -117,37 +118,41 @@ public class Downloader {
 				AppDataPath = System.getenv("APPDATA");
 				MinePod = "\\.MinePod";
 				Minecraft = "\\.minecraft";
+				Slash = "\\";
 			} else if(OS.contains("MAC")) {
 				AppDataPath = System.getProperty("user.home") + "/Library/Application " + "Support";
-				MinePod = "\\MinePod";
-				Minecraft = "\\minecraft";
+				MinePod = "/MinePod";
+				Minecraft = "/minecraft";
+				Slash = "/";
 			} else if(OS.contains("NUX")) {
 			    AppDataPath = System.getProperty("user.home");
-				MinePod = "\\.MinePod";
-				Minecraft = "\\.minecraft";
+				MinePod = "/.MinePod";
+				Minecraft = "/.minecraft";
+				Slash = "/";
 			} else {
 				AppDataPath =  System.getProperty("user.dir");
-				MinePod = "\\.MinePod";
-				Minecraft = "\\.minecraft";
+				MinePod = "/.MinePod";
+				Minecraft = "/.minecraft";
+				Slash = "/";
 			}
 			
 			System.out.println(AppDataPath);
 			
 			MinePodAppData = AppDataPath + MinePod;
 			MinecraftAppData = AppDataPath + Minecraft;
-			MinePodLibrariesZip = MinePodAppData + "\\Libraries.zip";
-			MinePodVersionsZip = MinePodAppData + "\\Versions.zip";
-			MinecraftLaunch = new File(MinePodAppData + "\\Minecraft.jar");
-			ProfilesPath = MinecraftAppData + "\\launcher_profiles.json";
-			MinePodMinecraftJar = MinePodAppData + "\\Minecraft.jar";
+			MinePodLibrariesZip = MinePodAppData + Slash + "Libraries.zip";
+			MinePodVersionsZip = MinePodAppData + Slash + "Versions.zip";
+			MinecraftLaunch = new File(MinePodAppData + Slash + "Minecraft.jar");
+			ProfilesPath = MinecraftAppData + Slash + "launcher_profiles.json";
+			MinePodMinecraftJar = MinePodAppData + Slash + "Minecraft.jar";
 			
 			
-			if(!new File(MinecraftAppData + "\\libraries").exists()) {
-				new File(MinecraftAppData + "\\libraries").mkdir();
+			if(!new File(MinecraftAppData + Slash + "libraries").exists()) {
+				new File(MinecraftAppData + Slash + "libraries").mkdir();
 			}
 			
-			if(!new File(MinecraftAppData + "\\versions").exists()) {
-				new File(MinecraftAppData + "\\versions").mkdir();
+			if(!new File(MinecraftAppData + Slash + "versions").exists()) {
+				new File(MinecraftAppData + Slash + "versions").mkdir();
 			}
 			
 			Clean(MinePodAppData);
@@ -156,31 +161,31 @@ public class Downloader {
 				Downloader(new URL("http://assets.minepod.fr/launcher/minecraft.jar"), new FileOutputStream(MinePodMinecraftJar));		
 			}
 				
-			Downloader(new URL("http://assets.minepod.fr/launcher/versions/libraries.txt"), new FileOutputStream(MinePodAppData + "\\Libraries.txt"));
-			latestVersionLibraries = ClassFile.ReadFile(MinePodAppData + "\\Libraries.txt", StandardCharsets.UTF_8);
+			Downloader(new URL("http://assets.minepod.fr/launcher/versions/libraries.txt"), new FileOutputStream(MinePodAppData + Slash + "Libraries.txt"));
+			latestVersionLibraries = ClassFile.ReadFile(MinePodAppData + Slash + "Libraries.txt", StandardCharsets.UTF_8);
 
-			Downloader(new URL("http://assets.minepod.fr/launcher/md5.php?file=" + latestVersionLibraries), new FileOutputStream(MinePodAppData + "\\Libraries.md5"));
-			Zip(MinecraftAppData + "\\libraries", MinePodLibrariesZip);
+			Downloader(new URL("http://assets.minepod.fr/launcher/md5.php?file=" + latestVersionLibraries), new FileOutputStream(MinePodAppData + Slash + "Libraries.md5"));
+			Zip(MinecraftAppData + Slash + "libraries", MinePodLibrariesZip);
 
-			if(!GetMd5.VerifyMd5(new File(MinePodAppData + "\\Libraries.md5"), new File(MinePodLibrariesZip))) {
+			if(!GetMd5.VerifyMd5(new File(MinePodAppData + Slash + "Libraries.md5"), new File(MinePodLibrariesZip))) {
 				new File(MinePodLibrariesZip).delete();
-				new File(MinecraftAppData + "\\libraries").delete();
+				new File(MinecraftAppData + Slash + "libraries").delete();
 				Downloader(new URL(latestVersionLibraries), new FileOutputStream(MinePodLibrariesZip));
-				UnZip(MinePodLibrariesZip, MinecraftAppData + "\\libraries");
+				UnZip(MinePodLibrariesZip, MinecraftAppData + Slash + "libraries");
 			}
 			
 			
-			Downloader(new URL("http://assets.minepod.fr/launcher/versions/versions.txt"), new FileOutputStream(MinePodAppData + "\\Versions.txt"));
-			latestVersionVersions = ClassFile.ReadFile(MinePodAppData + "\\Versions.txt", StandardCharsets.UTF_8);
+			Downloader(new URL("http://assets.minepod.fr/launcher/versions/versions.txt"), new FileOutputStream(MinePodAppData + Slash + "Versions.txt"));
+			latestVersionVersions = ClassFile.ReadFile(MinePodAppData + Slash + "Versions.txt", StandardCharsets.UTF_8);
 
-			Downloader(new URL("http://assets.minepod.fr/launcher/md5.php?file=" + latestVersionVersions), new FileOutputStream(MinePodAppData + "\\Versions.md5"));
-			Zip(MinecraftAppData + "\\versions\\MinePod", MinePodVersionsZip);
+			Downloader(new URL("http://assets.minepod.fr/launcher/md5.php?file=" + latestVersionVersions), new FileOutputStream(MinePodAppData + Slash + "Versions.md5"));
+			Zip(MinecraftAppData + Slash + "versions" + Slash + "MinePod", MinePodVersionsZip);
 
-			if(!GetMd5.VerifyMd5(new File(MinePodAppData + "\\Versions.md5"), new File(MinePodVersionsZip))) {
+			if(!GetMd5.VerifyMd5(new File(MinePodAppData + Slash + "Versions.md5"), new File(MinePodVersionsZip))) {
 				new File(MinePodVersionsZip).delete();
-				new File(MinecraftAppData + "\\versions\\MinePod").delete();
+				new File(MinecraftAppData + Slash + "versions" + Slash + "MinePod").delete();
 				Downloader(new URL(latestVersionVersions), new FileOutputStream(MinePodVersionsZip));
-				UnZip(MinePodVersionsZip, MinecraftAppData + "\\versions\\MinePod");
+				UnZip(MinePodVersionsZip, MinecraftAppData + Slash + "versions" + Slash + "MinePod");
 			}
 			
 			
