@@ -152,6 +152,9 @@ public class Downloader {
 			LauncherMinecraftJar = LauncherLocation + Slash + "Minecraft.jar";
 			ProfilesPath = LauncherLocation + Slash + "launcher_profiles.json";
 			
+			if(!new File(LauncherLocation).exists()) {
+				new File(LauncherLocation).mkdir();
+			}		
 			
 			if(!new File(MinecraftAppData + Slash + "libraries").exists()) {
 				new File(MinecraftAppData + Slash + "libraries").mkdir();
@@ -163,7 +166,7 @@ public class Downloader {
 			
 			if(!new File(LauncherLocation + Slash + "mods").exists()) {
 				new File(LauncherLocation + Slash + "mods").mkdir();
-			}
+			}	
 			
 			Clean(LauncherLocation);
 			
@@ -212,13 +215,13 @@ public class Downloader {
 			new File(ProfilesPath).delete();
 			if(!Profile.contains(LauncherName + "\",\n      \"gameDir\":")) {
 				if(!Profile.contains(LauncherName)) {
-					Profile = Profile.substring(0, 19) + "    \"" + LauncherName + "\": {\n      \"name\": \"" + LauncherName + "\",\n      \"gameDir\": \"" + LauncherName + "_GameDir\",\n      \"lastVersionId\": \"" + LauncherName + "\",\n      \"javaArgs\": \"-Xmx1G -Dfml.ignoreInvalidMinecraftCertificates\u003dtrue -Dfml.ignorePatchDiscrepancies\u003dtrue\"\n    },\n" + Profile.substring(20);
+					Profile = Profile.substring(0, 19) + "    \"" + LauncherName + "\": {\n      \"name\": \"" + LauncherName + "\",\n      \"gameDir\": \"Launcher_GameDir\",\n      \"lastVersionId\": \"" + LauncherName + "\",\n      \"javaArgs\": \"-Xmx1G -Dfml.ignoreInvalidMinecraftCertificates\u003dtrue -Dfml.ignorePatchDiscrepancies\u003dtrue\"\n    },\n" + Profile.substring(20);
 				} else {
 					Profile = Profile.replace("\"name\": \"" + LauncherName + "\"", "\"name\": \"" + LauncherName + "\",\n      \"gameDir\": \"" + LauncherName + "_GameDir\"");
 				}
 				Profile = Profile.replace("\"selectedProfile\": \"(Default)\",", "\"selectedProfile\": \"" + LauncherName + "\",");
 			}
-			Profile = Profile.replace("\"gameDir\": \"" + LauncherName + "_GameDir\",", "\"gameDir\": \"" + LauncherLocation.replace("\\", "\\\\") + "\",");
+			Profile = Profile.replace("\"gameDir\": \"Launcher_GameDir\",", "\"gameDir\": \"" + LauncherLocation.replace("\\", "\\\\") + "\",");
 			ClassFile.WriteFile(ProfilesPath, Profile);
 			
 			System.out.println(LauncherMinecraftJar);
