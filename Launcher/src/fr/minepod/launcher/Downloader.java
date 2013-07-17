@@ -221,11 +221,11 @@ public class Downloader {
 			new File(ProfilesPath).delete();
 			if(!Profile.contains("MinePod\",\n      \"gameDir\":")) {
 				if(!Profile.contains("MinePod")) {
-					Profile = Profile.substring(0, 19) + "    \"MinePod\": {\n      \"name\": \"MinePod\",\n      \"gameDir\": \"MinePod_GameDir\",\n      \"lastVersionId\": \"MinePod\",\n      \"javaArgs\": \"-Xmx1G -Dfml.ignoreInvalidMinecraftCertificates\u003dtrue -Dfml.ignorePatchDiscrepancies\u003dtrue\"\n    }," + Profile.substring(20);
-					Profile = Profile.replace("\"selectedProfile\": \"(Default)\",", "\"selectedProfile\": \"MinePod\",");
+					Profile = Profile.substring(0, 19) + "    \"MinePod\": {\n      \"name\": \"MinePod\",\n      \"gameDir\": \"MinePod_GameDir\",\n      \"lastVersionId\": \"MinePod\",\n      \"javaArgs\": \"-Xmx1G -Dfml.ignoreInvalidMinecraftCertificates\u003dtrue -Dfml.ignorePatchDiscrepancies\u003dtrue\"\n    },\n" + Profile.substring(20);
 				} else {
 					Profile = Profile.replace("\"name\": \"MinePod\"", "\"name\": \"MinePod\",\n      \"gameDir\": \"MinePod_GameDir\"");
 				}
+				Profile = Profile.replace("\"selectedProfile\": \"(Default)\",", "\"selectedProfile\": \"MinePod\",");
 			}
 			Profile = Profile.replace("\"gameDir\": \"MinePod_GameDir\",", "\"gameDir\": \"" + MinePodAppData.replace("\\", "\\\\") + "\",");
 			ClassFile.WriteFile(ProfilesPath, Profile);
