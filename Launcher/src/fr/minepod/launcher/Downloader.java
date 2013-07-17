@@ -41,6 +41,8 @@ public class Downloader {
 	 private String Minecraft;
 	 private String MinecraftAppData;
 	 private String Slash;
+	 private String MinePodModsZip;
+	private String latestVersionMods;
 	 
 	 private void Downloader(URL website, FileOutputStream fos) {
 		    System.out.println("Starting...");
@@ -108,6 +110,10 @@ public class Downloader {
 			new File(PathToClean + Slash + "Versions.zip").delete();
 			new File(PathToClean + Slash + "Versions.z01").delete();
 			new File(PathToClean + Slash + "Versions.md5").delete();
+			new File(PathToClean + Slash + "Mods.txt").delete();
+			new File(PathToClean + Slash + "Mods.zip").delete();
+			new File(PathToClean + Slash + "Mods.z01").delete();
+			new File(PathToClean + Slash + "Mods.md5").delete();
 			System.out.println("Directory cleaned up!");
 	 }
 	 
@@ -142,6 +148,7 @@ public class Downloader {
 			MinecraftAppData = AppDataPath + Minecraft;
 			MinePodLibrariesZip = MinePodAppData + Slash + "Libraries.zip";
 			MinePodVersionsZip = MinePodAppData + Slash + "Versions.zip";
+			MinePodModsZip = MinePodAppData + Slash + "Mods.zip";
 			MinecraftLaunch = new File(MinePodAppData + Slash + "Minecraft.jar");
 			ProfilesPath = MinecraftAppData + Slash + "launcher_profiles.json";
 			MinePodMinecraftJar = MinePodAppData + Slash + "Minecraft.jar";
@@ -153,6 +160,10 @@ public class Downloader {
 			
 			if(!new File(MinecraftAppData + Slash + "versions").exists()) {
 				new File(MinecraftAppData + Slash + "versions").mkdir();
+			}
+			
+			if(!new File(MinePodAppData + Slash + "mods").exists()) {
+				new File(MinePodAppData + Slash + "mods").mkdir();
 			}
 			
 			Clean(MinePodAppData);
@@ -188,18 +199,36 @@ public class Downloader {
 				UnZip(MinePodVersionsZip, MinecraftAppData + Slash + "versions" + Slash + "MinePod");
 			}
 			
+			Downloader(new URL("http://assets.minepod.fr/launcher/versions/mods.txt"), new FileOutputStream(MinePodAppData + Slash + "Mods.txt"));
+			latestVersionMods = ClassFile.ReadFile(MinePodAppData + Slash + "Mods.txt", StandardCharsets.UTF_8);
+
+			Downloader(new URL("http://assets.minepod.fr/launcher/md5.php?file=" + latestVersionMods), new FileOutputStream(MinePodAppData + Slash + "Mods.md5"));
+			Zip(MinePodAppData + Slash + "mods", MinePodModsZip);
+
+			if(!GetMd5.VerifyMd5(new File(MinePodAppData + Slash + "Mods.md5"), new File(MinePodModsZip))) {
+				new File(MinePodModsZip).delete();
+				new File(MinePodAppData + Slash + "mods").delete();
+				Downloader(new URL(latestVersionMods), new FileOutputStream(MinePodModsZip));
+				UnZip(MinePodModsZip, MinePodAppData + Slash + "mods");
+			}
+			
 			
 			if(!new File(ProfilesPath).exists()) {
 				Downloader(new URL("http://assets.minepod.fr/launcher/launcher_profiles.json"), new FileOutputStream(ProfilesPath));
-			} else {
-				String Profile = ClassFile.ReadFile(ProfilesPath, StandardCharsets.UTF_8);
+			}
+			
+			String Profile = ClassFile.ReadFile(ProfilesPath, StandardCharsets.UTF_8);
+			new File(ProfilesPath).delete();
+			if(!Profile.contains("MinePod\",\n      \"gameDir\":")) {
 				if(!Profile.contains("MinePod")) {
-					new File(ProfilesPath).delete();
-					Profile = Profile.substring(0, 19) + "    \"MinePod\": {\n      \"name\": \"MinePod\",\n      \"lastVersionId\": \"MinePod\",\n      \"javaArgs\": \"-Xmx1G -Dfml.ignoreInvalidMinecraftCertificates\u003dtrue -Dfml.ignorePatchDiscrepancies\u003dtrue\"\n    }," + Profile.substring(20);
+					Profile = Profile.substring(0, 19) + "    \"MinePod\": {\n      \"name\": \"MinePod\",\n      \"gameDir\": \"MinePod_GameDir\",\n      \"lastVersionId\": \"MinePod\",\n      \"javaArgs\": \"-Xmx1G -Dfml.ignoreInvalidMinecraftCertificates\u003dtrue -Dfml.ignorePatchDiscrepancies\u003dtrue\"\n    }," + Profile.substring(20);
 					Profile = Profile.replace("\"selectedProfile\": \"(Default)\",", "\"selectedProfile\": \"MinePod\",");
-					ClassFile.WriteFile(ProfilesPath, Profile);
+				} else {
+					Profile = Profile.replace("\"name\": \"MinePod\"", "\"name\": \"MinePod\",\n      \"gameDir\": \"MinePod_GameDir\"");
 				}
 			}
+			Profile = Profile.replace("\"gameDir\": \"MinePod_GameDir\",", "\"gameDir\": \"" + MinePodAppData.replace("\\", "\\\\") + "\",");
+			ClassFile.WriteFile(ProfilesPath, Profile);
 			
 			System.out.println(MinecraftLaunch.getAbsolutePath());
 			new MPLoader(MinecraftLaunch.getAbsolutePath());
