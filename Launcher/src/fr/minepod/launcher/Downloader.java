@@ -24,8 +24,7 @@ public class Downloader {
 	 private double totalBytesRead = 0.0D;
 	 private int bytesRead;
 	 private int percent;
-	 private DisplayDownload DisplayDownload = new DisplayDownload();
-	 private ClassFile ClassFile = new ClassFile();
+	 private DisplayDownload DisplayDownload;
 	 private GetMd5 GetMd5 = new GetMd5();
    	 private URLConnection urlConnection;
 	 private String AppDataPath;
@@ -38,14 +37,51 @@ public class Downloader {
 	 private String LauncherZippedVersions;
 	 private String LauncherZippedMods;
 	 private String LauncherMinecraftJar;
+	 private String LauncherNewsCss;
+	 private String LauncherNewsHtml;
 	 
 	 private String LibrariesLatestVersionUrl = "http://assets.minepod.fr/launcher/libraries.php";
 	 private String VersionsLatestVersionUrl = "http://assets.minepod.fr/launcher/versions.php";
 	 private String ModsLatestVersionUrl = "http://assets.minepod.fr/launcher/mods.php";
 	 private String MinecraftJarUrl = "http://assets.minepod.fr/launcher/minecraft.jar";
+	 private String LauncherNewsHtmlUrl = "http://assets.minepod.fr/launcher/news/news.html";
+	 private String LauncherNewsCssUrl = "http://assets.minepod.fr/launcher/news/news.css";
 	 private String LauncherDefaultProfileUrl = "http://assets.minepod.fr/launcher/launcher_profiles.json";
 	 private String GetMd5FileUrl = "http://assets.minepod.fr/launcher/md5.php?file=";
 	 private String LauncherName = "MinePod";
+	 
+	 private void DownloaderNoGui(URL website, FileOutputStream fos) {
+		    System.out.println("Starting...");
+		    try {
+		      System.out.println("Getting url...");
+		      urlConnection = website.openConnection();
+		      fileLength = urlConnection.getContentLength();
+
+		      System.out.println("Openning stream...");
+		      this.rbc = website.openStream();
+
+		      System.out.println("Reading stream...");
+		      this.buffer = new byte[153600];
+		      this.totalBytesRead = 0.0D;
+		      this.bytesRead = 0;
+
+		      while ((this.bytesRead = this.rbc.read(this.buffer)) > 0) {
+		        fos.write(this.buffer, 0, this.bytesRead);
+		        this.buffer = new byte[153600];
+		        this.totalBytesRead += this.bytesRead;
+		        this.percent = ((int)Math.round(this.totalBytesRead / fileLength * 100.0D));
+		        System.out.println("Bytes readed: " + (int)this.totalBytesRead + "/" + (int)fileLength + " " + this.percent + "%");
+		      }
+
+		    } catch (MalformedURLException e) {
+		      e.printStackTrace();
+		    } catch (IOException e) {
+		      e.printStackTrace();
+		    }
+
+		    System.out.println("Downloading complete!");
+		  }
+
 	 
 	 private void Downloader(URL website, FileOutputStream fos) {
 		    System.out.println("Starting...");
@@ -62,16 +98,13 @@ public class Downloader {
 		      this.totalBytesRead = 0.0D;
 		      this.bytesRead = 0;
 
-		      this.DisplayDownload.pack();
-		      this.DisplayDownload.setVisible(true);
-
 		      while ((this.bytesRead = this.rbc.read(this.buffer)) > 0) {
 		        fos.write(this.buffer, 0, this.bytesRead);
 		        this.buffer = new byte[153600];
 		        this.totalBytesRead += this.bytesRead;
 		        this.percent = ((int)Math.round(this.totalBytesRead / fileLength * 100.0D));
 		        System.out.println("Bytes readed: " + (int)this.totalBytesRead + "/" + (int)fileLength + " " + this.percent + "%");
-		        this.DisplayDownload.Update(this.percent * 20);
+		        this.DisplayDownload.Update(this.percent);
 		      }
 
 		    } catch (MalformedURLException e) {
@@ -117,7 +150,20 @@ public class Downloader {
 			System.out.println("Directory cleaned up!");
 	 }
 	 
-	 public void Launch() {
+	 public void LaunchGame(String ParLauncherMinecraftJar, String ParLauncherLocation) {
+		System.out.println(ParLauncherMinecraftJar);
+		try {
+			new MPLoader(ParLauncherMinecraftJar);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			
+		Clean(ParLauncherLocation);
+			
+		System.exit(0);
+	 }
+	 
+	 public void DownloadRequiredFiles() {
 		 try {
 			String OS = System.getProperty("os.name").toUpperCase();
 			if(OS.contains("WIN")) {
@@ -150,6 +196,8 @@ public class Downloader {
 			LauncherZippedVersions = LauncherLocation + Slash + "Versions.zip";
 			LauncherZippedMods = LauncherLocation + Slash + "Mods.zip";
 			LauncherMinecraftJar = LauncherLocation + Slash + "Minecraft.jar";
+			LauncherNewsHtml = LauncherLocation + Slash + "news.html";
+			LauncherNewsCss = LauncherLocation + Slash + "news.css";
 			ProfilesPath = LauncherLocation + Slash + "launcher_profiles.json";
 			
 			if(!new File(LauncherLocation).exists()) {
@@ -169,6 +217,19 @@ public class Downloader {
 			}	
 			
 			Clean(LauncherLocation);
+			
+			if(new File(LauncherNewsHtml).exists()) {
+				new File(LauncherNewsHtml).delete();
+			}
+			
+			if(new File(LauncherNewsCss).exists()) {
+				new File(LauncherNewsCss).delete();
+			}
+			
+			DownloaderNoGui(new URL(LauncherNewsHtmlUrl), new FileOutputStream(LauncherNewsHtml));
+			DownloaderNoGui(new URL(LauncherNewsCssUrl), new FileOutputStream(LauncherNewsCss));
+			
+			this.DisplayDownload = new DisplayDownload(new URL("file:///" + LauncherNewsCss), ClassFile.ReadFile(LauncherNewsHtml, StandardCharsets.UTF_8));
 			
 			if(!new File(LauncherMinecraftJar).exists()) {
 				Downloader(new URL(MinecraftJarUrl), new FileOutputStream(LauncherMinecraftJar));		
@@ -222,15 +283,9 @@ public class Downloader {
 				Profile = Profile.replace("\"selectedProfile\": \"(Default)\",", "\"selectedProfile\": \"" + LauncherName + "\",");
 			}
 			Profile = Profile.replace("\"gameDir\": \"Launcher_GameDir\",", "\"gameDir\": \"" + LauncherLocation.replace("\\", "\\\\") + "\",");
-			ClassFile.WriteFile(ProfilesPath, Profile);
+			ClassFile.WriteFile(ProfilesPath, Profile);		
 			
-			System.out.println(LauncherMinecraftJar);
-			new MPLoader(LauncherMinecraftJar);
-			
-			Clean(LauncherLocation);
-			
-			System.exit(0);
-			
+			DisplayDownload.EnableButton(LauncherMinecraftJar, LauncherLocation);
 			
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -1,32 +1,69 @@
 package fr.minepod.launcher;
+import java.awt.Dimension;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-import java.awt.Color;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
+import javax.swing.text.Document;
+import javax.swing.text.html.HTMLEditorKit;
 
-public class DisplayDownload extends JFrame
-{
-  private JProgressBar current = new JProgressBar(0, 2000);
-  JTextArea out;
-  JButton find;
-  Thread runner;
+public class DisplayDownload {
+	private JProgressBar current = new JProgressBar(0, 100);
+	private Button play = new Button("Jouer!");
+	
+	public void EnableButton(String LauncherMinecraftJar, String LauncherLocation) {
+		this.play.EnableButton(LauncherMinecraftJar, LauncherLocation);
+	}
 
-  public DisplayDownload()
-  {
-    JFrame JFrame = new JFrame();
+	public DisplayDownload(URL CssFile, String HtmlFile) {
+		JEditorPane jEditorPane = new JEditorPane();
+		jEditorPane.setEditable(false);
 
-    JPanel pane = new JPanel();
-    pane.setBackground(Color.WHITE);
-    this.current.setValue(0);
-    this.current.setStringPainted(true);
-    pane.add(this.current);
-    setContentPane(pane);
-  }
+		HTMLEditorKit kit = new HTMLEditorKit();
+		jEditorPane.setEditorKit(kit);
 
-  public void Update(int UpdateNumber) {
-    this.current.setValue(UpdateNumber);
-  }
+		kit.getStyleSheet().importStyleSheet(CssFile);
+
+		Document doc = kit.createDefaultDocument();
+		jEditorPane.setDocument(doc);
+		jEditorPane.setText(HtmlFile);
+
+		this.current.setValue(0);
+		this.current.setStringPainted(true);
+
+		JFrame j = new JFrame("News");
+
+		JPanel b1 = new JPanel();
+		b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
+		b1.add(jEditorPane);
+
+	    JPanel b2 = new JPanel();
+	    b2.setLayout(new BoxLayout(b2, BoxLayout.LINE_AXIS));
+	    b2.add(current);
+	    b2.add(play);
+	
+	    JPanel b3 = new JPanel();
+	    b3.setLayout(new BoxLayout(b3, BoxLayout.PAGE_AXIS));
+	    b3.add(b1);
+	    b3.add(b2);
+	
+	    j.setContentPane(b3);
+	
+	    j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	      
+	    j.setSize(new Dimension(600, 400));
+	
+	    j.setLocationRelativeTo(null);
+	    j.setVisible(true);
+	}
+
+	public void Update(int UpdateNumber) {
+		this.current.setValue(UpdateNumber);
+	}
 }
