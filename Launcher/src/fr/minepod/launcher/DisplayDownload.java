@@ -1,5 +1,7 @@
 package fr.minepod.launcher;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -9,6 +11,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
@@ -33,11 +36,15 @@ public class DisplayDownload {
 		Document doc = kit.createDefaultDocument();
 		jEditorPane.setDocument(doc);
 		jEditorPane.setText(HtmlFile);
+		
+	    Font font = new Font("Segoe UI", Font.PLAIN, 14);
+	    String FontRule = "body { font-family: " + font.getFamily() + "; " + "font-size: " + font.getSize() + "pt; }";
+	    kit.getStyleSheet().addRule(FontRule);
 
 		this.current.setValue(0);
 		this.current.setStringPainted(true);
 
-		JFrame j = new JFrame("News");
+		JFrame j = new JFrame("Launcher news");
 
 		JPanel b1 = new JPanel();
 		b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
@@ -50,6 +57,7 @@ public class DisplayDownload {
 	
 	    JPanel b3 = new JPanel();
 	    b3.setLayout(new BoxLayout(b3, BoxLayout.PAGE_AXIS));
+	    b3.add(new JScrollPane(jEditorPane));
 	    b3.add(b1);
 	    b3.add(b2);
 	

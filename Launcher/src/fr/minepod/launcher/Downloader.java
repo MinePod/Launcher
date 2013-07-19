@@ -138,15 +138,15 @@ public class Downloader {
 	 }
 	 
 	 public void Clean(String PathToClean) {
-			new File(PathToClean + Slash + "Libraries.zip").delete();
-			new File(PathToClean + Slash + "Libraries.z01").delete();
-			new File(PathToClean + Slash + "Libraries.md5").delete();
-			new File(PathToClean + Slash + "Versions.zip").delete();
-			new File(PathToClean + Slash + "Versions.z01").delete();
-			new File(PathToClean + Slash + "Versions.md5").delete();
-			new File(PathToClean + Slash + "Mods.zip").delete();
-			new File(PathToClean + Slash + "Mods.z01").delete();
-			new File(PathToClean + Slash + "Mods.md5").delete();
+			new File(PathToClean + "Libraries.zip").delete();
+			new File(PathToClean + "Libraries.z01").delete();
+			new File(PathToClean + "Libraries.md5").delete();
+			new File(PathToClean + "Versions.zip").delete();
+			new File(PathToClean + "Versions.z01").delete();
+			new File(PathToClean + "Versions.md5").delete();
+			new File(PathToClean + "Mods.zip").delete();
+			new File(PathToClean + "Mods.z01").delete();
+			new File(PathToClean + "Mods.md5").delete();
 			System.out.println("Directory cleaned up!");
 	 }
 	 
@@ -216,7 +216,7 @@ public class Downloader {
 				new File(LauncherLocation + Slash + "mods").mkdir();
 			}	
 			
-			Clean(LauncherLocation);
+			Clean(LauncherLocation + Slash);
 			
 			if(new File(LauncherNewsHtml).exists()) {
 				new File(LauncherNewsHtml).delete();
@@ -278,7 +278,7 @@ public class Downloader {
 				if(!Profile.contains(LauncherName)) {
 					Profile = Profile.substring(0, 19) + "    \"" + LauncherName + "\": {\n      \"name\": \"" + LauncherName + "\",\n      \"gameDir\": \"Launcher_GameDir\",\n      \"lastVersionId\": \"" + LauncherName + "\",\n      \"javaArgs\": \"-Xmx1G -Dfml.ignoreInvalidMinecraftCertificates\u003dtrue -Dfml.ignorePatchDiscrepancies\u003dtrue\"\n    },\n" + Profile.substring(20);
 				} else {
-					Profile = Profile.replace("\"name\": \"" + LauncherName + "\"", "\"name\": \"" + LauncherName + "\",\n      \"gameDir\": \"" + LauncherName + "_GameDir\"");
+					Profile = Profile.replace("\"name\": \"" + LauncherName + "\"", "\"name\": \"" + LauncherName + "\",\n      \"gameDir\": \"Launcher_GameDir\"");
 				}
 				Profile = Profile.replace("\"selectedProfile\": \"(Default)\",", "\"selectedProfile\": \"" + LauncherName + "\",");
 			}
@@ -286,6 +286,8 @@ public class Downloader {
 			ClassFile.WriteFile(ProfilesPath, Profile);		
 			
 			DisplayDownload.EnableButton(LauncherMinecraftJar, LauncherLocation);
+			
+			Clean(LauncherLocation + Slash);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
