@@ -1,7 +1,9 @@
 package fr.minepod.launcher;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -10,9 +12,21 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class ClassFile {
-	public static String ReadFile(String path, Charset encoding) throws IOException {
-		byte[] encoded = Files.readAllBytes(Paths.get(path));
-		return encoding.decode(ByteBuffer.wrap(encoded)).toString();
+	public static String ReadFile(String path) throws IOException {
+	    BufferedReader br = new BufferedReader(new FileReader(path));
+	    try {
+	        StringBuilder sb = new StringBuilder();
+	        String line = br.readLine();
+
+	        while (line != null) {
+	            sb.append(line);
+	            sb.append("\n");
+	            line = br.readLine();
+	        }
+	        return sb.toString();
+	    } finally {
+	        br.close();
+	    }
 	}
 	
 	public static void WriteFile(String path, String stringToWrite) throws IOException {

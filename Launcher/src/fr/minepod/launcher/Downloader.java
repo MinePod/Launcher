@@ -229,7 +229,7 @@ public class Downloader {
 			DownloaderNoGui(new URL(LauncherNewsHtmlUrl), new FileOutputStream(LauncherNewsHtml));
 			DownloaderNoGui(new URL(LauncherNewsCssUrl), new FileOutputStream(LauncherNewsCss));
 			
-			this.DisplayDownload = new DisplayDownload(new URL("file:///" + LauncherNewsCss), ClassFile.ReadFile(LauncherNewsHtml, StandardCharsets.UTF_8));
+			this.DisplayDownload = new DisplayDownload(new URL("file:///" + LauncherNewsCss), ClassFile.ReadFile(LauncherNewsHtml));
 			
 			if(!new File(LauncherMinecraftJar).exists()) {
 				Downloader(new URL(MinecraftJarUrl), new FileOutputStream(LauncherMinecraftJar));		
@@ -272,7 +272,7 @@ public class Downloader {
 				Downloader(new URL(LauncherDefaultProfileUrl), new FileOutputStream(ProfilesPath));
 			}
 			
-			String Profile = ClassFile.ReadFile(ProfilesPath, StandardCharsets.UTF_8);
+			String Profile = ClassFile.ReadFile(ProfilesPath);
 			new File(ProfilesPath).delete();
 			if(!Profile.contains(LauncherName + "\",\n      \"gameDir\":")) {
 				if(!Profile.contains(LauncherName)) {
