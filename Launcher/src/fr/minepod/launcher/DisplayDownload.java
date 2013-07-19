@@ -1,18 +1,14 @@
 package fr.minepod.launcher;
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 

@@ -7,7 +7,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
+
+import javax.swing.JOptionPane;
 
 import fr.minepod.launcher.MPLoader;
 import net.lingala.zip4j.core.ZipFile;
@@ -26,6 +27,7 @@ public class Downloader {
 	 private int percent;
 	 private DisplayDownload DisplayDownload;
 	 private GetMd5 GetMd5 = new GetMd5();
+	 private JOptionPane JOptionPane = new JOptionPane();
    	 private URLConnection urlConnection;
 	 private String AppDataPath;
 	 private String ProfilesPath;
@@ -39,6 +41,7 @@ public class Downloader {
 	 private String LauncherMinecraftJar;
 	 private String LauncherNewsCss;
 	 private String LauncherNewsHtml;
+	 private String LauncherDir;
 	 
 	 private String LibrariesLatestVersionUrl = "http://assets.minepod.fr/launcher/libraries.php";
 	 private String VersionsLatestVersionUrl = "http://assets.minepod.fr/launcher/versions.php";
@@ -46,7 +49,6 @@ public class Downloader {
 	 private String MinecraftJarUrl = "http://assets.minepod.fr/launcher/minecraft.jar";
 	 private String LauncherNewsHtmlUrl = "http://assets.minepod.fr/launcher/news/news.html";
 	 private String LauncherNewsCssUrl = "http://assets.minepod.fr/launcher/news/news.css";
-	 private String LauncherDefaultProfileUrl = "http://assets.minepod.fr/launcher/launcher_profiles.json";
 	 private String GetMd5FileUrl = "http://assets.minepod.fr/launcher/md5.php?file=";
 	 private String LauncherName = "MinePod";
 	 
@@ -75,8 +77,10 @@ public class Downloader {
 
 		    } catch (MalformedURLException e) {
 		      e.printStackTrace();
+		      JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
 		    } catch (IOException e) {
 		      e.printStackTrace();
+		      JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
 		    }
 
 		    System.out.println("Downloading complete!");
@@ -109,8 +113,10 @@ public class Downloader {
 
 		    } catch (MalformedURLException e) {
 		      e.printStackTrace();
+		      JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
 		    } catch (IOException e) {
 		      e.printStackTrace();
+		      JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
 		    }
 
 		    System.out.println("Downloading complete!");
@@ -122,6 +128,7 @@ public class Downloader {
 		         zipFile.extractAll(folderOutput);
 		    } catch (ZipException e) {
 		        e.printStackTrace();
+		        JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
 		    }
 	 }
 	 
@@ -134,6 +141,7 @@ public class Downloader {
 				zipFile.createZipFileFromFolder(folderInput, parameters, true, 10485760);
 			} catch (ZipException e) {
 				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
 			}
 	 }
 	 
@@ -156,6 +164,7 @@ public class Downloader {
 			new MPLoader(ParLauncherMinecraftJar);
 		} catch (Exception e) {
 			e.printStackTrace();
+		    JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
 		}
 			
 		Clean(ParLauncherLocation);
@@ -168,29 +177,29 @@ public class Downloader {
 			String OS = System.getProperty("os.name").toUpperCase();
 			if(OS.contains("WIN")) {
 				AppDataPath = System.getenv("APPDATA");
-				LauncherName = "\\." + LauncherName;
+				LauncherDir = "\\." + LauncherName;
 				Minecraft = "\\.minecraft";
 				Slash = "\\";
 			} else if(OS.contains("MAC")) {
 				AppDataPath = System.getProperty("user.home") + "/Library/Application " + "Support";
-				LauncherName = "/" + LauncherName;
+				LauncherDir = "/" + LauncherName;
 				Minecraft = "/minecraft";
 				Slash = "/";
 			} else if(OS.contains("NUX")) {
-				   AppDataPath = System.getProperty("user.home");
-				   LauncherName = "/." + LauncherName;
+				AppDataPath = System.getProperty("user.home");
+				LauncherDir = "/." + LauncherName;
 				Minecraft = "/.minecraft";
 				Slash = "/";
 			} else {
 				AppDataPath =  System.getProperty("user.dir");
-				LauncherName = "/." + LauncherName;
+				LauncherDir = "/." + LauncherName;
 				Minecraft = "/.minecraft";
 				Slash = "/";
 			}
 			
 			System.out.println(AppDataPath);
 			
-			LauncherLocation = AppDataPath + LauncherName;
+			LauncherLocation = AppDataPath + LauncherDir;
 			MinecraftAppData = AppDataPath + Minecraft;
 			LauncherZippedLibraries = LauncherLocation + Slash + "Libraries.zip";
 			LauncherZippedVersions = LauncherLocation + Slash + "Versions.zip";
@@ -198,7 +207,7 @@ public class Downloader {
 			LauncherMinecraftJar = LauncherLocation + Slash + "Minecraft.jar";
 			LauncherNewsHtml = LauncherLocation + Slash + "news.html";
 			LauncherNewsCss = LauncherLocation + Slash + "news.css";
-			ProfilesPath = LauncherLocation + Slash + "launcher_profiles.json";
+			ProfilesPath = MinecraftAppData + Slash + "launcher_profiles.json";
 			
 			if(!new File(LauncherLocation).exists()) {
 				new File(LauncherLocation).mkdir();
@@ -247,13 +256,13 @@ public class Downloader {
 			
 
 			Downloader(new URL(GetMd5FileUrl + VersionsLatestVersionUrl), new FileOutputStream(LauncherLocation + Slash + "Versions.md5"));
-			Zip(MinecraftAppData + Slash + "versions" + Slash + LauncherName, LauncherZippedVersions);
+			Zip(MinecraftAppData + Slash + "versions" + Slash + LauncherDir, LauncherZippedVersions);
 
 			if(!GetMd5.VerifyMd5(new File(LauncherLocation + Slash + "Versions.md5"), new File(LauncherZippedVersions))) {
 				new File(LauncherZippedVersions).delete();
-				new File(MinecraftAppData + Slash + "versions" + Slash + LauncherName).delete();
+				new File(MinecraftAppData + Slash + "versions" + Slash + LauncherDir).delete();
 				Downloader(new URL(VersionsLatestVersionUrl), new FileOutputStream(LauncherZippedVersions));
-				UnZip(LauncherZippedVersions, MinecraftAppData + Slash + "versions" + Slash + LauncherName);
+				UnZip(LauncherZippedVersions, MinecraftAppData + Slash + "versions" + Slash + LauncherDir);
 			}
 			
 
@@ -268,22 +277,12 @@ public class Downloader {
 			}
 			
 			
-			if(!new File(ProfilesPath).exists()) {
-				Downloader(new URL(LauncherDefaultProfileUrl), new FileOutputStream(ProfilesPath));
+			if(new File(ProfilesPath).exists()) {
+				new Profile().Profile(LauncherName, ProfilesPath, LauncherLocation);
+			} else {
+			    JOptionPane.showMessageDialog(null, "Lancez le jeu via le launcher Mojang, fermez-le et relancez le launcher " + LauncherName, "Erreur", JOptionPane.ERROR_MESSAGE);
 			}
 			
-			String Profile = ClassFile.ReadFile(ProfilesPath);
-			new File(ProfilesPath).delete();
-			if(!Profile.contains(LauncherName + "\",\n      \"gameDir\":")) {
-				if(!Profile.contains(LauncherName)) {
-					Profile = Profile.substring(0, 19) + "    \"" + LauncherName + "\": {\n      \"name\": \"" + LauncherName + "\",\n      \"gameDir\": \"Launcher_GameDir\",\n      \"lastVersionId\": \"" + LauncherName + "\",\n      \"javaArgs\": \"-Xmx1G -Dfml.ignoreInvalidMinecraftCertificates\u003dtrue -Dfml.ignorePatchDiscrepancies\u003dtrue\"\n    },\n" + Profile.substring(20);
-				} else {
-					Profile = Profile.replace("\"name\": \"" + LauncherName + "\"", "\"name\": \"" + LauncherName + "\",\n      \"gameDir\": \"Launcher_GameDir\"");
-				}
-				Profile = Profile.replace("\"selectedProfile\": \"(Default)\",", "\"selectedProfile\": \"" + LauncherName + "\",");
-			}
-			Profile = Profile.replace("\"gameDir\": \"Launcher_GameDir\",", "\"gameDir\": \"" + LauncherLocation.replace("\\", "\\\\") + "\",");
-			ClassFile.WriteFile(ProfilesPath, Profile);		
 			
 			DisplayDownload.EnableButton(LauncherMinecraftJar, LauncherLocation);
 			
@@ -291,8 +290,10 @@ public class Downloader {
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
 		} catch (Exception e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
 		}
 	 }
 }
