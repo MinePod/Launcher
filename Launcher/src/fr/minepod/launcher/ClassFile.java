@@ -28,13 +28,26 @@ public class ClassFile {
 	public static void WriteFile(String path, String stringToWrite) throws IOException {
 		File file = new File(path);
  
-		if (!file.exists()) {
-				file.createNewFile();
+		if(!file.exists()) {
+			file.createNewFile();
 		}
  
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());
 		BufferedWriter bw = new BufferedWriter(fw);
 		bw.write(stringToWrite);
 		bw.close();
+	}
+	
+	public static void Delete(File file) {		
+		if(file.exists()) {
+			if(file.isDirectory() && file.list().length != 0) {
+				String files[] = file.list();
+				for (String temp : files) {
+	        		File fileDelete = new File(file, temp);
+	        		Delete(fileDelete);
+	        	}
+			}
+			file.delete();
+		}
 	}
 }

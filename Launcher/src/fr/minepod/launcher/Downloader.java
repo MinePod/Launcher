@@ -28,6 +28,7 @@ public class Downloader {
 	 private DisplayDownload DisplayDownload;
 	 private GetMd5 GetMd5 = new GetMd5();
 	 private JOptionPane JOptionPane = new JOptionPane();
+	 private Profile Profile = new Profile();
    	 private URLConnection urlConnection;
 	 private String AppDataPath;
 	 private String ProfilesPath;
@@ -42,6 +43,7 @@ public class Downloader {
 	 private String LauncherNewsCss;
 	 private String LauncherNewsHtml;
 	 private String LauncherDir;
+	 private String ProfilesVersionPath;
 	 
 	 private String LibrariesLatestVersionUrl = "http://assets.minepod.fr/launcher/libraries.php";
 	 private String VersionsLatestVersionUrl = "http://assets.minepod.fr/launcher/versions.php";
@@ -51,6 +53,7 @@ public class Downloader {
 	 private String LauncherNewsCssUrl = "http://assets.minepod.fr/launcher/news/news.css";
 	 private String GetMd5FileUrl = "http://assets.minepod.fr/launcher/md5.php?file=";
 	 private String LauncherName = "MinePod";
+	 private String ProfilesVersion = "1";
 	 
 	 private void DownloaderNoGui(URL website, FileOutputStream fos) {
 		    System.out.println("Starting...");
@@ -78,9 +81,11 @@ public class Downloader {
 		    } catch (MalformedURLException e) {
 		      e.printStackTrace();
 		      JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
+		      System.exit(0);
 		    } catch (IOException e) {
 		      e.printStackTrace();
 		      JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
+		      System.exit(0);
 		    }
 
 		    System.out.println("Downloading complete!");
@@ -114,9 +119,11 @@ public class Downloader {
 		    } catch (MalformedURLException e) {
 		      e.printStackTrace();
 		      JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
+		      System.exit(0);
 		    } catch (IOException e) {
 		      e.printStackTrace();
 		      JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
+		      System.exit(0);
 		    }
 
 		    System.out.println("Downloading complete!");
@@ -129,6 +136,7 @@ public class Downloader {
 		    } catch (ZipException e) {
 		        e.printStackTrace();
 		        JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
+		        System.exit(0);
 		    }
 	 }
 	 
@@ -142,6 +150,7 @@ public class Downloader {
 			} catch (ZipException e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
+				System.exit(0);
 			}
 	 }
 	 
@@ -165,6 +174,7 @@ public class Downloader {
 		} catch (Exception e) {
 			e.printStackTrace();
 		    JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
+		    System.exit(0);
 		}
 			
 		Clean(ParLauncherLocation);
@@ -208,6 +218,7 @@ public class Downloader {
 			LauncherNewsHtml = LauncherLocation + Slash + "news.html";
 			LauncherNewsCss = LauncherLocation + Slash + "news.css";
 			ProfilesPath = MinecraftAppData + Slash + "launcher_profiles.json";
+			ProfilesVersionPath =  LauncherLocation + Slash + "profiles.txt";
 			
 			if(!new File(LauncherLocation).exists()) {
 				new File(LauncherLocation).mkdir();
@@ -249,7 +260,8 @@ public class Downloader {
 
 			if(!GetMd5.VerifyMd5(new File(LauncherLocation + Slash + "Libraries.md5"), new File(LauncherZippedLibraries))) {
 				new File(LauncherZippedLibraries).delete();
-				new File(MinecraftAppData + Slash + "libraries").delete();
+				ClassFile.Delete(new File(MinecraftAppData + Slash + "libraries"));
+				System.out.println("Detecting modified libraries files, deleting...");
 				Downloader(new URL(LibrariesLatestVersionUrl), new FileOutputStream(LauncherZippedLibraries));
 				UnZip(LauncherZippedLibraries, MinecraftAppData + Slash + "libraries");
 			}
@@ -260,7 +272,8 @@ public class Downloader {
 
 			if(!GetMd5.VerifyMd5(new File(LauncherLocation + Slash + "Versions.md5"), new File(LauncherZippedVersions))) {
 				new File(LauncherZippedVersions).delete();
-				new File(MinecraftAppData + Slash + "versions" + Slash + LauncherDir).delete();
+				ClassFile.Delete(new File(MinecraftAppData + Slash + "versions" + Slash + LauncherDir));
+				System.out.println("Detecting modified versions files, deleting...");
 				Downloader(new URL(VersionsLatestVersionUrl), new FileOutputStream(LauncherZippedVersions));
 				UnZip(LauncherZippedVersions, MinecraftAppData + Slash + "versions" + Slash + LauncherDir);
 			}
@@ -271,16 +284,32 @@ public class Downloader {
 
 			if(!GetMd5.VerifyMd5(new File(LauncherLocation + Slash + "Mods.md5"), new File(LauncherZippedMods))) {
 				new File(LauncherZippedMods).delete();
-				new File(LauncherLocation + Slash + "mods").delete();
+				ClassFile.Delete(new File(LauncherLocation + Slash + "mods"));
+				System.out.println("Detecting modified mods files, deleting...");
 				Downloader(new URL(ModsLatestVersionUrl), new FileOutputStream(LauncherZippedMods));
 				UnZip(LauncherZippedMods, LauncherLocation + Slash + "mods");
 			}
 			
 			
 			if(new File(ProfilesPath).exists()) {
-				new Profile().Profile(LauncherName, ProfilesPath, LauncherLocation);
+				if(new File(ProfilesVersionPath).exists()) {
+					if(ClassFile.ReadFile(ProfilesVersionPath).contains(ProfilesVersion)) {
+						Profile.Set(LauncherName, ProfilesPath, LauncherLocation);
+					} else {
+						System.out.println("Current version: " + ClassFile.ReadFile(ProfilesVersionPath));
+						System.out.println("New profile version found: " + ProfilesVersion);
+						Profile.Update(LauncherName, ProfilesPath, LauncherLocation);
+						new File(ProfilesVersionPath).delete();
+						ClassFile.WriteFile(ProfilesVersionPath, ProfilesVersion);
+					}
+				} else {
+					System.out.println("Profile version do not exists, creating new one");
+					ClassFile.WriteFile(ProfilesVersionPath, ProfilesVersion);
+				}
 			} else {
-			    JOptionPane.showMessageDialog(null, "Lancez le jeu via le launcher Mojang, fermez-le et relancez le launcher " + LauncherName, "Erreur", JOptionPane.ERROR_MESSAGE);
+				System.out.println("Profile do not exists");
+			    JOptionPane.showMessageDialog(null, "Lancez le jeu via le launcher Mojang, fermez-le et relancez le launcher " + LauncherName, "Attention", JOptionPane.WARNING_MESSAGE);
+			    System.exit(0);
 			}
 			
 			
@@ -291,9 +320,11 @@ public class Downloader {
 		} catch (IOException e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
 		}
 	 }
 }
