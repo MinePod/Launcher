@@ -232,9 +232,14 @@ public class Downloader {
 				new File(MinecraftAppData + Slash + "versions").mkdir();
 			}
 			
+			if(!new File(MinecraftAppData + Slash + "versions" + Slash + LauncherName).exists()) {
+				new File(MinecraftAppData + Slash + "versions" + Slash + LauncherName).mkdir();
+			}
+			
 			if(!new File(LauncherLocation + Slash + "mods").exists()) {
 				new File(LauncherLocation + Slash + "mods").mkdir();
 			}	
+			
 			
 			Clean(LauncherLocation + Slash);
 			
