@@ -20,7 +20,7 @@ public class DisplayDownload {
 		this.play.EnableButton(LauncherMinecraftJar, LauncherLocation);
 	}
 
-	public DisplayDownload(URL CssFile, String HtmlFile) {
+	public DisplayDownload(URL CssFile, String HtmlFile, String LauncherVersion) {
 		JEditorPane jEditorPane = new JEditorPane();
 		jEditorPane.setEditable(false);
 
@@ -40,7 +40,7 @@ public class DisplayDownload {
 		this.current.setValue(0);
 		this.current.setStringPainted(true);
 
-		JFrame j = new JFrame("Launcher news");
+		JFrame j = new JFrame("MinePod Launcher " + LauncherVersion);
 
 		JPanel b1 = new JPanel();
 		b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));

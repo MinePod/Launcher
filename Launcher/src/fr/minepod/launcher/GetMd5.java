@@ -43,7 +43,6 @@ public class GetMd5
         }
 
         byte[] mdbytes = md.digest();
-        StringBuffer sb = new StringBuffer();
 
         String result = new String(Hex.encode(mdbytes));
 
