@@ -268,14 +268,14 @@ public class Downloader {
 			
 
 			Downloader(new URL(GetMd5FileUrl + VersionsLatestVersionUrl), new FileOutputStream(LauncherLocation + Slash + "Versions.md5"));
-			Zip(MinecraftAppData + Slash + "versions" + Slash + LauncherDir, LauncherZippedVersions);
+			Zip(MinecraftAppData + Slash + "versions" + Slash + LauncherName, LauncherZippedVersions);
 
 			if(!GetMd5.VerifyMd5(new File(LauncherLocation + Slash + "Versions.md5"), new File(LauncherZippedVersions))) {
 				new File(LauncherZippedVersions).delete();
-				ClassFile.Delete(new File(MinecraftAppData + Slash + "versions" + Slash + LauncherDir));
+				ClassFile.Delete(new File(MinecraftAppData + Slash + "versions" + Slash + LauncherName));
 				System.out.println("Detecting modified versions files, deleting...");
 				Downloader(new URL(VersionsLatestVersionUrl), new FileOutputStream(LauncherZippedVersions));
-				UnZip(LauncherZippedVersions, MinecraftAppData + Slash + "versions" + Slash + LauncherDir);
+				UnZip(LauncherZippedVersions, MinecraftAppData + Slash + "versions" + Slash + LauncherName);
 			}
 			
 
