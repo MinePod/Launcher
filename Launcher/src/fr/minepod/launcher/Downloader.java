@@ -8,7 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import fr.minepod.launcher.MPLoader;
+import fr.minepod.launcher.JarLoader;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
@@ -167,7 +167,7 @@ public class Downloader {
 	 public void LaunchGame(String ParLauncherMinecraftJar, String ParLauncherLocation) {
 		System.out.println(ParLauncherMinecraftJar);
 		try {
-			new MPLoader(ParLauncherMinecraftJar);
+			new JarLoader(ParLauncherMinecraftJar);
 		} catch (Exception e) {
 			e.printStackTrace();
 		    javax.swing.JOptionPane.showMessageDialog(null, e.toString(), "Erreur", javax.swing.JOptionPane.ERROR_MESSAGE);
