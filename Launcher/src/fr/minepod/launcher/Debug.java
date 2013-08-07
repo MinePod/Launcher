@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +33,8 @@ public class Debug {
 		obj.put("Profiles-version", Config.ProfilesVersion);
 		obj.put("Profiles-version-location", Config.ProfilesVersionPath);
 		obj.put("Minecraft-location", Config.MinecraftAppData);
+		obj.put("Bootstrap-version", Config.BootstrapVersion);
+		obj.put("Time", new Date().toString());
 		
 		if(new File(DebugFilePath).exists()) {
 			new File(DebugFilePath).delete();

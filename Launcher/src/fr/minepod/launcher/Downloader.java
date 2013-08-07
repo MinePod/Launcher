@@ -26,6 +26,7 @@ public class Downloader {
 	 private Profile Profile = new Profile();
 	 private Config Config = new Config();
    	 private URLConnection urlConnection;
+   	 private CrashReport CrashReport = new CrashReport();
    	 
 	 private String ProfilesPath = Config.ProfilesPath;
 	 private String MinecraftAppData = Config.MinecraftAppData;
@@ -73,13 +74,9 @@ public class Downloader {
 		      }
 
 		    } catch (MalformedURLException e) {
-		      e.printStackTrace();
-		      javax.swing.JOptionPane.showMessageDialog(null, e.toString(), "Erreur", javax.swing.JOptionPane.ERROR_MESSAGE);
-		      System.exit(0);
+		    	CrashReport.SendReport(e.toString());
 		    } catch (IOException e) {
-		      e.printStackTrace();
-		      javax.swing.JOptionPane.showMessageDialog(null, e.toString(), "Erreur", javax.swing.JOptionPane.ERROR_MESSAGE);
-		      System.exit(0);
+		    	CrashReport.SendReport(e.toString());
 		    }
 
 		    System.out.println("Downloading complete!");
@@ -111,13 +108,9 @@ public class Downloader {
 		      }
 
 		    } catch (MalformedURLException e) {
-		      e.printStackTrace();
-		      javax.swing.JOptionPane.showMessageDialog(null, e.toString(), "Erreur", javax.swing.JOptionPane.ERROR_MESSAGE);
-		      System.exit(0);
+		    	CrashReport.SendReport(e.toString());
 		    } catch (IOException e) {
-		      e.printStackTrace();
-		      javax.swing.JOptionPane.showMessageDialog(null, e.toString(), "Erreur", javax.swing.JOptionPane.ERROR_MESSAGE);
-		      System.exit(0);
+		    	CrashReport.SendReport(e.toString());
 		    }
 
 		    System.out.println("Downloading complete!");
@@ -125,12 +118,10 @@ public class Downloader {
 	 
 	 public void UnZip(String fileInput, String folderOutput) {
 		   try {
-		         ZipFile zipFile = new ZipFile(fileInput);
-		         zipFile.extractAll(folderOutput);
+			   ZipFile zipFile = new ZipFile(fileInput);
+		       zipFile.extractAll(folderOutput);
 		    } catch (ZipException e) {
-		        e.printStackTrace();
-		        javax.swing.JOptionPane.showMessageDialog(null, e.toString(), "Erreur", javax.swing.JOptionPane.ERROR_MESSAGE);
-		        System.exit(0);
+		    	CrashReport.SendReport(e.toString());
 		    }
 	 }
 	 
@@ -142,23 +133,21 @@ public class Downloader {
 				parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
 				zipFile.createZipFileFromFolder(folderInput, parameters, true, 10485760);
 			} catch (ZipException e) {
-				e.printStackTrace();
-				javax.swing.JOptionPane.showMessageDialog(null, e.toString(), "Erreur", javax.swing.JOptionPane.ERROR_MESSAGE);
-				System.exit(0);
+				CrashReport.SendReport(e.toString());
 			}
 	 }
 	 
 	 public void Clean() {
-			new File(LauncherLocation + "Libraries.zip").delete();
-			new File(LauncherLocation + "Libraries.z01").delete();
-			new File(LauncherLocation + "Libraries.md5").delete();
-			new File(LauncherLocation + "Versions.zip").delete();
-			new File(LauncherLocation + "Versions.z01").delete();
-			new File(LauncherLocation + "Versions.md5").delete();
-			new File(LauncherLocation + "Mods.zip").delete();
-			new File(LauncherLocation + "Mods.z01").delete();
-			new File(LauncherLocation + "Mods.md5").delete();
-			System.out.println("Directory cleaned up!");
+			new File(LauncherLocation + Slash + "Libraries.zip").delete();
+			new File(LauncherLocation + Slash + "Libraries.z01").delete();
+			new File(LauncherLocation + Slash + "Libraries.md5").delete();
+			new File(LauncherLocation + Slash + "Versions.zip").delete();
+			new File(LauncherLocation + Slash + "Versions.z01").delete();
+			new File(LauncherLocation + Slash + "Versions.md5").delete();
+			new File(LauncherLocation + Slash + "Mods.zip").delete();
+			new File(LauncherLocation + Slash + "Mods.z01").delete();
+			new File(LauncherLocation + Slash + "Mods.md5").delete();
+			System.out.println("Directory " + LauncherLocation + Slash + " cleaned up!");
 	 }
 	 
 	 public void LaunchGame(String ParLauncherMinecraftJar, String ParLauncherLocation) {
@@ -166,9 +155,7 @@ public class Downloader {
 		try {
 			new JarLoader(ParLauncherMinecraftJar);
 		} catch (Exception e) {
-			e.printStackTrace();
-		    javax.swing.JOptionPane.showMessageDialog(null, e.toString(), "Erreur", javax.swing.JOptionPane.ERROR_MESSAGE);
-		    System.exit(0);
+			CrashReport.SendReport(e.toString());
 		}
 			
 		Clean();
@@ -281,13 +268,9 @@ public class Downloader {
 			Clean();
 			
 		} catch (IOException e) {
-			e.printStackTrace();
-			javax.swing.JOptionPane.showMessageDialog(null, e.toString(), "Erreur", javax.swing.JOptionPane.ERROR_MESSAGE);
-			System.exit(0);
+			CrashReport.SendReport(e.toString());
 		} catch (Exception e) {
-			e.printStackTrace();
-			javax.swing.JOptionPane.showMessageDialog(null, e.toString(), "Erreur", javax.swing.JOptionPane.ERROR_MESSAGE);
-			System.exit(0);
+			CrashReport.SendReport(e.toString());
 		}
 	 }
 }

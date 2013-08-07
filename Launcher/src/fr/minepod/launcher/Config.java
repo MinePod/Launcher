@@ -10,7 +10,7 @@ public class Config {
 	 public String GetMd5FileUrl = "http://assets.minepod.fr/launcher/md5.php?file=";
 	 public String LauncherName = "MinePod";
 	 public String ProfilesVersion = "1";
-	 public String LauncherVersion = "1.1.1";
+	 public String LauncherVersion = "1.1.2";
 	 
 	 public static String AppDataPath;
 	 public static String LauncherDir;
@@ -27,6 +27,7 @@ public class Config {
 	 public static String ProfilesPath;
 	 public static String ProfilesVersionPath;
 	 public static String DebugFilePath;
+	 public static String BootstrapVersion;
 	 
 	 public void GetConfig() {
 			String OS = System.getProperty("os.name").toUpperCase();
@@ -63,5 +64,9 @@ public class Config {
 			Config.ProfilesPath = MinecraftAppData + Slash + "launcher_profiles.json";
 			Config.ProfilesVersionPath =  LauncherLocation + Slash + "profiles.txt";
 			Config.DebugFilePath = LauncherLocation + Slash + "debug.json";
+	 }
+	 
+	 public void BootstrapVersion(String Version) {
+		 Config.BootstrapVersion = Version;
 	 }
 }
