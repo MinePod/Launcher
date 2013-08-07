@@ -15,8 +15,11 @@ import javax.swing.text.html.HTMLEditorKit;
 public class DisplayDownload {
 	private JProgressBar current = new JProgressBar(0, 100);
 	private Button play = new Button("Jouer!");
+	private Config Config = new Config();
+	private String LauncherMinecraftJar = Config.LauncherMinecraftJar;
+	private String LauncherLocation = Config.LauncherLocation;
 	
-	public void EnableButton(String LauncherMinecraftJar, String LauncherLocation) {
+	public void EnableButton() {
 		this.play.EnableButton(LauncherMinecraftJar, LauncherLocation);
 	}
 

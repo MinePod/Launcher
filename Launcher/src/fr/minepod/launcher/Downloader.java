@@ -26,21 +26,18 @@ public class Downloader {
 	 private Profile Profile = new Profile();
 	 private Config Config = new Config();
    	 private URLConnection urlConnection;
-	 private String AppDataPath;
-	 private String ProfilesPath;
-	 private String Minecraft;
-	 private String MinecraftAppData;
-	 private String Slash; 
-	 private String LauncherLocation;
-	 private String LauncherZippedLibraries;
-	 private String LauncherZippedVersions;
-	 private String LauncherZippedMods;
-	 private String LauncherMinecraftJar;
-	 private String LauncherNewsCss;
-	 private String LauncherNewsHtml;
-	 private String LauncherDir;
-	 private String ProfilesVersionPath;
-	 
+   	 
+	 private String ProfilesPath = Config.ProfilesPath;
+	 private String MinecraftAppData = Config.MinecraftAppData;
+	 private String Slash = Config.Slash; 
+	 private String LauncherLocation = Config.LauncherLocation;
+	 private String LauncherZippedLibraries = Config.LauncherZippedLibraries;
+	 private String LauncherZippedVersions = Config.LauncherZippedVersions;
+	 private String LauncherZippedMods = Config.LauncherZippedMods;
+	 private String LauncherMinecraftJar = Config.LauncherMinecraftJar;
+	 private String LauncherNewsCss = Config.LauncherNewsCss;
+	 private String LauncherNewsHtml = Config.LauncherNewsHtml;
+	 private String ProfilesVersionPath = Config.ProfilesVersionPath;
 	 private String LibrariesLatestVersionUrl = Config.LibrariesLatestVersionUrl;
 	 private String VersionsLatestVersionUrl = Config.VersionsLatestVersionUrl;
 	 private String ModsLatestVersionUrl = Config.ModsLatestVersionUrl;
@@ -151,16 +148,16 @@ public class Downloader {
 			}
 	 }
 	 
-	 public void Clean(String PathToClean) {
-			new File(PathToClean + "Libraries.zip").delete();
-			new File(PathToClean + "Libraries.z01").delete();
-			new File(PathToClean + "Libraries.md5").delete();
-			new File(PathToClean + "Versions.zip").delete();
-			new File(PathToClean + "Versions.z01").delete();
-			new File(PathToClean + "Versions.md5").delete();
-			new File(PathToClean + "Mods.zip").delete();
-			new File(PathToClean + "Mods.z01").delete();
-			new File(PathToClean + "Mods.md5").delete();
+	 public void Clean() {
+			new File(LauncherLocation + "Libraries.zip").delete();
+			new File(LauncherLocation + "Libraries.z01").delete();
+			new File(LauncherLocation + "Libraries.md5").delete();
+			new File(LauncherLocation + "Versions.zip").delete();
+			new File(LauncherLocation + "Versions.z01").delete();
+			new File(LauncherLocation + "Versions.md5").delete();
+			new File(LauncherLocation + "Mods.zip").delete();
+			new File(LauncherLocation + "Mods.z01").delete();
+			new File(LauncherLocation + "Mods.md5").delete();
 			System.out.println("Directory cleaned up!");
 	 }
 	 
@@ -174,48 +171,13 @@ public class Downloader {
 		    System.exit(0);
 		}
 			
-		Clean(ParLauncherLocation);
+		Clean();
 			
 		System.exit(0);
 	 }
 	 
 	 public void DownloadRequiredFiles() {
 		 try {
-			String OS = System.getProperty("os.name").toUpperCase();
-			if(OS.contains("WIN")) {
-				AppDataPath = System.getenv("APPDATA");
-				LauncherDir = "\\." + LauncherName;
-				Minecraft = "\\.minecraft";
-				Slash = "\\";
-			} else if(OS.contains("MAC")) {
-				AppDataPath = System.getProperty("user.home") + "/Library/Application " + "Support";
-				LauncherDir = "/" + LauncherName;
-				Minecraft = "/minecraft";
-				Slash = "/";
-			} else if(OS.contains("NUX")) {
-				AppDataPath = System.getProperty("user.home");
-				LauncherDir = "/." + LauncherName;
-				Minecraft = "/.minecraft";
-				Slash = "/";
-			} else {
-				AppDataPath =  System.getProperty("user.dir");
-				LauncherDir = "/." + LauncherName;
-				Minecraft = "/.minecraft";
-				Slash = "/";
-			}
-			
-			System.out.println(AppDataPath);
-			
-			LauncherLocation = AppDataPath + LauncherDir;
-			MinecraftAppData = AppDataPath + Minecraft;
-			LauncherZippedLibraries = LauncherLocation + Slash + "Libraries.zip";
-			LauncherZippedVersions = LauncherLocation + Slash + "Versions.zip";
-			LauncherZippedMods = LauncherLocation + Slash + "Mods.zip";
-			LauncherMinecraftJar = LauncherLocation + Slash + "Minecraft.jar";
-			LauncherNewsHtml = LauncherLocation + Slash + "news.html";
-			LauncherNewsCss = LauncherLocation + Slash + "news.css";
-			ProfilesPath = MinecraftAppData + Slash + "launcher_profiles.json";
-			ProfilesVersionPath =  LauncherLocation + Slash + "profiles.txt";
 			
 			if(!new File(LauncherLocation).exists()) {
 				new File(LauncherLocation).mkdir();
@@ -237,8 +199,7 @@ public class Downloader {
 				new File(LauncherLocation + Slash + "mods").mkdir();
 			}	
 			
-			
-			Clean(LauncherLocation + Slash);
+			Clean();
 			
 			if(new File(LauncherNewsHtml).exists()) {
 				new File(LauncherNewsHtml).delete();
@@ -315,9 +276,9 @@ public class Downloader {
 			}
 			
 			
-			DisplayDownload.EnableButton(LauncherMinecraftJar, LauncherLocation);
+			DisplayDownload.EnableButton();
 			
-			Clean(LauncherLocation + Slash);
+			Clean();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
