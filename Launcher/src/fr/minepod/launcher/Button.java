@@ -4,13 +4,15 @@ import java.awt.event.MouseListener;
 import javax.swing.JButton;
  
 public class Button extends JButton implements MouseListener{
-	private String name;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String LauncherMinecraftJar;
 	private String LauncherLocation;
 	
 	public Button(String str){
 		super(str);
-		this.name = str;
 		this.addMouseListener(this);
 		this.setEnabled(false);
 	}
