@@ -7,9 +7,9 @@ import java.util.Properties;
 
 public class CrashReport {
 	public String DebugFilePath = new Config().DebugFilePath;
-	public void SendReport(String exception) {
+	public void SendReport(String exception, String when) {
 		try {
-			javax.swing.JOptionPane.showMessageDialog(null, exception + "\n\n\nDebug informations:\n\n" + new ClassFile().ReadFile(DebugFilePath), "Erreur", javax.swing.JOptionPane.ERROR_MESSAGE);
+			javax.swing.JOptionPane.showMessageDialog(null, exception + "\nWhen " + when + "\n\n\nDebug informations:\n\n" + new ClassFile().ReadFile(DebugFilePath), "Erreur", javax.swing.JOptionPane.ERROR_MESSAGE);
 		} catch (HeadlessException e) {
 			e.printStackTrace();
 			javax.swing.JOptionPane.showMessageDialog(null, e.toString(), "Erreur", javax.swing.JOptionPane.ERROR_MESSAGE);

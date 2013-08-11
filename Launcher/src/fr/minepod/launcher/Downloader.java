@@ -74,9 +74,9 @@ public class Downloader {
 		      }
 
 		    } catch (MalformedURLException e) {
-		    	CrashReport.SendReport(e.toString());
+		    	CrashReport.SendReport(e.toString(), "downloading file");
 		    } catch (IOException e) {
-		    	CrashReport.SendReport(e.toString());
+		    	CrashReport.SendReport(e.toString(), "downloading file");
 		    }
 
 		    System.out.println("Downloading complete!");
@@ -108,9 +108,9 @@ public class Downloader {
 		      }
 
 		    } catch (MalformedURLException e) {
-		    	CrashReport.SendReport(e.toString());
+		    	CrashReport.SendReport(e.toString(), "downloading file");
 		    } catch (IOException e) {
-		    	CrashReport.SendReport(e.toString());
+		    	CrashReport.SendReport(e.toString(), "downloading file");
 		    }
 
 		    System.out.println("Downloading complete!");
@@ -121,7 +121,7 @@ public class Downloader {
 			   ZipFile zipFile = new ZipFile(fileInput);
 		       zipFile.extractAll(folderOutput);
 		    } catch (ZipException e) {
-		    	CrashReport.SendReport(e.toString());
+		    	CrashReport.SendReport(e.toString(), "unzipping file " + fileInput + " to " + folderOutput);
 		    }
 	 }
 	 
@@ -133,7 +133,7 @@ public class Downloader {
 				parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
 				zipFile.createZipFileFromFolder(folderInput, parameters, true, 10485760);
 			} catch (ZipException e) {
-				CrashReport.SendReport(e.toString());
+				CrashReport.SendReport(e.toString(),"zipping folder " + folderInput + " to " + fileOutput);
 			}
 	 }
 	 
@@ -155,7 +155,7 @@ public class Downloader {
 		try {
 			new JarLoader(ParLauncherMinecraftJar);
 		} catch (Exception e) {
-			CrashReport.SendReport(e.toString());
+			CrashReport.SendReport(e.toString(), "launching game");
 		}
 			
 		Clean();
@@ -268,9 +268,9 @@ public class Downloader {
 			Clean();
 			
 		} catch (IOException e) {
-			CrashReport.SendReport(e.toString());
+			CrashReport.SendReport(e.toString(), "doing main thread's tasks");
 		} catch (Exception e) {
-			CrashReport.SendReport(e.toString());
+			CrashReport.SendReport(e.toString(), "doing main thread's tasks");
 		}
 	 }
 }
