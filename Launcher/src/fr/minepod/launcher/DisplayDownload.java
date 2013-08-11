@@ -1,6 +1,9 @@
 package fr.minepod.launcher;
+
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 
 import javax.swing.BoxLayout;
@@ -9,10 +12,26 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 
+class JMenuItemListener implements ActionListener {
+
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		if(event.getActionCommand().toString().equalsIgnoreCase("Activer la console de debug")) {
+			new Debug().EnableConsole();
+		}
+	}
+
+}
+
 public class DisplayDownload {
+	private JMenuBar JMenuBar = new JMenuBar();
+	private JMenu JMenu = new JMenu("Options");
 	private JProgressBar current = new JProgressBar(0, 100);
 	private Button play = new Button("Jouer!");
 	private Config Config = new Config();
@@ -24,6 +43,11 @@ public class DisplayDownload {
 	}
 
 	public DisplayDownload(URL CssFile, String HtmlFile, String LauncherVersion) {
+		JMenuBar.add(JMenu);
+		JMenuItem debugItem = new JMenuItem("Activer la console de debug");
+		debugItem.addActionListener(new JMenuItemListener());
+		JMenu.add(debugItem);
+		
 		JEditorPane jEditorPane = new JEditorPane();
 		jEditorPane.setEditable(false);
 
@@ -63,8 +87,10 @@ public class DisplayDownload {
 	    j.setContentPane(b3);
 	
 	    j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    
+	    j.setJMenuBar(JMenuBar);
 	      
-	    j.setSize(new Dimension(600, 400));
+	    j.setSize(new Dimension(800, 600));
 	
 	    j.setLocationRelativeTo(null);
 	    j.setVisible(true);
@@ -73,4 +99,5 @@ public class DisplayDownload {
 	public void Update(int UpdateNumber) {
 		this.current.setValue(UpdateNumber);
 	}
+
 }

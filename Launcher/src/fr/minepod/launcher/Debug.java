@@ -1,18 +1,26 @@
 package fr.minepod.launcher;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.StringWriter;
 import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
 import org.json.simple.JSONObject;
 import org.json.simple.JSONPrettyPrint;
 
-public class Debug {
+public class Debug extends JFrame {
 	private Config Config = new Config();
 	private String DebugFilePath = Config.DebugFilePath;
 	
@@ -44,5 +52,38 @@ public class Debug {
 		file.write(obj.toJSONString());
 		file.flush();
 		file.close();
+	}
+	
+	public void EnableConsole() {
+	    try {
+	    	JTextArea textArea = new JTextArea();
+	        textArea.setEditable(false);
+	    	
+	        JFrame j = new JFrame("Console de debug");
+
+			JPanel b1 = new JPanel();
+			b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
+			b1.add(textArea);
+			
+		    JPanel b2 = new JPanel();
+		    b2.setLayout(new BoxLayout(b2, BoxLayout.PAGE_AXIS));
+		    b2.add(new JScrollPane(textArea));
+		    b2.add(b1);
+		
+		    j.setContentPane(b2);
+		
+		    j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		      
+		    j.setSize(new Dimension(600, 400));
+		
+		    j.setLocationRelativeTo(null);
+		    j.setVisible(true);
+	        PrintStream PrintStream = new PrintStream(new Console(textArea));
+	        System.setOut(PrintStream);
+	        System.setErr(PrintStream);
+	        System.out.println("Opened debug console");
+	      } catch(Exception e) {
+	    	  e.toString();
+	      }
 	}
 }
