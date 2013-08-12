@@ -273,16 +273,15 @@ public class Downloader {
 					System.out.println("Profile version do not exists, creating new one");
 					ClassFile.WriteFile(ProfilesVersionPath, ProfilesVersion);
 				}
+				DisplayDownload.EnableButton();
+				
+				Clean();
 			} else {
 				System.out.println("Profile do not exists");
 			    javax.swing.JOptionPane.showMessageDialog(null, "Lancez le jeu via le launcher Mojang, fermez-le et relancez le launcher " + LauncherName, "Attention", javax.swing.JOptionPane.WARNING_MESSAGE);
 			    System.exit(0);
 			}
 			
-			
-			DisplayDownload.EnableButton();
-			
-			Clean();
 			
 		} catch (IOException e) {
 			CrashReport.SendReport(e.toString(), "doing main thread's tasks");
