@@ -74,7 +74,7 @@ public class Debug extends JFrame {
 		
 		    j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		      
-		    j.setSize(new Dimension(600, 400));
+		    j.setSize(new Dimension(700, 500));
 		
 		    j.setLocationRelativeTo(null);
 		    j.setVisible(true);

@@ -31,7 +31,7 @@ class JMenuItemListener implements ActionListener {
 
 public class DisplayDownload {
 	private JMenuBar JMenuBar = new JMenuBar();
-	private JMenu JMenu = new JMenu("Options");
+	private JMenu JMenu = new JMenu("Outils");
 	private JProgressBar current = new JProgressBar(0, 100);
 	private Button play = new Button("Jouer!");
 	private Config Config = new Config();

@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 
 import fr.minepod.launcher.JarLoader;
 import net.lingala.zip4j.core.ZipFile;
@@ -21,12 +22,14 @@ public class Downloader {
 	 private double totalBytesRead = 0.0D;
 	 private int bytesRead;
 	 private int percent;
+	 private FileOutputStream fos;
 	 private DisplayDownload DisplayDownload;
 	 private GetMd5 GetMd5 = new GetMd5();
 	 private Profile Profile = new Profile();
 	 private Config Config = new Config();
    	 private URLConnection urlConnection;
    	 private CrashReport CrashReport = new CrashReport();
+   	 private ArrayList<Integer> al = new ArrayList<Integer>();
    	 
 	 private String ProfilesPath = Config.ProfilesPath;
 	 private String MinecraftAppData = Config.MinecraftAppData;
@@ -50,28 +53,35 @@ public class Downloader {
 	 private String ProfilesVersion = Config.ProfilesVersion;
 	 private String LauncherVersion = Config.LauncherVersion;
 	 
-	 private void DownloadFilesNoGui(URL website, FileOutputStream fos) {
-		    System.out.println("Starting...");
+	 private void DownloadFilesNoGui(URL website, String path) {
+		    System.out.println("Starting " + website + " to " + path);
 		    try {
-		      System.out.println("Getting url...");
+		      fos = new FileOutputStream(path);
+		    	
 		      urlConnection = website.openConnection();
 		      fileLength = urlConnection.getContentLength();
 
-		      System.out.println("Openning stream...");
-		      this.rbc = website.openStream();
+		      rbc = website.openStream();
 
-		      System.out.println("Reading stream...");
-		      this.buffer = new byte[153600];
-		      this.totalBytesRead = 0.0D;
-		      this.bytesRead = 0;
+		      buffer = new byte[153600];
+		      totalBytesRead = 0.0D;
+		      bytesRead = 0;
+		      
+		      System.out.println("Downloading...");
 
-		      while ((this.bytesRead = this.rbc.read(this.buffer)) > 0) {
-		        fos.write(this.buffer, 0, this.bytesRead);
-		        this.buffer = new byte[153600];
-		        this.totalBytesRead += this.bytesRead;
-		        this.percent = ((int)Math.round(this.totalBytesRead / fileLength * 100.0D));
-		        System.out.println("Bytes readed: " + (int)this.totalBytesRead + "/" + (int)fileLength + " " + this.percent + "%");
+		      while ((bytesRead = rbc.read(buffer)) > 0) {
+		        fos.write(buffer, 0, bytesRead);
+		        buffer = new byte[153600];
+		        totalBytesRead += bytesRead;
+		        percent = ((int)Math.round(totalBytesRead / fileLength * 100.0D));
+		        if(!al.contains(percent)) {
+		        	al.add(percent);
+		        	System.out.print("*");
+		        }
 		      }
+		      
+		      al.clear();
+		      System.out.println("");
 
 		    } catch (MalformedURLException e) {
 		    	CrashReport.SendReport(e.toString(), "downloading file");
@@ -83,29 +93,36 @@ public class Downloader {
 		  }
 
 	 
-	 private void DownloadFiles(URL website, FileOutputStream fos) {
-		    System.out.println("Starting...");
+	 private void DownloadFiles(URL website, String path) {
+		    System.out.println("Starting " + website + " to " + path);
 		    try {
-		      System.out.println("Getting url...");
+		      fos = new FileOutputStream(path);
+		    	
 		      urlConnection = website.openConnection();
 		      fileLength = urlConnection.getContentLength();
-
-		      System.out.println("Openning stream...");
-		      this.rbc = website.openStream();
-
-		      System.out.println("Reading stream...");
-		      this.buffer = new byte[153600];
-		      this.totalBytesRead = 0.0D;
-		      this.bytesRead = 0;
-
-		      while ((this.bytesRead = this.rbc.read(this.buffer)) > 0) {
-		        fos.write(this.buffer, 0, this.bytesRead);
-		        this.buffer = new byte[153600];
-		        this.totalBytesRead += this.bytesRead;
-		        this.percent = ((int)Math.round(this.totalBytesRead / fileLength * 100.0D));
-		        System.out.println("Bytes readed: " + (int)this.totalBytesRead + "/" + (int)fileLength + " " + this.percent + "%");
-		        this.DisplayDownload.Update(this.percent);
+	
+		      rbc = website.openStream();
+	
+		      buffer = new byte[153600];
+		      totalBytesRead = 0.0D;
+		      bytesRead = 0;
+		      
+		      System.out.println("Downloading...");
+	
+		      while ((bytesRead = rbc.read(buffer)) > 0) {
+		        fos.write(buffer, 0, bytesRead);
+		        buffer = new byte[153600];
+		        totalBytesRead += bytesRead;
+		        percent = ((int)Math.round(totalBytesRead / fileLength * 100.0D));
+		        if(!al.contains(percent)) {
+		        	al.add(percent);
+		        	System.out.print("*");
+		        }
+		        DisplayDownload.Update(percent);
 		      }
+		      
+		      al.clear();
+		      System.out.println("");
 
 		    } catch (MalformedURLException e) {
 		    	CrashReport.SendReport(e.toString(), "downloading file");
@@ -133,7 +150,7 @@ public class Downloader {
 				parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
 				zipFile.createZipFileFromFolder(folderInput, parameters, true, 10485760);
 			} catch (ZipException e) {
-				CrashReport.SendReport(e.toString(),"zipping folder " + folderInput + " to " + fileOutput);
+				CrashReport.SendReport(e.toString(), "zipping folder " + folderInput + " to " + fileOutput);
 			}
 	 }
 	 
@@ -196,47 +213,47 @@ public class Downloader {
 				new File(LauncherNewsCss).delete();
 			}
 			
-			DownloadFilesNoGui(new URL(LauncherNewsHtmlUrl), new FileOutputStream(LauncherNewsHtml));
-			DownloadFilesNoGui(new URL(LauncherNewsCssUrl), new FileOutputStream(LauncherNewsCss));
+			DownloadFilesNoGui(new URL(LauncherNewsHtmlUrl), LauncherNewsHtml);
+			DownloadFilesNoGui(new URL(LauncherNewsCssUrl), LauncherNewsCss);
 			
 			this.DisplayDownload = new DisplayDownload(new URL("file:///" + LauncherNewsCss), ClassFile.ReadFile(LauncherNewsHtml), LauncherVersion);
 			
 			if(!new File(LauncherMinecraftJar).exists()) {
-				DownloadFiles(new URL(MinecraftJarUrl), new FileOutputStream(LauncherMinecraftJar));		
+				DownloadFiles(new URL(MinecraftJarUrl), LauncherMinecraftJar);		
 			}
 				
-			DownloadFiles(new URL(GetMd5FileUrl + LibrariesLatestVersionUrl), new FileOutputStream(LauncherLocation + Slash + "Libraries.md5"));
+			DownloadFiles(new URL(GetMd5FileUrl + LibrariesLatestVersionUrl), LauncherLocation + Slash + "Libraries.md5");
 			Zip(MinecraftAppData + Slash + "libraries", LauncherZippedLibraries);
 
 			if(!GetMd5.VerifyMd5(new File(LauncherLocation + Slash + "Libraries.md5"), new File(LauncherZippedLibraries))) {
 				new File(LauncherZippedLibraries).delete();
 				ClassFile.Delete(new File(MinecraftAppData + Slash + "libraries"));
 				System.out.println("Detecting modified libraries files, deleting...");
-				DownloadFiles(new URL(LibrariesLatestVersionUrl), new FileOutputStream(LauncherZippedLibraries));
+				DownloadFiles(new URL(LibrariesLatestVersionUrl), LauncherZippedLibraries);
 				UnZip(LauncherZippedLibraries, MinecraftAppData + Slash + "libraries");
 			}
 			
 
-			DownloadFiles(new URL(GetMd5FileUrl + VersionsLatestVersionUrl), new FileOutputStream(LauncherLocation + Slash + "Versions.md5"));
+			DownloadFiles(new URL(GetMd5FileUrl + VersionsLatestVersionUrl), LauncherLocation + Slash + "Versions.md5");
 			Zip(MinecraftAppData + Slash + "versions" + Slash + LauncherName, LauncherZippedVersions);
 
 			if(!GetMd5.VerifyMd5(new File(LauncherLocation + Slash + "Versions.md5"), new File(LauncherZippedVersions))) {
 				new File(LauncherZippedVersions).delete();
 				ClassFile.Delete(new File(MinecraftAppData + Slash + "versions" + Slash + LauncherName));
 				System.out.println("Detecting modified versions files, deleting...");
-				DownloadFiles(new URL(VersionsLatestVersionUrl), new FileOutputStream(LauncherZippedVersions));
+				DownloadFiles(new URL(VersionsLatestVersionUrl), LauncherZippedVersions);
 				UnZip(LauncherZippedVersions, MinecraftAppData + Slash + "versions" + Slash + LauncherName);
 			}
 			
 
-			DownloadFiles(new URL(GetMd5FileUrl + ModsLatestVersionUrl), new FileOutputStream(LauncherLocation + Slash + "Mods.md5"));
+			DownloadFiles(new URL(GetMd5FileUrl + ModsLatestVersionUrl), LauncherLocation + Slash + "Mods.md5");
 			Zip(LauncherLocation + Slash + "mods", LauncherZippedMods);
 
 			if(!GetMd5.VerifyMd5(new File(LauncherLocation + Slash + "Mods.md5"), new File(LauncherZippedMods))) {
 				new File(LauncherZippedMods).delete();
 				ClassFile.Delete(new File(LauncherLocation + Slash + "mods"));
 				System.out.println("Detecting modified mods files, deleting...");
-				DownloadFiles(new URL(ModsLatestVersionUrl), new FileOutputStream(LauncherZippedMods));
+				DownloadFiles(new URL(ModsLatestVersionUrl), LauncherZippedMods);
 				UnZip(LauncherZippedMods, LauncherLocation + Slash + "mods");
 			}
 			
