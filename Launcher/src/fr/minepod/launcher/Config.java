@@ -10,7 +10,7 @@ public class Config {
 	 public String GetMd5FileUrl = "http://assets.minepod.fr/launcher/md5.php?file=";
 	 public String LauncherName = "MinePod";
 	 public String ProfilesVersion = "1";
-	 public String LauncherVersion = "1.1.4";
+	 public String LauncherVersion = "1.1.5";
 	 
 	 public static String AppDataPath;
 	 public static String LauncherDir;
