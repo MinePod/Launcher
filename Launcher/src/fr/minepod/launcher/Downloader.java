@@ -271,6 +271,7 @@ public class Downloader {
 					}
 				} else {
 					System.out.println("Profile version do not exists, creating new one");
+					Profile.Set(LauncherName, ProfilesPath, LauncherLocation);
 					ClassFile.WriteFile(ProfilesVersionPath, ProfilesVersion);
 				}
 				DisplayDownload.EnableButton();
