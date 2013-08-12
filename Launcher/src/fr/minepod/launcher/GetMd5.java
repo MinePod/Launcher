@@ -30,7 +30,7 @@ public class GetMd5
         e.printStackTrace();
       }
 
-      System.out.println("Current MD5: " + tmp);
+      System.out.println("Expected MD5: " + tmp);
       try
       {
         MessageDigest md = MessageDigest.getInstance("MD5");
@@ -46,7 +46,7 @@ public class GetMd5
 
         String result = new String(Hex.encode(mdbytes));
 
-        System.out.println("Expected MD5: " + result);
+        System.out.println("Current MD5: " + result);
         
         if (tmp.equals(result)) {
         	return true;
