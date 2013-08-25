@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JTextArea;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 
@@ -24,6 +25,24 @@ class JMenuItemListener implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		if(event.getActionCommand().toString().equalsIgnoreCase("Activer la console de debug")) {
 			new Debug().EnableConsole();
+		} else if(event.getActionCommand().toString().equalsIgnoreCase("A propos")) {
+	    	JTextArea aboutText = new JTextArea(new Config().getVersionInfos());
+	        aboutText.setEditable(false);
+	    	
+	        JFrame j = new JFrame("A propos");
+
+			JPanel b1 = new JPanel();
+			b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
+			b1.add(aboutText);
+		
+		    j.setContentPane(b1);
+		
+		    j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		      
+		    j.setSize(new Dimension(700, 500));
+		
+		    j.setLocationRelativeTo(null);
+		    j.setVisible(true);
 		}
 	}
 
@@ -31,7 +50,8 @@ class JMenuItemListener implements ActionListener {
 
 public class Gui {
 	private JMenuBar JMenuBar = new JMenuBar();
-	private JMenu JMenu = new JMenu("Outils");
+	private JMenu JMenuOutils = new JMenu("Outils");
+	private JMenu JMenuWhat = new JMenu("?");
 	private JProgressBar current = new JProgressBar(0, 100);
 	private Button play = new Button("Jouer!");
 	private String LauncherMinecraftJar = Config.LauncherMinecraftJar;
@@ -44,24 +64,30 @@ public class Gui {
 	}
 
 	public Gui(URL CssFile, String HtmlFile, String LauncherVersion) {
-		JMenuBar.add(JMenu);
+		JMenuBar.add(JMenuOutils);
 		JMenuItem debugItem = new JMenuItem("Activer la console de debug");
 		debugItem.addActionListener(new JMenuItemListener());
-		JMenu.add(debugItem);
+		JMenuOutils.add(debugItem);
+		
+		JMenuBar.add(JMenuWhat);
+		JMenuItem aboutItem = new JMenuItem("A propos");
+		aboutItem.addActionListener(new JMenuItemListener());
+		JMenuWhat.add(aboutItem);
+		
 		
 		JEditorPane jEditorPane = new JEditorPane();
 		jEditorPane.setEditable(false);
 
 		HTMLEditorKit kit = new HTMLEditorKit();
 		jEditorPane.setEditorKit(kit);
-
+		
 		kit.getStyleSheet().importStyleSheet(CssFile);
 
 		Document doc = kit.createDefaultDocument();
 		jEditorPane.setDocument(doc);
 		jEditorPane.setText(HtmlFile);
 		
-	    Font font = new Font("Segoe UI", Font.PLAIN, 14);
+	    Font font = new Font("Segoe UI", Font.PLAIN, 15);
 	    String FontRule = "body { font-family: " + font.getFamily() + "; " + "font-size: " + font.getSize() + "pt; }";
 	    kit.getStyleSheet().addRule(FontRule);
 

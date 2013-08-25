@@ -70,4 +70,11 @@ public class Config {
 	 public void BootstrapVersion(String Version) {
 		 Config.BootstrapVersion = Version;
 	 }
+	 
+	 public String getVersionInfos() {
+		 String infos = "Version " + LauncherVersion + " through Bootstrap " + Config.BootstrapVersion + "\n";
+		 infos += "\n";
+		 infos += "By DarkShimy for MinePod.fr";
+		 return infos;
+	 }
 }

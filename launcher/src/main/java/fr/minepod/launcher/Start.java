@@ -9,11 +9,11 @@ public class Start {
 	private static Downloader Downloader = new Downloader();
 	
 	public static void main(String[] args) throws IOException {
-		if(args.length != 0) {
+		if(args.length != 0)
 			new Config().BootstrapVersion(args[0]);
-		} else {
+		else
 			new Config().BootstrapVersion("> 1.0.6 or is it a Mac?");
-		}
+		
 		new Config().GetConfig();
 		new Debug().Set();
 		DownloadRequiredFiles();
@@ -85,7 +85,7 @@ public class Start {
 				 }
 				
 				 while(DT1.isAlive() || DT2.isAlive() || DT3.isAlive()) {
-					 Thread.sleep(1000);
+					 Thread.sleep(500);
 				 }
 				 
 				 System.out.println("Ready!");
