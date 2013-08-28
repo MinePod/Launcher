@@ -59,7 +59,7 @@ public class Debug extends JFrame {
 	    	JTextArea textArea = new JTextArea();
 	        textArea.setEditable(false);
 	    	
-	        JFrame j = new JFrame("Console de debug");
+	        JFrame j = new JFrame(fr.minepod.translate.Translate.get("DebugConsoleName"));
 
 			JPanel b1 = new JPanel();
 			b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
