@@ -59,8 +59,8 @@
             <descriptorRefs>
               <descriptorRef>jar-with-dependencies</descriptorRef>
             </descriptorRefs>
-            <finalName>launcher</finalName>
- 			<appendAssemblyId>false</appendAssemblyId>
+            <finalName>Salsepareille-${version}</finalName>
+            <outputDirectory>target</outputDirectory>
           </configuration>
           <executions>
             <execution>
