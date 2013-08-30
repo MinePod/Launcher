@@ -63,13 +63,14 @@ public class Start {
 				 Downloader.DownloadFiles(new URL(Config.MinecraftJarUrl), Config.LauncherMinecraftJar, true);		
 			 }
 			 
-				 
 		     DownloaderThread DT1 = new DownloaderThread(Config.LibrariesLatestVersionUrl, Config.LauncherLocation + Config.Slash + "Libraries.md5", Config.MinecraftAppData + Config.Slash, "libraries", Config.LauncherZippedLibraries);
 		     DT1.start();
 		     DownloaderThread DT2 = new DownloaderThread(Config.VersionsLatestVersionUrl, Config.LauncherLocation + Config.Slash + "Versions.md5", Config.MinecraftAppData + Config.Slash + "versions" + Config.Slash, Config.LauncherName, Config.LauncherZippedVersions);
 		     DT2.start();
 		     DownloaderThread DT3 = new DownloaderThread(Config.ModsLatestVersionUrl, Config.LauncherLocation + Config.Slash + "Mods.md5", Config.LauncherLocation + Config.Slash, "mods", Config.LauncherZippedMods);
 		     DT3.start();
+		     DownloaderThread DT4 = new DownloaderThread(Config.ResourcepacksLatestVersionUrl, Config.LauncherLocation + Config.Slash + "Resourcepacks.md5", Config.LauncherLocation + Config.Slash, "resourcepacks", Config.LauncherZippedResourcepacks);
+		     DT4.start();
 			
 			 if(new File(Config.ProfilesPath).exists()) {
 				 if(new File(Config.ProfilesVersionPath).exists()) {
@@ -87,7 +88,7 @@ public class Start {
 					 ClassFile.WriteFile(Config.ProfilesVersionPath, Config.ProfilesVersion);
 				 }
 				
-				 while(DT1.isAlive() || DT2.isAlive() || DT3.isAlive()) {
+				 while(DT1.isAlive() || DT2.isAlive() || DT3.isAlive() || DT4.isAlive()) {
 					 Thread.sleep(500);
 				 }
 				 

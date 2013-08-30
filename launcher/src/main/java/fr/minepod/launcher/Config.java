@@ -4,13 +4,14 @@ public class Config {
 	 public static String LibrariesLatestVersionUrl = "http://assets.minepod.fr/launcher/libraries.php";
 	 public static String VersionsLatestVersionUrl = "http://assets.minepod.fr/launcher/versions.php";
 	 public static String ModsLatestVersionUrl = "http://assets.minepod.fr/launcher/mods.php";
+	 public static String ResourcepacksLatestVersionUrl = "http://assets.minepod.fr/launcher/textures.php";
 	 public static String MinecraftJarUrl = "http://assets.minepod.fr/launcher/minecraft.jar";
 	 public static String LauncherNewsHtmlUrl = "http://assets.minepod.fr/launcher/news/news.html";
 	 public static String LauncherNewsCssUrl = "http://assets.minepod.fr/launcher/news/news.css";
 	 public static String GetMd5FileUrl = "http://assets.minepod.fr/launcher/md5.php?file=";
 	 public static String LauncherName = "MinePod";
 	 public static String ProfilesVersion = "1";
-	 public static String LauncherVersion = "1.4.0";
+	 public static String LauncherVersion = "1.5.0";
 	 
 	 public static String AppDataPath;
 	 public static String LauncherDir;
@@ -21,6 +22,7 @@ public class Config {
 	 public static String LauncherZippedLibraries;
 	 public static String LauncherZippedVersions;
 	 public static String LauncherZippedMods;
+	 public static String LauncherZippedResourcepacks;
 	 public static String LauncherMinecraftJar;
 	 public static String LauncherNewsHtml;
 	 public static String LauncherNewsCss;
@@ -59,6 +61,7 @@ public class Config {
 			Config.LauncherZippedLibraries = LauncherLocation + Slash + "Libraries.zip";
 			Config.LauncherZippedVersions = LauncherLocation + Slash + "Versions.zip";
 			Config.LauncherZippedMods = LauncherLocation + Slash + "Mods.zip";
+			Config.LauncherZippedResourcepacks = LauncherLocation + Slash + "Ressourcespacks.zip";
 			Config.LauncherMinecraftJar = LauncherLocation + Slash + "Minecraft.jar";
 			Config.LauncherNewsHtml = LauncherLocation + Slash + "news.html";
 			Config.LauncherNewsCss = LauncherLocation + Slash + "news.css";
