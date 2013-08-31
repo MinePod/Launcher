@@ -24,44 +24,26 @@ public class Start {
 	
 	 public static void DownloadRequiredFiles() {
 		 try {
-			 if(!new File(Config.LauncherLocation).exists()) {
-				 new File(Config.LauncherLocation).mkdir();
-			 }	
-			 
+			 if(!new File(Config.LauncherLocation).exists())
+				 new File(Config.LauncherLocation).mkdir();			 
 			
-			 if(!new File(Config.MinecraftAppData + Config.Slash + "libraries").exists()) {
+			 if(!new File(Config.MinecraftAppData + Config.Slash + "libraries").exists())
 				 new File(Config.MinecraftAppData + Config.Slash + "libraries").mkdir();
-			 }
 			
-			 if(!new File(Config.MinecraftAppData + Config.Slash + "versions").exists()) {
+			 if(!new File(Config.MinecraftAppData + Config.Slash + "versions").exists())
 			 	 new File(Config.MinecraftAppData + Config.Slash + "versions").mkdir();
-			 }
 			
-			 if(!new File(Config.MinecraftAppData + Config.Slash + "versions" + Config.Slash + Config.LauncherName).exists()) {
+			 if(!new File(Config.MinecraftAppData + Config.Slash + "versions" + Config.Slash + Config.LauncherName).exists())
 			   	 new File(Config.MinecraftAppData + Config.Slash + "versions" + Config.Slash + Config.LauncherName).mkdir();
-			 }
 			
-			 if(!new File(Config.LauncherLocation + Config.Slash + "mods").exists()) {
+			 if(!new File(Config.LauncherLocation + Config.Slash + "mods").exists())
 				 new File(Config.LauncherLocation + Config.Slash + "mods").mkdir();
-			 }	
-			
-			 if(new File(Config.LauncherNewsHtml).exists()) {
-				 new File(Config.LauncherNewsHtml).delete();
-			 }
-			
-			 if(new File(Config.LauncherNewsCss).exists()) {
-				 new File(Config.LauncherNewsCss).delete();
-			 }
 
 			
 			 Downloader.DownloadFiles(new URL(Config.LauncherNewsHtmlUrl), Config.LauncherNewsHtml, false);
 			 Downloader.DownloadFiles(new URL(Config.LauncherNewsCssUrl), Config.LauncherNewsCss, false);
 			
 			 Config.Gui = new Gui(new URL("file:///" + Config.LauncherNewsCss), ClassFile.ReadFile(Config.LauncherNewsHtml), Config.LauncherVersion);
-			
-			 if(!new File(Config.LauncherMinecraftJar).exists()) {
-				 Downloader.DownloadFiles(new URL(Config.MinecraftJarUrl), Config.LauncherMinecraftJar, true);		
-			 }
 			 
 		     DownloaderThread DT1 = new DownloaderThread(Config.LibrariesLatestVersionUrl, Config.LauncherLocation + Config.Slash + "Libraries.md5", Config.MinecraftAppData + Config.Slash, "libraries", Config.LauncherZippedLibraries);
 		     DT1.start();
@@ -71,6 +53,8 @@ public class Start {
 		     DT3.start();
 		     DownloaderThread DT4 = new DownloaderThread(Config.ResourcepacksLatestVersionUrl, Config.LauncherLocation + Config.Slash + "Resourcepacks.md5", Config.LauncherLocation + Config.Slash, "resourcepacks", Config.LauncherZippedResourcepacks);
 		     DT4.start();
+		     
+			 Downloader.DownloadFiles(new URL(Config.MinecraftLatestVersionUrl), Config.LauncherMinecraftJar, false);
 			
 			 if(new File(Config.ProfilesPath).exists()) {
 				 if(new File(Config.ProfilesVersionPath).exists()) {
@@ -102,8 +86,10 @@ public class Start {
 			 }
 
 		 } catch (IOException e) {	 
+			 e.printStackTrace();
 			 CrashReport.SendReport(e.toString(), "doing main thread's tasks");
 		 } catch (Exception e) {
+			 e.printStackTrace();
 			 CrashReport.SendReport(e.toString(), "doing main thread's tasks");
 		 }
 		 

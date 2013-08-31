@@ -1,6 +1,7 @@
 package fr.minepod.launcher;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -26,14 +27,23 @@ public class DownloaderThread extends Thread{
 			 
 			 Downloader.DownloadFiles(new URL(Config.GetMd5FileUrl + this.url), md5Location, true);
 			 Downloader.Zip(folderLocation + folderName, zipLocation);
-	
-			 if(!new GetMd5().VerifyMd5(new File(md5Location), new File(zipLocation))) {
+			 
+			 String expectedMd5 = ClassFile.ReadFile(md5Location);
+			 String currentMd5 = new Md5().Get(new File(zipLocation));
+			 
+			 System.out.println("Expected md5: " + expectedMd5);
+			 System.out.println("Current md5: " + currentMd5);
+			 
+			 if(!expectedMd5.equals(currentMd5)) {
 				 System.out.println("Detecting modified " + folderName + " files, deleting...");
 				 Downloader.DownloadFiles(new URL(url), zipLocation, true);
 				 Downloader.UnZip(zipLocation, folderLocation, folderName);
 			 }
+			 
 		 } catch (MalformedURLException e) {
 			 e.printStackTrace();
-		 }
+		 } catch (IOException e) {
+			e.printStackTrace();
+		}
 	 }
 }

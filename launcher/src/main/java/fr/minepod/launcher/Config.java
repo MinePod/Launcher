@@ -5,13 +5,13 @@ public class Config {
 	 public static String VersionsLatestVersionUrl = "http://assets.minepod.fr/launcher/versions.php";
 	 public static String ModsLatestVersionUrl = "http://assets.minepod.fr/launcher/mods.php";
 	 public static String ResourcepacksLatestVersionUrl = "http://assets.minepod.fr/launcher/textures.php";
-	 public static String MinecraftJarUrl = "http://assets.minepod.fr/launcher/minecraft.jar";
+	 public static String MinecraftLatestVersionUrl = "http://assets.minepod.fr/launcher/minecraft.php";
 	 public static String LauncherNewsHtmlUrl = "http://assets.minepod.fr/launcher/news/news.html";
 	 public static String LauncherNewsCssUrl = "http://assets.minepod.fr/launcher/news/news.css";
 	 public static String GetMd5FileUrl = "http://assets.minepod.fr/launcher/md5.php?file=";
 	 public static String LauncherName = "MinePod";
 	 public static String ProfilesVersion = "1";
-	 public static String LauncherVersion = "1.5.0";
+	 public static String LauncherVersion = "1.5.1";
 	 
 	 public static String AppDataPath;
 	 public static String LauncherDir;

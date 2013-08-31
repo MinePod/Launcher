@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class ClassFile {
+public class ClassFile {	
 	public static String ReadFile(String path) throws IOException {
 	    BufferedReader br = new BufferedReader(new FileReader(path));
 	    try {
