@@ -24,7 +24,7 @@ public class Debug extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private String DebugFilePath = Config.DebugFilePath;
 	
-	public void Set() throws IOException {
+	public void SetDebug() throws IOException {
 		Map<String, String> obj = new LinkedHashMap<String, String>();
 		obj.put("OS-name", System.getProperty("os.name", "Unknown"));
 		obj.put("OS-arch", System.getProperty("os.arc", "Unknown"));
@@ -59,7 +59,7 @@ public class Debug extends JFrame {
 	    	JTextArea textArea = new JTextArea();
 	        textArea.setEditable(false);
 	    	
-	        JFrame j = new JFrame(fr.minepod.translate.Translate.get("DebugConsoleName"));
+	        JFrame j = new JFrame(fr.minepod.translate.Translate.get("DebugConsoleGuiName"));
 
 			JPanel b1 = new JPanel();
 			b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
@@ -78,6 +78,7 @@ public class Debug extends JFrame {
 		
 		    j.setLocationRelativeTo(null);
 		    j.setVisible(true);
+		    
 	        PrintStream PrintStream = new PrintStream(new Console(textArea));
 	        System.setOut(PrintStream);
 	        System.setErr(PrintStream);

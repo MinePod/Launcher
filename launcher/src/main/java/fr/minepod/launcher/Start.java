@@ -14,10 +14,9 @@ public class Start {
 		else
 			new Config().BootstrapVersion("> 1.0.6 or is it a Mac?");
 		
-		new fr.minepod.translate.Fr().SetLanguage();
-		
 		new Config().GetConfig();
-		new Debug().Set();
+		new fr.minepod.translate.Translate(Config.Language);
+		new Debug().SetDebug();
 		
 		DownloadRequiredFiles();
 	}

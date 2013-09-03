@@ -29,7 +29,7 @@ class JMenuItemListener implements ActionListener {
 	    	JTextArea aboutText = new JTextArea(new Config().getVersionInfos());
 	        aboutText.setEditable(false);
 	    	
-	        JFrame j = new JFrame("A propos");
+	        JFrame j = new JFrame(fr.minepod.translate.Translate.get("AboutGuiName"));
 
 			JPanel b1 = new JPanel();
 			b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));

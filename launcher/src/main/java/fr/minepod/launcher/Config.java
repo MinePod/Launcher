@@ -30,6 +30,7 @@ public class Config {
 	 public static String ProfilesVersionPath;
 	 public static String DebugFilePath;
 	 public static String BootstrapVersion;
+	 public static String Language;
 	 public static Gui Gui;
 	 
 	 public void GetConfig() {
@@ -39,7 +40,7 @@ public class Config {
 				Config.LauncherDir = "\\." + LauncherName;
 				Config.Minecraft = "\\.minecraft";
 			} else if(OS.contains("MAC")) {
-				Config.AppDataPath = System.getProperty("user.home") + "/Library/Application " + "Support";
+				Config.AppDataPath = System.getProperty("user.home") + "/Library/Application Support";
 				Config.LauncherDir = "/" + LauncherName;
 				Config.Minecraft = "/minecraft";
 			} else if(OS.contains("NUX")) {
@@ -68,6 +69,8 @@ public class Config {
 			Config.ProfilesPath = MinecraftAppData + Slash + "launcher_profiles.json";
 			Config.ProfilesVersionPath =  LauncherLocation + Slash + "profiles.txt";
 			Config.DebugFilePath = LauncherLocation + Slash + "debug.json";
+			
+			Config.Language = "fr_FR";
 	 }
 	 
 	 public void BootstrapVersion(String Version) {
