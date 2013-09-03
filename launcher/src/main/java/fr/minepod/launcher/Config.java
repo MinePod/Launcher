@@ -71,6 +71,7 @@ public class Config {
 			Config.DebugFilePath = LauncherLocation + Slash + "debug.json";
 			
 			Config.Language = "fr_FR";
+			// TODO Add option to change language
 	 }
 	 
 	 public void BootstrapVersion(String Version) {
