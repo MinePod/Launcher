@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 
 public class Downloader {
 	 private InputStream rbc;
@@ -15,7 +14,6 @@ public class Downloader {
 	 private double fileLength = 0.0D;
 	 private int bytesRead;
 	 private FileOutputStream fos;
-	 private ArrayList<Integer> al = new ArrayList<Integer>();
 	 private Gui Gui = Config.Gui;
  
 	 public void DownloadFiles(URL website, String path, boolean isGui) {
@@ -41,7 +39,6 @@ public class Downloader {
 		        	 Gui.Add(bytesRead);
 		     }
 		      
-		     al.clear();
 		     System.out.println();
 
 		 } catch (MalformedURLException e) {
