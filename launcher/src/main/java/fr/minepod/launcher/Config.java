@@ -62,7 +62,7 @@ public class Config {
 			Config.LauncherZippedLibraries = LauncherLocation + Slash + "Libraries.zip";
 			Config.LauncherZippedVersions = LauncherLocation + Slash + "Versions.zip";
 			Config.LauncherZippedMods = LauncherLocation + Slash + "Mods.zip";
-			Config.LauncherZippedResourcepacks = LauncherLocation + Slash + "Ressourcespacks.zip";
+			Config.LauncherZippedResourcepacks = LauncherLocation + Slash + "Resourcespacks.zip";
 			Config.LauncherMinecraftJar = LauncherLocation + Slash + "Minecraft.jar";
 			Config.LauncherNewsHtml = LauncherLocation + Slash + "news.html";
 			Config.LauncherNewsCss = LauncherLocation + Slash + "news.css";
