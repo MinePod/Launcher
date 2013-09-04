@@ -26,9 +26,9 @@ public class DownloaderThread extends Thread{
 			 System.out.println("Running new thread for downloading " + folderName);
 			 
 			 Downloader.DownloadFiles(new URL(Config.GetMd5FileUrl + this.url), md5Location, true);
-			 Downloader.Zip(folderLocation + folderName, zipLocation);
+			 ClassFile.Zip(folderLocation + folderName, zipLocation);
 			 
-			 String expectedMd5 = ClassFile.ReadFile(md5Location);
+			 String expectedMd5 = ClassFile.ReadFile(md5Location).replaceAll("\\s", "");
 			 String currentMd5 = new Md5().Get(new File(zipLocation));
 			 
 			 System.out.println("Expected md5: " + expectedMd5);
@@ -37,7 +37,7 @@ public class DownloaderThread extends Thread{
 			 if(!expectedMd5.equals(currentMd5)) {
 				 System.out.println("Detecting modified " + folderName + " files, deleting...");
 				 Downloader.DownloadFiles(new URL(url), zipLocation, true);
-				 Downloader.UnZip(zipLocation, folderLocation, folderName);
+				 ClassFile.UnZip(zipLocation, folderLocation, folderName);
 			 }
 			 
 		 } catch (MalformedURLException e) {
