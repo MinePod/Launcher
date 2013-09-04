@@ -9,11 +9,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
-import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
-import net.lingala.zip4j.model.ZipParameters;
-import net.lingala.zip4j.util.Zip4jConstants;
-
 public class Downloader {
 	 private InputStream rbc;
 	 private byte[] buffer;
@@ -56,36 +51,5 @@ public class Downloader {
 		 }
 
 		 System.out.println("Downloading complete!");
-	 }
-	 
-	 public void UnZip(String input, String dirOutput, String fileOutputName) {
-		 try {
-			 ClassFile.Delete(new File(dirOutput + fileOutputName));
-			 ZipFile zipFile = new ZipFile(input);
-		     zipFile.extractAll(dirOutput);
-		     System.out.println(input + " unzipped to " + dirOutput);
-		 } catch (ZipException e) {
-			 CrashReport.SendReport(e.toString(), "unzipping file " + input + " to " + dirOutput);
-		 }
-	 }
-	 
-	 public void Zip(String input, String output) {
-		 try {
-			 new File(output).delete();
-			 ZipFile zipFile = new ZipFile(output);
-			 ZipParameters parameters = new ZipParameters();
-			 parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
-			 parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
-				
-			 if(new File(input).isDirectory()) {
-				 zipFile.addFolder(input, parameters);
-			 } else {
-				 zipFile.addFile(new File(input), parameters);
-			 }
-				
-			 System.out.println(input + " zipped to " + output);
-		 } catch (ZipException e) {
-			 CrashReport.SendReport(e.toString(), "zipping folder " + input + " to " + output);
-		 }
 	 }
 }
