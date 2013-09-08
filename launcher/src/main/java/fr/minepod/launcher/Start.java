@@ -25,11 +25,10 @@ public class Start {
 	        Manifest Manifest = JarInputStream.getManifest();
 	        JarInputStream.close();
 	        InputStream.close();
-	        System.out.println(Manifest);
 	        if(Manifest != null) {
 	            Attributes Attributes = Manifest.getMainAttributes();
 	            new Config().SetLauncherVersion(Attributes.getValue("Launcher-version"));
-	            new Config().SetLauncherBuildTime("compil\u00E9 le " + new SimpleDateFormat("yyyy-MM-dd '\u00C0' HH:mm:ss").format(Attributes.getValue("Build-time")));
+	            new Config().SetLauncherBuildTime("compil\u00E9 le " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Attributes.getValue("Build-time")));
 	        } else {
 	        	new Config().SetLauncherVersion("version de d\u00E9veloppement");
 	        	new Config().SetLauncherBuildTime("");
