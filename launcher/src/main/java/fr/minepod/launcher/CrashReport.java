@@ -16,6 +16,7 @@ public class CrashReport {
 			e.printStackTrace();
 			javax.swing.JOptionPane.showMessageDialog(null, e.toString(),  fr.minepod.translate.Translate.get("Error"), javax.swing.JOptionPane.ERROR_MESSAGE);
 		}
+		System.out.println(exception);
         System.exit(0);
 	}
 }

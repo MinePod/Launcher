@@ -11,7 +11,8 @@ public class Config {
 	 public static String GetMd5FileUrl = "http://assets.minepod.fr/launcher/md5.php?file=";
 	 public static String LauncherName = "MinePod";
 	 public static String ProfilesVersion = "1";
-	 public static String LauncherVersion = "1.5.1";
+	 public static String LauncherVersion;
+	 public static String LauncherBuildTime;
 	 
 	 public static String AppDataPath;
 	 public static String LauncherDir;
@@ -33,7 +34,7 @@ public class Config {
 	 public static String Language;
 	 public static Gui Gui;
 	 
-	 public void GetConfig() {
+	 public void SetConfig() {
 			String OS = System.getProperty("os.name").toUpperCase();
 			if(OS.contains("WIN")) {
 				Config.AppDataPath = System.getenv("APPDATA");
@@ -74,11 +75,19 @@ public class Config {
 			// TODO Add option to change language
 	 }
 	 
-	 public void BootstrapVersion(String Version) {
+	 public void SetBootstrapVersion(String Version) {
 		 Config.BootstrapVersion = Version;
 	 }
 	 
-	 public String getVersionInfos() {
+	 public void SetLauncherVersion(String Version) {
+		 Config.LauncherVersion = Version;
+	 }
+	 
+	 public void SetLauncherBuildTime(String BuildTime) {
+		 Config.LauncherBuildTime = BuildTime;
+	 }
+	 
+	 public String getInfos() {
 		 String infos = "Version " + LauncherVersion + " through Bootstrap " + Config.BootstrapVersion + "\n";
 		 infos += "\n";
 		 infos += "By DarkShimy for MinePod.fr";

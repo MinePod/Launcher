@@ -2,7 +2,11 @@ package fr.minepod.launcher;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.jar.Attributes;
+import java.util.jar.JarInputStream;
+import java.util.jar.Manifest;
 
 public class Start {
 	private static Profile Profile = new Profile();
@@ -10,11 +14,31 @@ public class Start {
 	
 	public static void main(String[] args) throws IOException {
 		if(args.length != 0)
-			new Config().BootstrapVersion(args[0]);
+			new Config().SetBootstrapVersion(args[0]);
 		else
-			new Config().BootstrapVersion("> 1.0.6 or is it a Mac?");
+			new Config().SetBootstrapVersion("unknown");
 		
-		new Config().GetConfig();
+	    try {
+	        InputStream InputStream = Start.class.getProtectionDomain().getCodeSource().getLocation().openStream();
+	        JarInputStream JarInputStream = new JarInputStream(InputStream);
+	        Manifest Manifest = JarInputStream.getManifest();
+	        JarInputStream.close();
+	        InputStream.close();
+	        System.out.println(Manifest);
+	        if(Manifest != null) {
+	            Attributes Attributes = Manifest.getMainAttributes();
+	            System.out.println(Attributes);
+	            new Config().SetLauncherVersion(Attributes.getValue("Launcher-version"));
+	            new Config().SetLauncherBuildTime(Attributes.getValue("Build-time"));
+	        } else {
+	        	new Config().SetLauncherVersion("version de d\u00E9veloppement");
+	        	new Config().SetLauncherBuildTime("");
+	        }
+		} catch(IOException e) {
+			CrashReport.SendReport(e.toString(), "doing main thread's tasks");
+		}
+		
+		new Config().SetConfig();
 		new fr.minepod.translate.Translate(Config.Language);
 		new Debug().SetDebug();
 		
@@ -42,7 +66,7 @@ public class Start {
 			 Downloader.DownloadFiles(new URL(Config.LauncherNewsHtmlUrl), Config.LauncherNewsHtml, false);
 			 Downloader.DownloadFiles(new URL(Config.LauncherNewsCssUrl), Config.LauncherNewsCss, false);
 			
-			 Config.Gui = new Gui(new URL("file:///" + Config.LauncherNewsCss), ClassFile.ReadFile(Config.LauncherNewsHtml), Config.LauncherVersion);
+			 Config.Gui = new Gui(new URL("file:///" + Config.LauncherNewsCss), ClassFile.ReadFile(Config.LauncherNewsHtml), Config.LauncherVersion, Config.LauncherBuildTime);
 			 
 		     DownloaderThread DT1 = new DownloaderThread(Config.LibrariesLatestVersionUrl, Config.LauncherLocation + Config.Slash + "Libraries.md5", Config.MinecraftAppData + Config.Slash, "libraries", Config.LauncherZippedLibraries);
 		     DT1.start();

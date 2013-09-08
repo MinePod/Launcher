@@ -3,9 +3,14 @@ package fr.minepod.launcher;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import org.bouncycastle.util.encoders.Hex;
 
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
@@ -13,15 +18,22 @@ import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
 
 public class ClassFile {	
+	private static FileInputStream fis;
+
 	public static String ReadFile(String path) throws IOException {
 	    BufferedReader br = new BufferedReader(new FileReader(path));
 	    try {
 	        StringBuilder sb = new StringBuilder();
 	        String line = br.readLine();
+	        
+	        boolean first = true;
 
 	        while (line != null) {
+	        	if(first)
+	        		first = false;
+	        	else
+	        		sb.append("\n");
 	            sb.append(line);
-	            sb.append("\n");
 	            line = br.readLine();
 	        }
 	        return sb.toString();
@@ -76,9 +88,9 @@ public class ClassFile {
 			 parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
 				
 			 if(new File(input).isDirectory()) {
-				 zipFile.addFolder(input, parameters);
+				 zipFile.addFolder(new File(input).getAbsoluteFile(), parameters);
 			 } else {
-				 zipFile.addFile(new File(input), parameters);
+				 zipFile.addFile(new File(input).getAbsoluteFile(), parameters);
 			 }
 				
 			 System.out.println(input + " zipped to " + output);
@@ -86,4 +98,28 @@ public class ClassFile {
 			 CrashReport.SendReport(e.toString(), "zipping folder " + input + " to " + output);
 		 }
 	 }
+	 
+	  public static String md5(File f) {
+	      if ((f.exists()) && (f.length() > 0L)) {
+	    	  try {
+	    		  MessageDigest md = MessageDigest.getInstance("MD5");
+	    		  fis = new FileInputStream(f);
+	    		  byte[] dataBytes = new byte[1024];
+	    		  int nread = 0;
+
+	    		  while ((nread = fis.read(dataBytes)) != -1) {
+	    			  md.update(dataBytes, 0, nread);
+	    		  }
+
+	    		  byte[] mdbytes = md.digest();
+	        
+	    		  return new String(Hex.encode(mdbytes));
+	    	  } catch (NoSuchAlgorithmException e) {
+	    		  e.printStackTrace();
+	    	  } catch (IOException e) {
+	    		  e.printStackTrace();
+	    	  }
+	      }
+		return null;
+	  }
 }

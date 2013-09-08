@@ -26,7 +26,7 @@ class JMenuItemListener implements ActionListener {
 		if(event.getActionCommand().toString().equalsIgnoreCase(fr.minepod.translate.Translate.get("OpenDebugConsoleGui"))) {
 			new Debug().EnableConsole();
 		} else if(event.getActionCommand().toString().equalsIgnoreCase(fr.minepod.translate.Translate.get("OpenAboutGui"))) {
-	    	JTextArea aboutText = new JTextArea(new Config().getVersionInfos());
+	    	JTextArea aboutText = new JTextArea(new Config().getInfos());
 	        aboutText.setEditable(false);
 	    	
 	        JFrame j = new JFrame(fr.minepod.translate.Translate.get("AboutGuiName"));
@@ -54,16 +54,14 @@ public class Gui {
 	private JMenu JMenuWhat = new JMenu("?");
 	private JProgressBar current = new JProgressBar(0, 100);
 	private Button play = new Button(fr.minepod.translate.Translate.get("LaunchButton"));
-	private String LauncherMinecraftJar = Config.LauncherMinecraftJar;
-	private String LauncherLocation = Config.LauncherLocation;
 	private double totalBytesRead = 0.0D;
 	private double totalLength = 0.0D;
 	
 	public void EnableButton() {
-		this.play.EnableButton(LauncherMinecraftJar, LauncherLocation);
+		this.play.EnableButton(Config.LauncherMinecraftJar, Config.LauncherLocation);
 	}
 
-	public Gui(URL CssFile, String HtmlFile, String LauncherVersion) {
+	public Gui(URL CssFile, String HtmlFile, String LauncherVersion, String LauncherCompileTime) {
 		JMenuBar.add(JMenuOutils);
 		JMenuItem debugItem = new JMenuItem(fr.minepod.translate.Translate.get("OpenDebugConsoleGui"));
 		debugItem.addActionListener(new JMenuItemListener());
@@ -94,7 +92,7 @@ public class Gui {
 		this.current.setValue(0);
 		this.current.setStringPainted(true);
 
-		JFrame j = new JFrame("MinePod Launcher - Salsepareille " + LauncherVersion);
+		JFrame j = new JFrame("MinePod Launcher - Salsepareille " + LauncherVersion + " " + LauncherCompileTime);
 
 		JPanel b1 = new JPanel();
 		b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));

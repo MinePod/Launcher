@@ -6,7 +6,6 @@
     <artifactId>launcher</artifactId>
     <version>1.5.1</version>
     
-    
     <repositories>
       <repository>
         <id>Maven-repo</id>
@@ -55,6 +54,10 @@
               <manifest>
                 <mainClass>fr.minepod.launcher.Start</mainClass>
               </manifest>
+              <manifestEntries>
+                 <Build-Time>${maven.build.timestamp}</Build-Time>
+                 <Launcher-Version>${project.version}</Launcher-Version>
+               </manifestEntries>
             </archive>
             <descriptorRefs>
               <descriptorRef>jar-with-dependencies</descriptorRef>

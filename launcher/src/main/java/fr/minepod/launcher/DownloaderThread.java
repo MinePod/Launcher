@@ -28,8 +28,8 @@ public class DownloaderThread extends Thread{
 			 Downloader.DownloadFiles(new URL(Config.GetMd5FileUrl + this.url), md5Location, true);
 			 ClassFile.Zip(folderLocation + folderName, zipLocation);
 			 
-			 String expectedMd5 = ClassFile.ReadFile(md5Location).replaceAll("\\s", "");
-			 String currentMd5 = new Md5().Get(new File(zipLocation));
+			 String expectedMd5 = ClassFile.ReadFile(md5Location);
+			 String currentMd5 = ClassFile.md5(new File(zipLocation));
 			 
 			 System.out.println("Expected md5: " + expectedMd5);
 			 System.out.println("Current md5: " + currentMd5);
