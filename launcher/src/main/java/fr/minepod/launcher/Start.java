@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.jar.Attributes;
 import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
@@ -28,7 +27,7 @@ public class Start {
 	        if(Manifest != null) {
 	            Attributes Attributes = Manifest.getMainAttributes();
 	            new Config().SetLauncherVersion(Attributes.getValue("Launcher-version"));
-	            new Config().SetLauncherBuildTime("compil\u00E9 le " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Attributes.getValue("Build-time")));
+	            new Config().SetLauncherBuildTime("compil\u00E9 le " + Attributes.getValue("Build-time"));
 	        } else {
 	        	new Config().SetLauncherVersion("version de d\u00E9veloppement");
 	        	new Config().SetLauncherBuildTime("");
