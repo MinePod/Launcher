@@ -56,8 +56,6 @@ public class Config {
 			
 			Config.Slash = System.getProperty("file.separator");
 			
-			System.out.println(AppDataPath);
-			
 			Config.LauncherLocation = AppDataPath + LauncherDir;
 			Config.MinecraftAppData = AppDataPath + Minecraft;
 			Config.LauncherZippedLibraries = LauncherLocation + Slash + "Libraries.zip";
