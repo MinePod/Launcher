@@ -70,9 +70,6 @@ public class Config {
 			Config.ProfilesPath = MinecraftAppData + Slash + "launcher_profiles.json";
 			Config.ProfilesVersionPath =  LauncherLocation + Slash + "profiles.txt";
 			Config.DebugFilePath = LauncherLocation + Slash + "debug.json";
-			
-			Config.Language = "fr_FR";
-			// TODO Add option to change language
 	 }
 	 
 	 public void SetBootstrapVersion(String Version) {
@@ -88,9 +85,10 @@ public class Config {
 	 }
 	 
 	 public String getInfos() {
-		 String infos = "Version " + LauncherVersion + " through Bootstrap " + Config.BootstrapVersion + "\n";
+		 String infos = "Salsepareille " + LauncherVersion + " " + Langage.WITHBOOTSTRAP.toString() + Config.BootstrapVersion + "\n";
+		 infos += Langage.COMPILEDON + Config.LauncherBuildTime + "\n";
 		 infos += "\n";
-		 infos += "By DarkShimy for MinePod.fr";
+		 infos += "DarkShimy - MinePod.fr";
 		 return infos;
 	 }
 }

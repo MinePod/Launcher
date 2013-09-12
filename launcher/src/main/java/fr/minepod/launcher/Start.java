@@ -27,17 +27,16 @@ public class Start {
 	        if(Manifest != null) {
 	            Attributes Attributes = Manifest.getMainAttributes();
 	            new Config().SetLauncherVersion(Attributes.getValue("Launcher-version"));
-	            new Config().SetLauncherBuildTime("compil\u00E9 le " + Attributes.getValue("Build-time"));
+	            new Config().SetLauncherBuildTime(Langage.COMPILEDON.toString() + Attributes.getValue("Build-time"));
 	        } else {
-	        	new Config().SetLauncherVersion("version de d\u00E9veloppement");
+	        	new Config().SetLauncherVersion(Langage.DEVELOPMENTVERSION.toString());
 	        	new Config().SetLauncherBuildTime("");
 	        }
 		} catch(IOException e) {
-			CrashReport.SendReport(e.toString(), "doing main thread's tasks");
+			CrashReport.SendReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
 		}
 		
 		new Config().SetConfig();
-		new fr.minepod.translate.Translate(Config.Language);
 		new Debug().SetDebug();
 		
 		DownloadRequiredFiles();
@@ -123,11 +122,9 @@ public class Start {
 			 }
 
 		 } catch (IOException e) {	 
-			 e.printStackTrace();
-			 CrashReport.SendReport(e.toString(), "doing main thread's tasks");
+			CrashReport.SendReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
 		 } catch (Exception e) {
-			 e.printStackTrace();
-			 CrashReport.SendReport(e.toString(), "doing main thread's tasks");
+			CrashReport.SendReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
 		 }
 		 
 	 }
@@ -135,7 +132,7 @@ public class Start {
 	 public static void LaunchGame(String ParLauncherMinecraftJar, String ParLauncherLocation) {
 		 System.out.println(ParLauncherMinecraftJar);
 		 try {
-			 new JarLoader(ParLauncherMinecraftJar);
+			 new LauchMinecraft(ParLauncherMinecraftJar);
 			 System.exit(0);
 		 } catch (Exception e) {
 			 CrashReport.SendReport(e.toString(), "launching game");

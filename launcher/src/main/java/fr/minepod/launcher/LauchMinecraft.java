@@ -3,8 +3,8 @@ package fr.minepod.launcher;
 import java.awt.Desktop;
 import java.io.File;
 
-public class JarLoader {
-	public JarLoader(String path) throws Exception {
+public class LauchMinecraft {
+	public LauchMinecraft(String path) throws Exception {
 		String OS = System.getProperty("os.name").toUpperCase();
 		if(OS.contains("WIN")) {
 			Runtime.getRuntime().exec("java -jar -Xmx1G \"" + path + "\"");

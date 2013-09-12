@@ -23,13 +23,13 @@ class JMenuItemListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if(event.getActionCommand().toString().equalsIgnoreCase(fr.minepod.translate.Translate.get("OpenDebugConsoleGui"))) {
+		if(event.getActionCommand().toString().equalsIgnoreCase(Langage.OPENDEBUGCONSOLEGUI.toString())) {
 			new Debug().EnableConsole();
-		} else if(event.getActionCommand().toString().equalsIgnoreCase(fr.minepod.translate.Translate.get("OpenAboutGui"))) {
+		} else if(event.getActionCommand().toString().equalsIgnoreCase(Langage.OPENABOUTGUI.toString())) {
 	    	JTextArea aboutText = new JTextArea(new Config().getInfos());
 	        aboutText.setEditable(false);
 	    	
-	        JFrame j = new JFrame(fr.minepod.translate.Translate.get("AboutGuiName"));
+	        JFrame j = new JFrame(Langage.ABOUTGUINAME.toString());
 
 			JPanel b1 = new JPanel();
 			b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
@@ -50,10 +50,10 @@ class JMenuItemListener implements ActionListener {
 
 public class Gui {
 	private JMenuBar JMenuBar = new JMenuBar();
-	private JMenu JMenuOutils = new JMenu(fr.minepod.translate.Translate.get("Tools"));
+	private JMenu JMenuOutils = new JMenu(Langage.TOOLS.toString());
 	private JMenu JMenuWhat = new JMenu("?");
 	private JProgressBar current = new JProgressBar(0, 100);
-	private Button play = new Button(fr.minepod.translate.Translate.get("LaunchButton"));
+	private Button play = new Button(Langage.LAUNCHBUTTON.toString());
 	private double totalBytesRead = 0.0D;
 	private double totalLength = 0.0D;
 	
@@ -63,12 +63,12 @@ public class Gui {
 
 	public Gui(URL CssFile, String HtmlFile, String LauncherVersion, String LauncherCompileTime) {
 		JMenuBar.add(JMenuOutils);
-		JMenuItem debugItem = new JMenuItem(fr.minepod.translate.Translate.get("OpenDebugConsoleGui"));
+		JMenuItem debugItem = new JMenuItem(Langage.OPENDEBUGCONSOLEGUI.toString());
 		debugItem.addActionListener(new JMenuItemListener());
 		JMenuOutils.add(debugItem);
 		
 		JMenuBar.add(JMenuWhat);
-		JMenuItem aboutItem = new JMenuItem(fr.minepod.translate.Translate.get("OpenAboutGui"));
+		JMenuItem aboutItem = new JMenuItem(Langage.OPENABOUTGUI.toString());
 		aboutItem.addActionListener(new JMenuItemListener());
 		JMenuWhat.add(aboutItem);
 		
