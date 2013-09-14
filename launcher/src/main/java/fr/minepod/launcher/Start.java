@@ -14,7 +14,6 @@ public class Start {
 		else
 			new Config().SetBootstrapVersion("unknown");
 		
-		
 		new Config().SetConfig();
 		new Debug().SetDebug();
 		new Logger().SetLogger(Config.LogFile);

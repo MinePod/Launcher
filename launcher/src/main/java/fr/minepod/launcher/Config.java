@@ -78,6 +78,8 @@ public class Config {
 			Config.ProfilesVersionPath =  LauncherLocation + Slash + "profiles.txt";
 			Config.DebugFilePath = LauncherLocation + Slash + "debug.json";
 			Config.LogFile = LauncherLocation + Slash + "launcher_logs.txt";
+			
+			GetManifestInfos();
 	 }
 	 
 	 public void SetBootstrapVersion(String Version) {
