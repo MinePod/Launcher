@@ -8,17 +8,16 @@ public class CrashReport {
 	
 	public static void SendReport(String exception, String when) {
 		try {
-			System.out.println(exception);
+			Config.Logger.severe(exception);
 			javax.swing.JOptionPane.showMessageDialog(null, exception + "\n" +  Langage.WHEN.toString() + when + "\n\n\n" + Langage.DEBUGINFORMATIONS.toString() + ":\n\n" + ClassFile.ReadFile(DebugFilePath), Langage.ERROR.toString(), javax.swing.JOptionPane.ERROR_MESSAGE);
 		} catch (HeadlessException e) {
-			e.printStackTrace();
+			Config.Logger.severe(e.toString());
 			javax.swing.JOptionPane.showMessageDialog(null, e.toString(),  Langage.ERROR.toString(), javax.swing.JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Config.Logger.severe(e.toString());
 			String Message = Langage.ERROR.toString();
 			javax.swing.JOptionPane.showMessageDialog(null, e.toString(),  Message, javax.swing.JOptionPane.ERROR_MESSAGE);
 		}
-		System.out.println(exception);
         System.exit(0);
 	}
 }

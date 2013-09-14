@@ -1,4 +1,5 @@
 package fr.minepod.launcher;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JButton;
@@ -8,8 +9,6 @@ public class Button extends JButton implements MouseListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String LauncherMinecraftJar;
-	private String LauncherLocation;
 	
 	public Button(String str){
 		super(str);
@@ -17,17 +16,15 @@ public class Button extends JButton implements MouseListener {
 		this.setEnabled(false);
 	}
 	
-	public void EnableButton(String LauncherMinecraftJar, String LauncherLocation) {
+	public void EnableButton() {
 		this.setEnabled(true);
-		this.LauncherMinecraftJar = LauncherMinecraftJar;
-		this.LauncherLocation = LauncherLocation;
 	}
   
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("Lauching game soon...");
+		Config.Logger.info("Lauching game soon...");
 		this.setEnabled(false);
-		Start.LaunchGame(LauncherMinecraftJar, LauncherLocation);
+		Start.LaunchGame();
 	}
   
 	@Override

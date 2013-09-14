@@ -23,26 +23,8 @@ class JMenuItemListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if(event.getActionCommand().toString().equalsIgnoreCase(Langage.OPENDEBUGCONSOLEGUI.toString())) {
-			new Debug().EnableConsole();
-		} else if(event.getActionCommand().toString().equalsIgnoreCase(Langage.OPENABOUTGUI.toString())) {
-	    	JTextArea aboutText = new JTextArea(new Config().getInfos());
-	        aboutText.setEditable(false);
-	    	
-	        JFrame j = new JFrame(Langage.ABOUTGUINAME.toString());
-
-			JPanel b1 = new JPanel();
-			b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
-			b1.add(aboutText);
-		
-		    j.setContentPane(b1);
-		
-		    j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		      
-		    j.setSize(new Dimension(700, 500));
-		
-		    j.setLocationRelativeTo(null);
-		    j.setVisible(true);
+		if(event.getActionCommand().toString().equalsIgnoreCase(Langage.OPENABOUTGUI.toString())) {
+			Config.Gui.About();
 		}
 	}
 
@@ -50,7 +32,6 @@ class JMenuItemListener implements ActionListener {
 
 public class Gui {
 	private JMenuBar JMenuBar = new JMenuBar();
-	private JMenu JMenuOutils = new JMenu(Langage.TOOLS.toString());
 	private JMenu JMenuWhat = new JMenu("?");
 	private JProgressBar current = new JProgressBar(0, 100);
 	private Button play = new Button(Langage.LAUNCHBUTTON.toString());
@@ -58,14 +39,10 @@ public class Gui {
 	private double totalLength = 0.0D;
 	
 	public void EnableButton() {
-		this.play.EnableButton(Config.LauncherMinecraftJar, Config.LauncherLocation);
+		this.play.EnableButton();
 	}
 
 	public Gui(URL CssFile, String HtmlFile, String LauncherVersion, String LauncherCompileTime) {
-		JMenuBar.add(JMenuOutils);
-		JMenuItem debugItem = new JMenuItem(Langage.OPENDEBUGCONSOLEGUI.toString());
-		debugItem.addActionListener(new JMenuItemListener());
-		JMenuOutils.add(debugItem);
 		
 		JMenuBar.add(JMenuWhat);
 		JMenuItem aboutItem = new JMenuItem(Langage.OPENABOUTGUI.toString());
@@ -116,6 +93,26 @@ public class Gui {
 	    j.setJMenuBar(JMenuBar);
 	      
 	    j.setSize(new Dimension(800, 600));
+	
+	    j.setLocationRelativeTo(null);
+	    j.setVisible(true);
+	}
+	
+	public void About() {
+    	JTextArea aboutText = new JTextArea(new Config().GetInfos());
+        aboutText.setEditable(false);
+    	
+        JFrame j = new JFrame(Langage.ABOUTGUINAME.toString());
+
+		JPanel b1 = new JPanel();
+		b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
+		b1.add(aboutText);
+	
+	    j.setContentPane(b1);
+	
+	    j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	      
+	    j.setSize(new Dimension(700, 500));
 	
 	    j.setLocationRelativeTo(null);
 	    j.setVisible(true);

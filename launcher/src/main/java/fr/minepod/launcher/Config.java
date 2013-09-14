@@ -1,5 +1,11 @@
 package fr.minepod.launcher;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.jar.Attributes;
+import java.util.jar.JarInputStream;
+import java.util.jar.Manifest;
+
 public class Config {
 	 public static String LibrariesLatestVersionUrl = "http://assets.minepod.fr/launcher/libraries.php";
 	 public static String VersionsLatestVersionUrl = "http://assets.minepod.fr/launcher/versions.php";
@@ -14,6 +20,7 @@ public class Config {
 	 public static String LauncherVersion;
 	 public static String LauncherBuildTime;
 	 
+	 public static String LogFile;
 	 public static String AppDataPath;
 	 public static String LauncherDir;
 	 public static String Minecraft;
@@ -33,6 +40,8 @@ public class Config {
 	 public static String BootstrapVersion;
 	 public static String Language;
 	 public static Gui Gui;
+	 
+	 public static java.util.logging.Logger Logger = java.util.logging.Logger.getLogger(LauncherName);
 	 
 	 public void SetConfig() {
 			String OS = System.getProperty("os.name").toUpperCase();
@@ -68,6 +77,7 @@ public class Config {
 			Config.ProfilesPath = MinecraftAppData + Slash + "launcher_profiles.json";
 			Config.ProfilesVersionPath =  LauncherLocation + Slash + "profiles.txt";
 			Config.DebugFilePath = LauncherLocation + Slash + "debug.json";
+			Config.LogFile = LauncherLocation + Slash + "launcher_logs.txt";
 	 }
 	 
 	 public void SetBootstrapVersion(String Version) {
@@ -82,8 +92,28 @@ public class Config {
 		 Config.LauncherBuildTime = BuildTime;
 	 }
 	 
-	 public String getInfos() {
-		 String infos = "Salsepareille " + LauncherVersion + " " + Langage.WITHBOOTSTRAP.toString() + Config.BootstrapVersion + "\n";
+	 public void GetManifestInfos() {
+		    try {
+		        InputStream InputStream = Start.class.getProtectionDomain().getCodeSource().getLocation().openStream();
+		        JarInputStream JarInputStream = new JarInputStream(InputStream);
+		        Manifest Manifest = JarInputStream.getManifest();
+		        JarInputStream.close();
+		        InputStream.close();
+		        if(Manifest != null) {
+		            Attributes Attributes = Manifest.getMainAttributes();
+		            SetLauncherVersion(Attributes.getValue("Launcher-version"));
+		            SetLauncherBuildTime(Langage.COMPILEDON.toString() + Attributes.getValue("Build-time"));
+		        } else {
+		        	SetLauncherVersion(Langage.DEVELOPMENTVERSION.toString());
+		        	SetLauncherBuildTime("");
+		        }
+			} catch(IOException e) {
+				CrashReport.SendReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
+			}
+	 }
+	 
+	 public String GetInfos() {
+		 String infos = "Salsepareille " + Config.LauncherVersion + " " + Langage.WITHBOOTSTRAP.toString() + Config.BootstrapVersion + "\n";
 		 infos += Langage.COMPILEDON + Config.LauncherBuildTime + "\n";
 		 infos += "\n";
 		 infos += "DarkShimy - MinePod.fr";

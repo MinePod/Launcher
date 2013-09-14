@@ -73,7 +73,7 @@ public class ClassFile {
 			 ClassFile.Delete(new File(dirOutput + fileOutputName));
 			 ZipFile zipFile = new ZipFile(input);
 		     zipFile.extractAll(dirOutput);
-		     System.out.println(input + " unzipped to " + dirOutput);
+		     Config.Logger.info(input + " unzipped to " + dirOutput);
 		 } catch (ZipException e) {
 			 CrashReport.SendReport(e.toString(), "unzipping file " + input + " to " + dirOutput);
 		 }
@@ -93,7 +93,7 @@ public class ClassFile {
 				 zipFile.addFile(new File(input).getAbsoluteFile(), parameters);
 			 }
 				
-			 System.out.println(input + " zipped to " + output);
+			 Config.Logger.info(input + " zipped to " + output);
 		 } catch (ZipException e) {
 			 CrashReport.SendReport(e.toString(), "zipping folder " + input + " to " + output);
 		 }

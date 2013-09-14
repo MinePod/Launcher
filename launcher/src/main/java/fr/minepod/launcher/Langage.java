@@ -2,8 +2,6 @@ package fr.minepod.launcher;
 
 public enum Langage {
 	LAUNCHBUTTON("Jouer"),
-	OPENDEBUGCONSOLEGUI("Ouvrir la console de debug"),
-	DEBUGCONSOLEGUINAME("Console de debug"),
 	OPENABOUTGUI("A propos"),
 	ABOUTGUINAME("A propos"),
 	DEBUGINFORMATIONS("Informations de debug"),

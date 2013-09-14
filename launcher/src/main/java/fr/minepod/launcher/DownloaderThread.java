@@ -23,7 +23,7 @@ public class DownloaderThread extends Thread{
 	 
 	 public void run() {
 		 try {
-			 System.out.println("Running new thread for downloading " + folderName);
+			 Config.Logger.info("Running new thread for downloading " + folderName);
 			 
 			 Downloader.DownloadFiles(new URL(Config.GetMd5FileUrl + this.url), md5Location, true);
 			 ClassFile.Zip(folderLocation + folderName, zipLocation);
@@ -31,11 +31,11 @@ public class DownloaderThread extends Thread{
 			 String expectedMd5 = ClassFile.ReadFile(md5Location);
 			 String currentMd5 = ClassFile.md5(new File(zipLocation));
 			 
-			 System.out.println("Expected md5: " + expectedMd5);
-			 System.out.println("Current md5: " + currentMd5);
+			 Config.Logger.info("Expected md5: " + expectedMd5);
+			 Config.Logger.info("Current md5: " + currentMd5);
 			 
 			 if(!expectedMd5.equals(currentMd5)) {
-				 System.out.println("Detecting modified " + folderName + " files, deleting...");
+				 Config.Logger.info("Detecting modified " + folderName + " files, deleting...");
 				 Downloader.DownloadFiles(new URL(url), zipLocation, true);
 				 ClassFile.UnZip(zipLocation, folderLocation, folderName);
 			 }

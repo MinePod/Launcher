@@ -2,11 +2,7 @@ package fr.minepod.launcher;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.util.jar.Attributes;
-import java.util.jar.JarInputStream;
-import java.util.jar.Manifest;
 
 public class Start {
 	private static Profile Profile = new Profile();
@@ -18,26 +14,10 @@ public class Start {
 		else
 			new Config().SetBootstrapVersion("unknown");
 		
-	    try {
-	        InputStream InputStream = Start.class.getProtectionDomain().getCodeSource().getLocation().openStream();
-	        JarInputStream JarInputStream = new JarInputStream(InputStream);
-	        Manifest Manifest = JarInputStream.getManifest();
-	        JarInputStream.close();
-	        InputStream.close();
-	        if(Manifest != null) {
-	            Attributes Attributes = Manifest.getMainAttributes();
-	            new Config().SetLauncherVersion(Attributes.getValue("Launcher-version"));
-	            new Config().SetLauncherBuildTime(Langage.COMPILEDON.toString() + Attributes.getValue("Build-time"));
-	        } else {
-	        	new Config().SetLauncherVersion(Langage.DEVELOPMENTVERSION.toString());
-	        	new Config().SetLauncherBuildTime("");
-	        }
-		} catch(IOException e) {
-			CrashReport.SendReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
-		}
 		
 		new Config().SetConfig();
 		new Debug().SetDebug();
+		new Logger().SetLogger(Config.LogFile);
 		
 		DownloadRequiredFiles();
 	}
@@ -90,13 +70,13 @@ public class Start {
 					 if(ClassFile.ReadFile(Config.ProfilesVersionPath).contains(Config.ProfilesVersion)) {
 						 Profile.Set(Config.LauncherName, Config.ProfilesPath, Config.LauncherLocation);
 					 } else {
-						 System.out.println("Current version: " + ClassFile.ReadFile(Config.ProfilesVersionPath));
-						 System.out.println("New profile version found: " + Config.ProfilesVersion);
+						 Config.Logger.info("Current version: " + ClassFile.ReadFile(Config.ProfilesVersionPath));
+						 Config.Logger.info("New profile version found: " + Config.ProfilesVersion);
 						 Profile.Update(Config.LauncherName, Config.ProfilesPath, Config.LauncherLocation);
 						 ClassFile.WriteFile(Config.ProfilesVersionPath, Config.ProfilesVersion);
 					 }
 				 } else {
-					 System.out.println("Profile version do not exists, creating new one");
+					 Config.Logger.warning("Profile version does not exist, creating new one");
 					 Profile.Set(Config.LauncherName, Config.ProfilesPath, Config.LauncherLocation);
 					 ClassFile.WriteFile(Config.ProfilesVersionPath, Config.ProfilesVersion);
 				 }
@@ -112,11 +92,11 @@ public class Start {
 					 Thread.sleep(500);
 				 }
 				 
-				 System.out.println("Ready!");
+				 Config.Logger.info("Ready!");
 				 Config.Gui.EnableButton();
 
 			 } else {
-				 System.out.println("Profile do not exists");
+				 Config.Logger.severe("Profile do not exists");
 			     javax.swing.JOptionPane.showMessageDialog(null, "Lancez le jeu via le launcher Mojang, fermez-le et relancez le launcher " + Config.LauncherName, "Attention", javax.swing.JOptionPane.WARNING_MESSAGE);
 			     System.exit(0);
 			 }
@@ -129,10 +109,9 @@ public class Start {
 		 
 	 }
 	 
-	 public static void LaunchGame(String ParLauncherMinecraftJar, String ParLauncherLocation) {
-		 System.out.println(ParLauncherMinecraftJar);
+	 public static void LaunchGame() {
 		 try {
-			 new LauchMinecraft(ParLauncherMinecraftJar);
+			 new LauchMinecraft(Config.LauncherMinecraftJar);
 			 System.exit(0);
 		 } catch (Exception e) {
 			 CrashReport.SendReport(e.toString(), "launching game");

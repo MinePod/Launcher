@@ -17,7 +17,7 @@ public class Downloader {
 	 private Gui Gui = Config.Gui;
  
 	 public void DownloadFiles(URL website, String path, boolean isGui) {
-		 System.out.println("\nStarting " + website + " to " + path);
+		 Config.Logger.info("Starting " + website + " to " + path);
 		 new File(path).delete();
 		 try {
 		     fos = new FileOutputStream(path);
@@ -30,7 +30,7 @@ public class Downloader {
 	         if(isGui)
 	        	 Gui.Max(fileLength);
 		      
-		     System.out.println("Downloading...");
+		     Config.Logger.info("Downloading...");
 		     while ((bytesRead = rbc.read(buffer)) > 0) {
 		         fos.write(buffer, 0, bytesRead);
 		         buffer = new byte[153600];
@@ -38,8 +38,6 @@ public class Downloader {
 		         if(isGui)
 		        	 Gui.Add(bytesRead);
 		     }
-		      
-		     System.out.println();
 
 		 } catch (MalformedURLException e) {
 			 CrashReport.SendReport(e.toString(), "downloading file");
@@ -47,6 +45,6 @@ public class Downloader {
 			 CrashReport.SendReport(e.toString(), "downloading file");
 		 }
 
-		 System.out.println("Downloading complete!");
+		 Config.Logger.info("Downloading complete!");
 	 }
 }
