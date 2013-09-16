@@ -36,15 +36,13 @@ public class DownloaderThread extends Thread{
 				 
 				 if(!expectedMd5.equals(currentMd5)) {
 					 Config.Logger.warning("Detecting modified " + folderName + " files, deleting...");
-					 Downloader.DownloadFiles(new URL(url), zipLocation, true);
-					 ClassFile.UnZip(zipLocation, folderLocation, folderName);
 				 }
 			 } else {
 				 Config.Logger.warning("No zip found for " + folderName + ", downloading...");
-				 Downloader.DownloadFiles(new URL(url), zipLocation, true);
-				 ClassFile.UnZip(zipLocation, folderLocation, folderName);	 
 			 }
 			 
+			 Downloader.DownloadFiles(new URL(url), zipLocation, true);
+			 ClassFile.UnZip(zipLocation, folderLocation, folderName);
 		 } catch (MalformedURLException e) {
 			 e.printStackTrace();
 		 } catch (IOException e) {
