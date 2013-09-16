@@ -41,7 +41,7 @@ public class Config {
 	 public static String Language;
 	 public static Gui Gui;
 	 
-	 public static java.util.logging.Logger Logger = java.util.logging.Logger.getLogger(LauncherName);
+	 public static java.util.logging.Logger Logger;
 	 
 	 public void SetConfig() {
 			String OS = System.getProperty("os.name").toUpperCase();
@@ -79,23 +79,9 @@ public class Config {
 			Config.DebugFilePath = LauncherLocation + Slash + "debug.json";
 			Config.LogFile = LauncherLocation + Slash + "launcher_logs.txt";
 			
-			GetManifestInfos();
-	 }
-	 
-	 public void SetBootstrapVersion(String Version) {
-		 Config.BootstrapVersion = Version;
-	 }
-	 
-	 public void SetLauncherVersion(String Version) {
-		 Config.LauncherVersion = Version;
-	 }
-	 
-	 public void SetLauncherBuildTime(String BuildTime) {
-		 Config.LauncherBuildTime = BuildTime;
-	 }
-	 
-	 public void GetManifestInfos() {
 		    try {
+		    	Logger = new Logger().SetLogger(Config.LogFile);
+		    	
 		        InputStream InputStream = Start.class.getProtectionDomain().getCodeSource().getLocation().openStream();
 		        JarInputStream JarInputStream = new JarInputStream(InputStream);
 		        Manifest Manifest = JarInputStream.getManifest();
@@ -112,6 +98,18 @@ public class Config {
 			} catch(IOException e) {
 				CrashReport.SendReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
 			}
+	 }
+	 
+	 public void SetBootstrapVersion(String Version) {
+		 Config.BootstrapVersion = Version;
+	 }
+	 
+	 public void SetLauncherVersion(String Version) {
+		 Config.LauncherVersion = Version;
+	 }
+	 
+	 public void SetLauncherBuildTime(String BuildTime) {
+		 Config.LauncherBuildTime = BuildTime;
 	 }
 	 
 	 public String GetInfos() {

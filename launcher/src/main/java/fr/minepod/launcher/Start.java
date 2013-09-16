@@ -16,7 +16,6 @@ public class Start {
 		
 		new Config().SetConfig();
 		new Debug().SetDebug();
-		new Logger().SetLogger(Config.LogFile);
 		
 		DownloadRequiredFiles();
 	}
