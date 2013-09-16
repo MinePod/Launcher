@@ -26,18 +26,23 @@ public class DownloaderThread extends Thread{
 			 Config.Logger.info("Running new thread for downloading " + folderName);
 			 
 			 Downloader.DownloadFiles(new URL(Config.GetMd5FileUrl + this.url), md5Location, true);
-			 ClassFile.Zip(folderLocation + folderName, zipLocation);
 			 
-			 String expectedMd5 = ClassFile.ReadFile(md5Location);
-			 String currentMd5 = ClassFile.md5(new File(zipLocation));
-			 
-			 Config.Logger.info("Expected md5: " + expectedMd5);
-			 Config.Logger.info("Current md5: " + currentMd5);
-			 
-			 if(!expectedMd5.equals(currentMd5)) {
-				 Config.Logger.info("Detecting modified " + folderName + " files, deleting...");
+			 if(new File(zipLocation).exists()) {
+				 String expectedMd5 = ClassFile.ReadFile(md5Location);
+				 String currentMd5 = ClassFile.md5(new File(zipLocation));
+				 
+				 Config.Logger.info("Expected md5: " + expectedMd5);
+				 Config.Logger.info("Current md5: " + currentMd5);
+				 
+				 if(!expectedMd5.equals(currentMd5)) {
+					 Config.Logger.warning("Detecting modified " + folderName + " files, deleting...");
+					 Downloader.DownloadFiles(new URL(url), zipLocation, true);
+					 ClassFile.UnZip(zipLocation, folderLocation, folderName);
+				 }
+			 } else {
+				 Config.Logger.warning("No zip found for " + folderName + ", downloading...");
 				 Downloader.DownloadFiles(new URL(url), zipLocation, true);
-				 ClassFile.UnZip(zipLocation, folderLocation, folderName);
+				 ClassFile.UnZip(zipLocation, folderLocation, folderName);	 
 			 }
 			 
 		 } catch (MalformedURLException e) {
