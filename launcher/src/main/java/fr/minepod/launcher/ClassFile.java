@@ -99,7 +99,8 @@ public class ClassFile {
 		 }
 	 }
 	 
-	  public static String md5(File f) {
+	  public static String md5(String path) {
+		  File f = new File(path);
 	      if ((f.exists()) && (f.length() > 0L)) {
 	    	  try {
 	    		  MessageDigest md = MessageDigest.getInstance("MD5");
@@ -120,6 +121,6 @@ public class ClassFile {
 	    		  e.printStackTrace();
 	    	  }
 	      }
-		return null;
+	      return null;
 	  }
 }

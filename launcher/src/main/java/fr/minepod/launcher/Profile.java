@@ -15,8 +15,7 @@ public class Profile {
 		if(!Profile.contains(LauncherName)) {
 			Config.Logger.info("Adding profile...");
 			JSONParser parser = new JSONParser();	 
-			Object obj = parser.parse(new FileReader(ProfilesPath));
-			JSONObject jsonObject = (JSONObject) obj;	 
+			JSONObject jsonObject = (JSONObject) parser.parse(new FileReader(ProfilesPath)); 
 			String selectedProfile = (String) jsonObject.get("selectedProfile");
 			JSONObject profiles = (JSONObject) jsonObject.get("profiles");
 			JSONObject currentProfile = (JSONObject) profiles.get(selectedProfile);

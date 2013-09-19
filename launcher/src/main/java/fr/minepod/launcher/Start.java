@@ -43,23 +43,17 @@ public class Start {
 			
 			 Config.Gui = new Gui(new URL("file:///" + Config.LauncherNewsCss), ClassFile.ReadFile(Config.LauncherNewsHtml), Config.LauncherVersion, Config.LauncherBuildTime);
 			 
-		     DownloaderThread DT1 = new DownloaderThread(Config.LibrariesLatestVersionUrl, Config.LauncherLocation + Config.Slash + "Libraries.md5", Config.MinecraftAppData + Config.Slash, "libraries", Config.LauncherZippedLibraries);
+		     DownloaderThread DT1 = new DownloaderThread(Config.LibrariesLatestVersionUrl, Config.LauncherLocation + Config.Slash + "Libraries.md5", Config.MinecraftAppData + Config.Slash, "libraries", Config.LauncherZippedLibraries, ClassFile.md5(Config.LauncherZippedLibraries));
 		     DT1.start();
 		     
-		     DownloaderThread DT2 = new DownloaderThread(Config.VersionsLatestVersionUrl, Config.LauncherLocation + Config.Slash + "Versions.md5", Config.MinecraftAppData + Config.Slash + "versions" + Config.Slash, Config.LauncherName, Config.LauncherZippedVersions);
+		     DownloaderThread DT2 = new DownloaderThread(Config.VersionsLatestVersionUrl, Config.LauncherLocation + Config.Slash + "Versions.md5", Config.MinecraftAppData + Config.Slash + "versions" + Config.Slash, Config.LauncherName, Config.LauncherZippedVersions, ClassFile.md5(Config.LauncherZippedVersions));
 		     DT2.start();
 		     
-		     DownloaderThread DT3 = new DownloaderThread(Config.ModsLatestVersionUrl, Config.LauncherLocation + Config.Slash + "Mods.md5", Config.LauncherLocation + Config.Slash, "mods", Config.LauncherZippedMods);
+		     DownloaderThread DT3 = new DownloaderThread(Config.ModsLatestVersionUrl, Config.LauncherLocation + Config.Slash + "Mods.md5", Config.LauncherLocation + Config.Slash, "mods", Config.LauncherZippedMods, ClassFile.md5(Config.LauncherZippedMods));
 		     DT3.start();
 		     
-		 	 /**
-		 	  * Temporary fix
-		 	  */
-		     //DownloaderThread DT4 = new DownloaderThread(Config.ResourcepacksLatestVersionUrl, Config.LauncherLocation + Config.Slash + "Resourcepacks.md5", Config.LauncherLocation + Config.Slash, "resourcepacks", Config.LauncherZippedResourcepacks);
-		     //DT4.start();
-		     /**
-		      * TODO: Check correctly md5 for resourcepacks
-		      */
+		     DownloaderThread DT4 = new DownloaderThread(Config.ResourcepacksLatestVersionUrl, Config.LauncherLocation + Config.Slash + "Resourcepacks.md5", Config.LauncherLocation + Config.Slash, "resourcepacks", Config.LauncherZippedResourcepacks, ClassFile.md5(Config.LauncherZippedResourcepacks));
+		     DT4.start();
 		     
 			 Downloader.DownloadFiles(new URL(Config.MinecraftLatestVersionUrl), Config.LauncherMinecraftJar, false);
 			
@@ -79,14 +73,7 @@ public class Start {
 					 ClassFile.WriteFile(Config.ProfilesVersionPath, Config.ProfilesVersion);
 				 }
 				
-			 	 /**
-			 	  * Temporary fix
-			 	  */
-			     //while(DT1.isAlive() || DT2.isAlive() || DT3.isAlive() || DT4.isAlive()) {
-				 while(DT1.isAlive() || DT2.isAlive() || DT3.isAlive()) {
-			     /**
-			      * TODO: Check correctly md5 for resourcepacks
-			      */
+			     while(DT1.isAlive() || DT2.isAlive() || DT3.isAlive() || DT4.isAlive()) {
 					 Thread.sleep(500);
 				 }
 				 
