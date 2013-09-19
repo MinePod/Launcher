@@ -77,6 +77,7 @@ public class Start {
 					 Thread.sleep(500);
 				 }
 				 
+			     Config.Gui.Finish();
 				 Config.Logger.info("Ready!");
 				 Config.Gui.EnableButton();
 

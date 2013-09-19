@@ -122,13 +122,17 @@ public class Gui {
 		this.current.setValue(UpdateNumber);
 	}
 	
-	public void Max(Double fileLength) {
+	public void SetMax(Double fileLength) {
 		this.totalLength += fileLength;
 	}
 	
 	public void Add(int bytesRead) {
 		this.totalBytesRead += bytesRead;
 		Update(((int) Math.round(totalBytesRead / totalLength * 100.0D)));
+	}
+	
+	public void Finish() {
+		Update(100);
 	}
 
 }

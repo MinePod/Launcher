@@ -14,8 +14,7 @@ public class Downloader {
 	 private double fileLength = 0.0D;
 	 private int bytesRead;
 	 private FileOutputStream fos;
-	 private Gui Gui = Config.Gui;
- 
+
 	 public void DownloadFiles(URL website, String path, boolean isGui) {
 		 Config.Logger.info("Starting " + website + " to " + path);
 		 new File(path).delete();
@@ -28,7 +27,7 @@ public class Downloader {
 		     bytesRead = 0;
 		     
 	         if(isGui)
-	        	 Gui.Max(fileLength);
+	        	 Config.Gui.SetMax(fileLength);
 		      
 		     Config.Logger.info("Downloading...");
 		     while ((bytesRead = rbc.read(buffer)) > 0) {
@@ -36,7 +35,7 @@ public class Downloader {
 		         buffer = new byte[153600];
 		        
 		         if(isGui)
-		        	 Gui.Add(bytesRead);
+		        	 Config.Gui.Add(bytesRead);
 		     }
 
 		 } catch (MalformedURLException e) {
