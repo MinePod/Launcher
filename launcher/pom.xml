@@ -4,7 +4,7 @@
 
     <groupId>fr.minepod</groupId>
     <artifactId>launcher</artifactId>
-    <version>1.5.4</version>
+    <version>1.5.5</version>
     
     <properties>
   	  <timestamp>${maven.build.timestamp}</timestamp>
