@@ -2,8 +2,6 @@ package fr.minepod.launcher;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.URL;
 
 import javax.swing.BoxLayout;
@@ -12,27 +10,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JTextArea;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 
-class JMenuItemListener implements ActionListener {
-
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		if(event.getActionCommand().toString().equalsIgnoreCase(Langage.OPENABOUTGUI.toString())) {
-			Config.Gui.About();
-		}
-	}
-
-}
 
 public class Gui {
-	private JMenuBar JMenuBar = new JMenuBar();
-	private JMenu JMenuWhat = new JMenu("?");
 	private JProgressBar current = new JProgressBar(0, 100);
 	private Button play = new Button(Langage.LAUNCHBUTTON.toString());
 	private double totalBytesRead = 0.0D;
@@ -43,12 +25,6 @@ public class Gui {
 	}
 
 	public Gui(URL CssFile, String HtmlFile, String LauncherVersion, String LauncherCompileTime) {
-		
-		JMenuBar.add(JMenuWhat);
-		JMenuItem aboutItem = new JMenuItem(Langage.OPENABOUTGUI.toString());
-		aboutItem.addActionListener(new JMenuItemListener());
-		JMenuWhat.add(aboutItem);
-		
 		
 		JEditorPane jEditorPane = new JEditorPane();
 		jEditorPane.setEditable(false);
@@ -89,30 +65,8 @@ public class Gui {
 	    j.setContentPane(b3);
 	
 	    j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    
-	    j.setJMenuBar(JMenuBar);
 	      
 	    j.setSize(new Dimension(800, 600));
-	
-	    j.setLocationRelativeTo(null);
-	    j.setVisible(true);
-	}
-	
-	public void About() {
-    	JTextArea aboutText = new JTextArea(new Config().GetInfos());
-        aboutText.setEditable(false);
-    	
-        JFrame j = new JFrame(Langage.ABOUTGUINAME.toString());
-
-		JPanel b1 = new JPanel();
-		b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
-		b1.add(aboutText);
-	
-	    j.setContentPane(b1);
-	
-	    j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	      
-	    j.setSize(new Dimension(700, 500));
 	
 	    j.setLocationRelativeTo(null);
 	    j.setVisible(true);

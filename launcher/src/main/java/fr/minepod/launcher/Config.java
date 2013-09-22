@@ -111,12 +111,4 @@ public class Config {
 	 public void SetLauncherBuildTime(String BuildTime) {
 		 Config.LauncherBuildTime = BuildTime;
 	 }
-	 
-	 public String GetInfos() {
-		 String infos = "Salsepareille " + Config.LauncherVersion + " " + Langage.WITHBOOTSTRAP.toString() + Config.BootstrapVersion + "\n";
-		 infos += Langage.COMPILEDON + Config.LauncherBuildTime + "\n";
-		 infos += "\n";
-		 infos += "DarkShimy - MinePod.fr";
-		 return infos;
-	 }
 }
