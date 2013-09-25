@@ -15,8 +15,7 @@ public class CrashReport {
 			javax.swing.JOptionPane.showMessageDialog(null, e.toString(),  Langage.ERROR.toString(), javax.swing.JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
 			Config.Logger.severe(e.toString());
-			String Message = Langage.ERROR.toString();
-			javax.swing.JOptionPane.showMessageDialog(null, e.toString(),  Message, javax.swing.JOptionPane.ERROR_MESSAGE);
+			javax.swing.JOptionPane.showMessageDialog(null, e.toString(),  Langage.ERROR.toString(), javax.swing.JOptionPane.ERROR_MESSAGE);
 		}
         System.exit(0);
 	}

@@ -4,15 +4,22 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import com.alee.laf.WebLookAndFeel;
+
 public class Start {
 	private static Profile Profile = new Profile();
 	private static Downloader Downloader = new Downloader();
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, UnsupportedLookAndFeelException {
 		if(args.length != 0)
 			new Config().SetBootstrapVersion(args[0]);
 		else
 			new Config().SetBootstrapVersion("unknown");
+		
+        UIManager.setLookAndFeel(new WebLookAndFeel());
 		
 		new Config().SetConfig();
 		new Debug().SetDebug();
@@ -86,7 +93,7 @@ public class Start {
 			     javax.swing.JOptionPane.showMessageDialog(null, "Lancez le jeu via le launcher Mojang, fermez-le et relancez le launcher " + Config.LauncherName, "Attention", javax.swing.JOptionPane.WARNING_MESSAGE);
 			     System.exit(0);
 			 }
-
+			 
 		 } catch (IOException e) {	 
 			CrashReport.SendReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
 		 } catch (Exception e) {
