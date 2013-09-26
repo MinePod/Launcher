@@ -31,12 +31,11 @@ public class DownloaderThread extends Thread{
 			 
 			 if(new File(zipLocation).exists()) {
 				 String expectedMd5 = ClassFile.ReadFile(md5Location);
-				 String currentMd5 = zipMd5;
 				 
 				 Config.Logger.info("Expected md5: " + expectedMd5);
-				 Config.Logger.info("Current md5: " + currentMd5 + " for " + zipLocation);
+				 Config.Logger.info("Current md5: " + zipMd5 + " for " + zipLocation);
 				 
-				 if(!expectedMd5.equals(currentMd5)) {
+				 if(!expectedMd5.equals(zipMd5)) {
 					 Config.Logger.warning("Detecting modified " + folderName + " files, deleting...");
 					 Downloader.DownloadFiles(new URL(url), zipLocation, true);
 				 }
@@ -46,6 +45,7 @@ public class DownloaderThread extends Thread{
 				 Downloader.DownloadFiles(new URL(url), zipLocation, true);
 			 }
 			 
+			 Config.Gui.SetLoading();
 			 ClassFile.UnZip(zipLocation, folderLocation, folderName);
 		 } catch (MalformedURLException e) {
 			 e.printStackTrace();

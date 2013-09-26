@@ -73,6 +73,7 @@ public class Gui {
 	}
 
 	public void Update(int UpdateNumber) {
+		this.current.setIndeterminate(false);
 		this.current.setValue(UpdateNumber);
 	}
 	
@@ -83,6 +84,10 @@ public class Gui {
 	public void Add(int bytesRead) {
 		this.totalBytesRead += bytesRead;
 		Update(((int) Math.round(totalBytesRead / totalLength * 100.0D)));
+	}
+	
+	public void SetLoading() {
+		this.current.setIndeterminate(true);
 	}
 	
 	public void Finish() {
