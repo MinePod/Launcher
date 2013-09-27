@@ -48,9 +48,9 @@ public class DownloaderThread extends Thread{
 			 Config.Gui.SetLoading();
 			 ClassFile.UnZip(zipLocation, folderLocation, folderName);
 		 } catch (MalformedURLException e) {
-			 e.printStackTrace();
+			CrashReport.SendReport(e.toString(), "downloading file");
 		 } catch (IOException e) {
-			e.printStackTrace();
+			CrashReport.SendReport(e.toString(), "downloading file");
 		}
 	 }
 }

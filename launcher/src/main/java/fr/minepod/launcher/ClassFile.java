@@ -99,28 +99,28 @@ public class ClassFile {
 		 }
 	 }
 	 
-	  public static String md5(String path) {
-		  File f = new File(path);
-	      if ((f.exists()) && (f.length() > 0L)) {
-	    	  try {
-	    		  MessageDigest md = MessageDigest.getInstance("MD5");
-	    		  fis = new FileInputStream(f);
-	    		  byte[] dataBytes = new byte[1024];
-	    		  int nread = 0;
+	 public static String md5(String path) {
+		 File f = new File(path);
+	     if ((f.exists()) && (f.length() > 0L)) {
+	    	 try {
+	    		MessageDigest md = MessageDigest.getInstance("MD5");
+	    		fis = new FileInputStream(f);
+	    		byte[] dataBytes = new byte[1024];
+	    		int nread = 0;
 
-	    		  while ((nread = fis.read(dataBytes)) != -1) {
-	    			  md.update(dataBytes, 0, nread);
-	    		  }
+	    		while ((nread = fis.read(dataBytes)) != -1) {
+	    			md.update(dataBytes, 0, nread);
+	    		}
 
-	    		  byte[] mdbytes = md.digest();
+    		    byte[] mdbytes = md.digest();
 	        
-	    		  return new String(Hex.encode(mdbytes));
-	    	  } catch (NoSuchAlgorithmException e) {
-	    		  e.printStackTrace();
-	    	  } catch (IOException e) {
-	    		  e.printStackTrace();
-	    	  }
-	      }
-	      return null;
+    		    return new String(Hex.encode(mdbytes));
+	    	} catch (NoSuchAlgorithmException e) {
+	    		e.printStackTrace();
+	    	} catch (IOException e) {
+	    		e.printStackTrace();
+	    	}
+	     }
+	     return null;
 	  }
 }
