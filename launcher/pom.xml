@@ -38,11 +38,6 @@
         	<artifactId>jsonpretty</artifactId>
         	<version>1.0.0</version>
         </dependency>
-        <dependency>
-        	<groupId>com.alee.weblaf</groupId>
-        	<artifactId>weblaf</artifactId>
-        	<version>1.21</version>
-        </dependency>
     </dependencies>
     
     <build>

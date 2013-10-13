@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
-import com.alee.laf.WebLookAndFeel;
 
 public class Start {
 	private static Profile Profile = new Profile();
@@ -18,8 +15,6 @@ public class Start {
 			new Config().SetBootstrapVersion(args[0]);
 		else
 			new Config().SetBootstrapVersion("unknown");
-		
-        UIManager.setLookAndFeel(new WebLookAndFeel());
 		
 		new Config().SetConfig();
 		new Debug().SetDebug();

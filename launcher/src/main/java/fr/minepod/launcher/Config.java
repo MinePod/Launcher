@@ -44,60 +44,60 @@ public class Config {
 	 public static java.util.logging.Logger Logger;
 	 
 	 public void SetConfig() {
-			String OS = System.getProperty("os.name").toUpperCase();
-			if(OS.contains("WIN")) {
-				Config.AppDataPath = System.getenv("APPDATA");
-				Config.LauncherDir = "\\." + LauncherName;
-				Config.Minecraft = "\\.minecraft";
-			} else if(OS.contains("MAC")) {
-				Config.AppDataPath = System.getProperty("user.home") + "/Library/Application Support";
-				Config.LauncherDir = "/" + LauncherName;
-				Config.Minecraft = "/minecraft";
-			} else if(OS.contains("NUX")) {
-				Config.AppDataPath = System.getProperty("user.home");
-				Config.LauncherDir = "/." + LauncherName;
-				Config.Minecraft = "/.minecraft";
-			} else {
-				Config.AppDataPath =  System.getProperty("user.dir");
-				Config.LauncherDir = "/." + LauncherName;
-				Config.Minecraft = "/.minecraft";
-			}
-			
-			Config.Slash = System.getProperty("file.separator");
-			
-			Config.LauncherLocation = AppDataPath + LauncherDir;
-			Config.MinecraftAppData = AppDataPath + Minecraft;
-			Config.LauncherZippedLibraries = LauncherLocation + Slash + "Libraries.zip";
-			Config.LauncherZippedVersions = LauncherLocation + Slash + "Versions.zip";
-			Config.LauncherZippedMods = LauncherLocation + Slash + "Mods.zip";
-			Config.LauncherZippedResourcepacks = LauncherLocation + Slash + "Resourcespacks.zip";
-			Config.LauncherMinecraftJar = LauncherLocation + Slash + "Minecraft.jar";
-			Config.LauncherNewsHtml = LauncherLocation + Slash + "news.html";
-			Config.LauncherNewsCss = LauncherLocation + Slash + "news.css";
-			Config.ProfilesPath = MinecraftAppData + Slash + "launcher_profiles.json";
-			Config.ProfilesVersionPath =  LauncherLocation + Slash + "profiles.txt";
-			Config.DebugFilePath = LauncherLocation + Slash + "debug.json";
-			Config.LogFile = LauncherLocation + Slash + "launcher_logs.txt";
-			
-		    try {
-		    	Logger = new Logger().SetLogger(Config.LogFile);
-		    	
-		        InputStream InputStream = Start.class.getProtectionDomain().getCodeSource().getLocation().openStream();
-		        JarInputStream JarInputStream = new JarInputStream(InputStream);
-		        Manifest Manifest = JarInputStream.getManifest();
-		        JarInputStream.close();
-		        InputStream.close();
-		        if(Manifest != null) {
-		            Attributes Attributes = Manifest.getMainAttributes();
-		            SetLauncherVersion(Attributes.getValue("Launcher-version"));
-		            SetLauncherBuildTime(Langage.COMPILEDON.toString() + Attributes.getValue("Build-time"));
-		        } else {
-		        	SetLauncherVersion(Langage.DEVELOPMENTVERSION.toString());
-		        	SetLauncherBuildTime("");
-		        }
-			} catch(IOException e) {
-				CrashReport.SendReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
-			}
+		String OS = System.getProperty("os.name").toUpperCase();
+		if(OS.contains("WIN")) {
+			Config.AppDataPath = System.getenv("APPDATA");
+			Config.LauncherDir = "\\." + LauncherName;
+			Config.Minecraft = "\\.minecraft";
+		} else if(OS.contains("MAC")) {
+			Config.AppDataPath = System.getProperty("user.home") + "/Library/Application Support";
+			Config.LauncherDir = "/" + LauncherName;
+			Config.Minecraft = "/minecraft";
+		} else if(OS.contains("NUX")) {
+			Config.AppDataPath = System.getProperty("user.home");
+			Config.LauncherDir = "/." + LauncherName;
+			Config.Minecraft = "/.minecraft";
+		} else {
+			Config.AppDataPath =  System.getProperty("user.dir");
+			Config.LauncherDir = "/." + LauncherName;
+			Config.Minecraft = "/.minecraft";
+		}
+		
+		Config.Slash = System.getProperty("file.separator");
+		Config.LauncherLocation = AppDataPath + LauncherDir;
+		Config.MinecraftAppData = AppDataPath + Minecraft;
+		Config.LauncherZippedLibraries = LauncherLocation + Slash + "Libraries.zip";
+		Config.LauncherZippedVersions = LauncherLocation + Slash + "Versions.zip";
+		Config.LauncherZippedMods = LauncherLocation + Slash + "Mods.zip";
+		Config.LauncherZippedResourcepacks = LauncherLocation + Slash + "Resourcespacks.zip";
+		Config.LauncherMinecraftJar = LauncherLocation + Slash + "Minecraft.jar";
+		Config.LauncherNewsHtml = LauncherLocation + Slash + "news.html";
+		Config.LauncherNewsCss = LauncherLocation + Slash + "news.css";
+		Config.ProfilesPath = MinecraftAppData + Slash + "launcher_profiles.json";
+		Config.ProfilesVersionPath =  LauncherLocation + Slash + "profiles.txt";
+		Config.DebugFilePath = LauncherLocation + Slash + "debug.json";
+		Config.LogFile = LauncherLocation + Slash + "launcher_logs.txt";
+		
+	    try {
+	    	Logger = new Logger().SetLogger(Config.LogFile);
+	    	
+	        InputStream InputStream = Start.class.getProtectionDomain().getCodeSource().getLocation().openStream();
+	        JarInputStream JarInputStream = new JarInputStream(InputStream);
+	        Manifest Manifest = JarInputStream.getManifest();
+	        JarInputStream.close();
+	        InputStream.close();
+	        
+	        if(Manifest != null) {
+	            Attributes Attributes = Manifest.getMainAttributes();
+	            SetLauncherVersion(Attributes.getValue("Launcher-version"));
+	            SetLauncherBuildTime(Langage.COMPILEDON.toString() + Attributes.getValue("Build-time"));
+	        } else {
+	        	SetLauncherVersion(Langage.DEVELOPMENTVERSION.toString());
+	        	SetLauncherBuildTime("");
+	        }
+		} catch(IOException e) {
+			CrashReport.SendReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
+		}
 	 }
 	 
 	 public void SetBootstrapVersion(String Version) {

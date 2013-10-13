@@ -25,7 +25,6 @@ public class Gui {
 	}
 
 	public Gui(URL CssFile, String HtmlFile, String LauncherVersion, String LauncherCompileTime) {
-		
 		JEditorPane jEditorPane = new JEditorPane();
 		jEditorPane.setEditable(false);
 
@@ -63,11 +62,9 @@ public class Gui {
 	    b3.add(b2);
 	
 	    j.setContentPane(b3);
-	
+
 	    j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	      
 	    j.setSize(new Dimension(800, 600));
-	
 	    j.setLocationRelativeTo(null);
 	    j.setVisible(true);
 	}
