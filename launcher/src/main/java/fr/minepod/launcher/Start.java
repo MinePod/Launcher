@@ -4,13 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import javax.swing.UnsupportedLookAndFeelException;
-
 public class Start {
 	private static Profile Profile = new Profile();
 	private static Downloader Downloader = new Downloader();
 	
-	public static void main(String[] args) throws IOException, UnsupportedLookAndFeelException {
+	public static void main(String[] args) throws IOException {
 		if(args.length != 0)
 			new Config().SetBootstrapVersion(args[0]);
 		else
