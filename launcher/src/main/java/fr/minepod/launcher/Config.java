@@ -79,7 +79,7 @@ public class Config {
 		Config.LogFile = LauncherLocation + Slash + "launcher_logs.txt";
 		
 	    try {
-	    	Logger = new Logger().SetLogger(Config.LogFile);
+	    	Logger = new fr.minepod.Utils.Logger().SetLogger(Config.LogFile);
 	    	
 	        InputStream InputStream = Start.class.getProtectionDomain().getCodeSource().getLocation().openStream();
 	        JarInputStream JarInputStream = new JarInputStream(InputStream);

@@ -33,7 +33,7 @@ public class Debug {
 		obj.put("Time", new Date().toString());
 			
 		try {
-			ClassFile.WriteFile(Config.DebugFilePath, JSONPrettyPrint.toJSONString(obj));
+			fr.minepod.Utils.Files.WriteFile(Config.DebugFilePath, JSONPrettyPrint.toJSONString(obj));
 		} catch (IOException e) {
 			CrashReport.SendReport(e.toString(), "setting debug informations");
 		}

@@ -11,7 +11,7 @@ import org.json.simple.parser.ParseException;
 public class Profile {
 	public void Set(String LauncherName, String ProfilesPath, String LauncherLocation) throws IOException, ParseException {
 		Config.Logger.info("Detecting profile...");
-		String Profile = ClassFile.ReadFile(ProfilesPath);
+		String Profile = fr.minepod.Utils.Files.ReadFile(ProfilesPath);
 		if(!Profile.contains(LauncherName)) {
 			Config.Logger.info("Adding profile...");
 			JSONParser parser = new JSONParser();	 
@@ -25,11 +25,11 @@ public class Profile {
 			Profile = Profile.replace("\"selectedProfile\": \"" + selectedProfile + "\",", "\"selectedProfile\": \"" + LauncherName + "\",");
 		}
 		new File(ProfilesPath).delete();
-		ClassFile.WriteFile(ProfilesPath, Profile);	
+		fr.minepod.Utils.Files.WriteFile(ProfilesPath, Profile);	
 	}
 	
 	public void Update(String LauncherName, String ProfilesPath, String LauncherLocation) throws IOException, ParseException {
-		String Profile = ClassFile.ReadFile(ProfilesPath);
+		String Profile = fr.minepod.Utils.Files.ReadFile(ProfilesPath);
 		if(Profile.contains(LauncherName)) {
 			JSONParser parser = new JSONParser();	
 			Object obj;
@@ -38,7 +38,7 @@ public class Profile {
 				JSONObject jsonObject = (JSONObject) obj;	 
 				jsonObject.remove("MinePod");
 				new File(ProfilesPath).delete();
-				ClassFile.WriteFile(ProfilesPath, jsonObject.toJSONString());
+				fr.minepod.Utils.Files.WriteFile(ProfilesPath, jsonObject.toJSONString());
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}

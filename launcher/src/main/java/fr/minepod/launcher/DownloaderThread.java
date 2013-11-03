@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import net.lingala.zip4j.exception.ZipException;
+
 public class DownloaderThread extends Thread{	
 	 private Downloader Downloader = new Downloader();
 	 private String url;
@@ -30,7 +32,7 @@ public class DownloaderThread extends Thread{
 			 Downloader.DownloadFiles(new URL(Config.GetMd5FileUrl + this.url), md5Location, true);
 			 
 			 if(new File(zipLocation).exists()) {
-				 String expectedMd5 = ClassFile.ReadFile(md5Location);
+				 String expectedMd5 = fr.minepod.Utils.Files.ReadFile(md5Location);
 				 
 				 Config.Logger.info("Expected md5: " + expectedMd5);
 				 Config.Logger.info("Current md5: " + zipMd5 + " for " + zipLocation);
@@ -46,11 +48,13 @@ public class DownloaderThread extends Thread{
 			 }
 			 
 			 Config.Gui.SetLoading();
-			 ClassFile.UnZip(zipLocation, folderLocation, folderName);
+			 fr.minepod.Utils.Files.UnZip(zipLocation, folderLocation, folderName);
 		 } catch (MalformedURLException e) {
 			CrashReport.SendReport(e.toString(), "downloading file");
 		 } catch (IOException e) {
 			CrashReport.SendReport(e.toString(), "downloading file");
+		} catch (ZipException e) {
+			CrashReport.SendReport(e.toString(), "unzipping file");
 		}
 	 }
 }
