@@ -8,7 +8,7 @@
     
     <properties>
   	  <timestamp>${maven.build.timestamp}</timestamp>
-      <maven.build.timestamp.format>dd-MM-yyy HH:mm:ss</maven.build.timestamp.format>
+      <maven.build.timestamp.format>dd-MM-yyyy HH:mm:ss</maven.build.timestamp.format>
     </properties>
     
     <repositories>
