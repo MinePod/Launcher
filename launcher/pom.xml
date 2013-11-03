@@ -13,15 +13,7 @@
     
     <repositories>
       <repository>
-        <id>Maven-repo</id>
-        <url>http://repo1.maven.org/maven2/</url>
-      </repository>
-      <repository>
         <id>MinePod-repo</id>
-        <url>http://mc.minepod.fr/repo/</url>
-      </repository>
-      <repository>
-        <id>MinePod-repo2</id>
         <url>http://ci.minepod.fr/plugin/repository/everything/</url>
       </repository>
     </repositories>
@@ -31,7 +23,7 @@
         <dependency>
         	<groupId>fr.minepod</groupId>
         	<artifactId>utils</artifactId>
-        	<version>0.0.1-SNAPSHOT</version>
+        	<version>1.0.0</version>
         </dependency>
     </dependencies>
     
@@ -64,9 +56,6 @@
             </descriptorRefs>
             <finalName>Salsepareille</finalName>
             <outputDirectory>target</outputDirectory>
-            <descriptors>
-              <descriptor>src/assembly/assembly.xml</descriptor>
-            </descriptors>
           </configuration>
           <executions>
             <execution>
