@@ -9,14 +9,14 @@ public class Launcher {
 	private static Downloader Downloader = new Downloader();
 	
 	public static void main(String[] args) throws IOException {
-		Start(args);
+		if(args.length != 0)
+			Start(args[0]);
+		else
+			Start("unknown");
 	}
 	
-	public static void Start(String[] args) {
-		if(args.length != 0)
-			new Config().SetBootstrapVersion(args[0]);
-		else
-			new Config().SetBootstrapVersion("unknown");
+	public static void Start(String args) {
+		new Config().SetBootstrapVersion(args);
 		
 		new Config().SetConfig();
 		new Debug().SetDebug();
