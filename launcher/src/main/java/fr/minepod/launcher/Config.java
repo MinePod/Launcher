@@ -81,7 +81,7 @@ public class Config {
 	    try {
 	    	Logger = new fr.minepod.Utils.Logger().SetLogger(Config.LogFile);
 	    	
-	        InputStream InputStream = Start.class.getProtectionDomain().getCodeSource().getLocation().openStream();
+	        InputStream InputStream = Launcher.class.getProtectionDomain().getCodeSource().getLocation().openStream();
 	        JarInputStream JarInputStream = new JarInputStream(InputStream);
 	        Manifest Manifest = JarInputStream.getManifest();
 	        JarInputStream.close();

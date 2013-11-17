@@ -50,7 +50,7 @@
           <configuration>
             <archive>
               <manifest>
-                <mainClass>fr.minepod.launcher.Start</mainClass>
+                <mainClass>fr.minepod.launcher.Launcher</mainClass>
               </manifest>
               <manifestEntries>
                  <Build-Time>${timestamp}</Build-Time>

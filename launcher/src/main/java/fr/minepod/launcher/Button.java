@@ -24,7 +24,7 @@ public class Button extends JButton implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		Config.Logger.info("Lauching game soon...");
 		this.setEnabled(false);
-		Start.LaunchGame();
+		Launcher.LaunchGame();
 	}
   
 	@Override
