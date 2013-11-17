@@ -12,7 +12,11 @@ public class Launcher {
 		if(args.length != 0)
 			Start(args[0]);
 		else
-			Start("unknown");
+			Start();
+	}
+	
+	public static void Start() {
+		Start("unknown");
 	}
 	
 	public static void Start(String args) {
