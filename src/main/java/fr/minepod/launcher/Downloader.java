@@ -39,9 +39,9 @@ public class Downloader {
 		     }
 
 		 } catch (MalformedURLException e) {
-			 CrashReport.SendReport(e.toString(), "downloading file");
+			 new CrashReport(e.toString(), "downloading file");
 		 } catch (IOException e) {
-			 CrashReport.SendReport(e.toString(), "downloading file");
+			 new CrashReport(e.toString(), "downloading file");
 		 }
 
 		 Config.Logger.info("Downloading complete!");

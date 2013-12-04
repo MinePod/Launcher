@@ -1,17 +1,17 @@
 package fr.minepod.launcher;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-
-
 import org.json.simple.JSONPrettyPrint;
 
 public class Debug {
+	public String GetDebugString() {
+		return JSONPrettyPrint.toJSONString(GetDebugMap());
+	}
 	
-	public void SetDebug() {
+	public Map<String,String> GetDebugMap() {
 		Map<String, String> obj = new LinkedHashMap<String, String>();
 		
 		obj.put("OS-name", System.getProperty("os.name", "Unknown"));
@@ -31,11 +31,7 @@ public class Debug {
 		obj.put("Minecraft-location", Config.MinecraftAppData);
 		obj.put("Bootstrap-version", Config.BootstrapVersion);
 		obj.put("Time", new Date().toString());
-			
-		try {
-			fr.minepod.Utils.Files.WriteFile(Config.DebugFilePath, JSONPrettyPrint.toJSONString(obj));
-		} catch (IOException e) {
-			CrashReport.SendReport(e.toString(), "setting debug informations");
-		}
+		
+		return obj;
 	}
 }

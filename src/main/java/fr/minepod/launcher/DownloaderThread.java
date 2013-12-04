@@ -50,11 +50,11 @@ public class DownloaderThread extends Thread{
 			 Config.Gui.SetLoading();
 			 fr.minepod.Utils.Files.UnZip(zipLocation, folderLocation, folderName);
 		 } catch (MalformedURLException e) {
-			CrashReport.SendReport(e.toString(), "downloading file");
+			new CrashReport(e.toString(), "downloading file");
 		 } catch (IOException e) {
-			CrashReport.SendReport(e.toString(), "downloading file");
+			new CrashReport(e.toString(), "downloading file");
 		} catch (ZipException e) {
-			CrashReport.SendReport(e.toString(), "unzipping file");
+			new CrashReport(e.toString(), "unzipping file");
 		}
 	 }
 }

@@ -96,7 +96,7 @@ public class Config {
 	        	SetLauncherBuildTime("");
 	        }
 		} catch(IOException e) {
-			CrashReport.SendReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
+			new CrashReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
 		}
 	 }
 	 

@@ -21,10 +21,7 @@ public class Launcher {
 	
 	public static void Start(String args) {
 		new Config().SetBootstrapVersion(args);
-		
 		new Config().SetConfig();
-		new Debug().SetDebug();
-		
 		DownloadRequiredFiles();
 	}
 	
@@ -96,9 +93,9 @@ public class Launcher {
 			}
 			 
 		} catch (IOException e) {	 
-			CrashReport.SendReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
+			new CrashReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
 		} catch (Exception e) {
-			CrashReport.SendReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
+			new CrashReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
 		}
 		 
 	}
@@ -108,7 +105,7 @@ public class Launcher {
 			new LauchMinecraft(Config.LauncherMinecraftJar);
 			System.exit(0);
 		} catch (Exception e) {
-			CrashReport.SendReport(e.toString(), "launching game");
+			new CrashReport(e.toString(), "launching game");
 		}
 	}
 }
