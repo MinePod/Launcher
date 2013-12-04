@@ -20,15 +20,20 @@ public class Launcher {
 	}
 	
 	public static void Start(String args) {
-		new Config().SetBootstrapVersion(args);
-		new Config().SetConfig();
+		Config.SetBootstrapVersion(args);
+		Config.SetConfig();
+		
+		if(!new File(Config.LauncherLocation).exists())
+			new File(Config.LauncherLocation).mkdir();	
+		
+		Config.Tasks();
 		DownloadRequiredFiles();
 	}
 	
 	public static void DownloadRequiredFiles() {
-		try {
+		try {		 
 			if(!new File(Config.LauncherLocation).exists())
-				new File(Config.LauncherLocation).mkdir();			 
+				new File(Config.LauncherLocation).mkdir();	
 			
 			if(!new File(Config.MinecraftAppData + Config.Slash + "libraries").exists())
 				new File(Config.MinecraftAppData + Config.Slash + "libraries").mkdir();
