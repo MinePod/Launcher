@@ -1,8 +1,7 @@
 package fr.minepod.launcher;
 
 import java.awt.Dimension;
-import java.awt.Font;
-import java.net.URL;
+import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JEditorPane;
@@ -10,8 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
-import javax.swing.text.Document;
-import javax.swing.text.html.HTMLEditorKit;
 
 
 public class Gui {
@@ -24,23 +21,18 @@ public class Gui {
 		this.play.EnableButton();
 	}
 
-	public Gui(URL CssFile, String HtmlFile, String LauncherVersion, String LauncherCompileTime) {
-		JEditorPane jEditorPane = new JEditorPane();
-		jEditorPane.setEditable(false);
+	public Gui(String changelogPage, String LauncherVersion, String LauncherCompileTime) {
 
-		HTMLEditorKit kit = new HTMLEditorKit();
-		jEditorPane.setEditorKit(kit);
+		JEditorPane page = new JEditorPane();
+		page.setContentType("text/html");
+		page.setEditable(false);
+		try {
+			page.setPage(Config.LauncherChangelogPage);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
 		
-		kit.getStyleSheet().importStyleSheet(CssFile);
-
-		Document doc = kit.createDefaultDocument();
-		jEditorPane.setDocument(doc);
-		jEditorPane.setText(HtmlFile);
-		
-	    Font font = new Font("Segoe UI", Font.PLAIN, 15);
-	    String FontRule = "body { font-family: " + font.getFamily() + "; " + "font-size: " + font.getSize() + "pt; }";
-	    kit.getStyleSheet().addRule(FontRule);
-
 		this.current.setValue(0);
 		this.current.setStringPainted(true);
 
@@ -48,7 +40,7 @@ public class Gui {
 
 		JPanel b1 = new JPanel();
 		b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
-		b1.add(jEditorPane);
+		b1.add(page);
 
 	    JPanel b2 = new JPanel();
 	    b2.setLayout(new BoxLayout(b2, BoxLayout.LINE_AXIS));
@@ -57,7 +49,7 @@ public class Gui {
 	
 	    JPanel b3 = new JPanel();
 	    b3.setLayout(new BoxLayout(b3, BoxLayout.PAGE_AXIS));
-	    b3.add(new JScrollPane(jEditorPane));
+	    b3.add(new JScrollPane(page));
 	    b3.add(b1);
 	    b3.add(b2);
 	

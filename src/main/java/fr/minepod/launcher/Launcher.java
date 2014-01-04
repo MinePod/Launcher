@@ -46,12 +46,8 @@ public class Launcher {
 			
 			if(!new File(Config.LauncherLocation + Config.Slash + "mods").exists())
 				new File(Config.LauncherLocation + Config.Slash + "mods").mkdir();
-
 			
-			Downloader.DownloadFiles(new URL(Config.LauncherNewsHtmlUrl), Config.LauncherNewsHtml, false);
-			Downloader.DownloadFiles(new URL(Config.LauncherNewsCssUrl), Config.LauncherNewsCss, false);
-			
-			Config.Gui = new Gui(new URL("file:///" + Config.LauncherNewsCss), fr.minepod.Utils.Files.ReadFile(Config.LauncherNewsHtml), Config.LauncherVersion, Config.LauncherBuildTime);
+			Config.Gui = new Gui(Config.LauncherChangelogPage, Config.LauncherVersion, Config.LauncherBuildTime);
 			 
 			DownloaderThread DT1 = new DownloaderThread(Config.LibrariesLatestVersionUrl, Config.LauncherLocation + Config.Slash + "Libraries.md5", Config.MinecraftAppData + Config.Slash, "libraries", Config.LauncherZippedLibraries, fr.minepod.Utils.Files.md5(Config.LauncherZippedLibraries));
 			DT1.start();

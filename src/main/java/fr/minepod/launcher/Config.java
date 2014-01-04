@@ -12,8 +12,7 @@ public class Config {
 	 public static String ModsLatestVersionUrl = "http://assets.minepod.fr/launcher/mods.php";
 	 public static String ResourcepacksLatestVersionUrl = "http://assets.minepod.fr/launcher/textures.php";
 	 public static String MinecraftLatestVersionUrl = "http://assets.minepod.fr/launcher/minecraft.php";
-	 public static String LauncherNewsHtmlUrl = "http://assets.minepod.fr/launcher/news/news.html";
-	 public static String LauncherNewsCssUrl = "http://assets.minepod.fr/launcher/news/news.css";
+	 public static String LauncherChangelogPage = "http://assets.minepod.fr/launcher/news/news.html";
 	 public static String GetMd5FileUrl = "http://assets.minepod.fr/launcher/md5.php?file=";
 	 public static String LauncherName = "MinePod";
 	 public static String ProfilesVersion = "1";
@@ -32,8 +31,6 @@ public class Config {
 	 public static String LauncherZippedMods;
 	 public static String LauncherZippedResourcepacks;
 	 public static String LauncherMinecraftJar;
-	 public static String LauncherNewsHtml;
-	 public static String LauncherNewsCss;
 	 public static String ProfilesPath;
 	 public static String ProfilesVersionPath;
 	 public static String DebugFilePath;
@@ -71,8 +68,6 @@ public class Config {
 		 Config.LauncherZippedMods = LauncherLocation + Slash + "Mods.zip";
 		 Config.LauncherZippedResourcepacks = LauncherLocation + Slash + "Resourcespacks.zip";
 		 Config.LauncherMinecraftJar = LauncherLocation + Slash + "Minecraft.jar";
-		 Config.LauncherNewsHtml = LauncherLocation + Slash + "news.html";
-		 Config.LauncherNewsCss = LauncherLocation + Slash + "news.css";
 		 Config.ProfilesPath = MinecraftAppData + Slash + "launcher_profiles.json";
 		 Config.ProfilesVersionPath =  LauncherLocation + Slash + "profiles.txt";
 		 Config.DebugFilePath = LauncherLocation + Slash + "debug.json";
