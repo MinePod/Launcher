@@ -1,6 +1,7 @@
 package fr.minepod.launcher;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -34,7 +35,7 @@ public class DownloaderThread extends Thread{
 				Config.logger.info("Current md5: " + fileMd5 + " for " + fileLocation);
 
 				if(!md5.equalsIgnoreCase(fileMd5)) {
-					Config.logger.warning("Detecting modified " + folderName + " files, deleting...");
+					Config.logger.warning("Detecting modified " + folderName + " files, downloading...");
 					new Downloader(new URL(url), fileLocation, true);
 				}
 			} else {
@@ -44,16 +45,17 @@ public class DownloaderThread extends Thread{
 
 			Config.gui.setLoading();
 			
-			// TODO : Add more actions
 			if(fileType.equalsIgnoreCase("zip")) {
 				fr.minepod.utils.UtilsFiles.unZip(fileLocation, folderLocation, folderName);
 			} else {
-				fr.minepod.utils.UtilsFiles.unZip(fileLocation, folderLocation, folderName);
+				fr.minepod.utils.UtilsFiles.writeFile(folderLocation + folderName + "." + fileType, fr.minepod.utils.UtilsFiles.readFile(fileLocation));
 			}
 		} catch (MalformedURLException e) {
 			new CrashReport(e.toString(), "downloading file");
 		} catch (ZipException e) {
 			new CrashReport(e.toString(), "unzipping file");
+		} catch (IOException e) {
+			new CrashReport(e.toString(), "copying file");
 		}
 	}
 }

@@ -55,7 +55,7 @@ public class Config {
 		Config.launcherTempDir = launcherDir + slash + "temp";
 		Config.minecraftDir = appDataPath + minecraft;
 		Config.launcherLocation = appDataPath + launcherDir;
-		Config.launcherMinecraftJar = launcherLocation + slash + "Minecraft.jar";
+		Config.launcherMinecraftJar = launcherLocation + slash + "minecraft.jar";
 		Config.profilesPath = minecraftDir + slash + "launcher_profiles.json";
 		Config.profilesVersionPath =  launcherLocation + slash + "profiles.txt";
 		Config.logFile = launcherLocation + slash + "launcher_logs.txt";
