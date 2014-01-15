@@ -7,105 +7,88 @@ import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 
 public class Config {
-	 public static String LibrariesLatestVersionUrl = "http://assets.minepod.fr/launcher/libraries.php";
-	 public static String VersionsLatestVersionUrl = "http://assets.minepod.fr/launcher/versions.php";
-	 public static String ModsLatestVersionUrl = "http://assets.minepod.fr/launcher/mods.php";
-	 public static String ResourcepacksLatestVersionUrl = "http://assets.minepod.fr/launcher/textures.php";
-	 public static String MinecraftLatestVersionUrl = "http://assets.minepod.fr/launcher/minecraft.php";
-	 public static String LauncherChangelogPage = "http://assets.minepod.fr/launcher/news/news.html";
-	 public static String GetMd5FileUrl = "http://assets.minepod.fr/launcher/md5.php?file=";
-	 public static String LauncherName = "MinePod";
-	 public static String ProfilesVersion = "1";
-	 public static String LauncherVersion;
-	 public static String LauncherBuildTime;
-	 
-	 public static String LogFile;
-	 public static String AppDataPath;
-	 public static String LauncherDir;
-	 public static String Minecraft;
-	 public static String Slash;
-	 public static String LauncherLocation;
-	 public static String MinecraftAppData;
-	 public static String LauncherZippedLibraries;
-	 public static String LauncherZippedVersions;
-	 public static String LauncherZippedMods;
-	 public static String LauncherZippedResourcepacks;
-	 public static String LauncherMinecraftJar;
-	 public static String ProfilesPath;
-	 public static String ProfilesVersionPath;
-	 public static String DebugFilePath;
-	 public static String BootstrapVersion;
-	 public static String Language;
-	 public static Gui Gui;
-	 
-	 public static java.util.logging.Logger Logger;
-	 
-	 public static void SetConfig() {
-		 String OS = System.getProperty("os.name").toUpperCase();
-		 if(OS.contains("WIN")) {
-			 Config.AppDataPath = System.getenv("APPDATA");
-			 Config.LauncherDir = "\\." + LauncherName;
-			 Config.Minecraft = "\\.minecraft";
-		 } else if(OS.contains("MAC")) {
-			 Config.AppDataPath = System.getProperty("user.home") + "/Library/Application Support";
-			 Config.LauncherDir = "/" + LauncherName;
-			 Config.Minecraft = "/minecraft";
-		 } else if(OS.contains("NUX")) {
-			 Config.AppDataPath = System.getProperty("user.home");
-			 Config.LauncherDir = "/." + LauncherName;
-			 Config.Minecraft = "/.minecraft";
-		 } else {
-			 Config.AppDataPath =  System.getProperty("user.dir");
-			 Config.LauncherDir = "/." + LauncherName;
-			 Config.Minecraft = "/.minecraft";
-		 }
-		
-		 Config.Slash = System.getProperty("file.separator");
-		 Config.LauncherLocation = AppDataPath + LauncherDir;
-		 Config.MinecraftAppData = AppDataPath + Minecraft;
-		 Config.LauncherZippedLibraries = LauncherLocation + Slash + "Libraries.zip";
-		 Config.LauncherZippedVersions = LauncherLocation + Slash + "Versions.zip";
-		 Config.LauncherZippedMods = LauncherLocation + Slash + "Mods.zip";
-		 Config.LauncherZippedResourcepacks = LauncherLocation + Slash + "Resourcespacks.zip";
-		 Config.LauncherMinecraftJar = LauncherLocation + Slash + "Minecraft.jar";
-		 Config.ProfilesPath = MinecraftAppData + Slash + "launcher_profiles.json";
-		 Config.ProfilesVersionPath =  LauncherLocation + Slash + "profiles.txt";
-		 Config.DebugFilePath = LauncherLocation + Slash + "debug.json";
-		 Config.LogFile = LauncherLocation + Slash + "launcher_logs.txt";
-	 }
-	 
-	 public static void Tasks() {
-		 try {
-			 Logger = new fr.minepod.Utils.Logger().SetLogger(Config.LogFile);
-	    	
-			 InputStream InputStream = Launcher.class.getProtectionDomain().getCodeSource().getLocation().openStream();
-			 JarInputStream JarInputStream = new JarInputStream(InputStream);
-			 Manifest Manifest = JarInputStream.getManifest();
-			 JarInputStream.close();
-			 InputStream.close();
-	        
-			 if(Manifest != null) {
-				 Attributes Attributes = Manifest.getMainAttributes();
-				 SetLauncherVersion(Attributes.getValue("Launcher-version"));
-				 SetLauncherBuildTime(Langage.COMPILEDON.toString() + Attributes.getValue("Build-time"));
-			 } else {
-				 SetLauncherVersion(Langage.DEVELOPMENTVERSION.toString());
-				 SetLauncherBuildTime("");
-			 }
-		 } catch(IOException e) {
-			 new CrashReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
-		 }
-	 }
-	 
-	 public static void SetBootstrapVersion(String Version) {
-		 Config.BootstrapVersion = Version;
-	 }
-	 
-	 public static void SetLauncherVersion(String Version) {
-		 Config.LauncherVersion = Version;
-	 }
-	 
-	 public static void SetLauncherBuildTime(String BuildTime) {
-		 Config.LauncherBuildTime = BuildTime;
-	 }
+	public static String launcherChangelogPage = "http://assets.minepod.fr/launcher/news/news.html";
+	public static String launcherDataUrl = "http://assets.minepod.fr/launcher/data.json";
+	public static String launcherName = "MinePod";
+	public static String profilesVersion = "1";
+	public static String launcherVersion;
+	public static String launcherBuildTime;
+
+	public static String logFile;
+	public static String appDataPath;
+	public static String launcherDir;
+	public static String launcherTempDir;
+	public static String minecraftDir;
+	public static String minecraft;
+	public static String slash;
+	public static String launcherLocation;
+	public static String launcherMinecraftJar;
+	public static String profilesPath;
+	public static String profilesVersionPath;
+	public static String bootstrapVersion;
+	public static String language;
+	public static Gui gui;
+
+	public static java.util.logging.Logger logger;
+
+	public static void SetConfig() {
+		String OS = System.getProperty("os.name").toUpperCase();
+		if(OS.contains("WIN")) {
+			Config.appDataPath = System.getenv("APPDATA");
+			Config.launcherDir = "\\." + launcherName;
+			Config.minecraft = "\\.minecraft";
+		} else if(OS.contains("MAC")) {
+			Config.appDataPath = System.getProperty("user.home") + "/Library/Application Support";
+			Config.launcherDir = "/" + launcherName;
+			Config.minecraft = "/minecraft";
+		} else if(OS.contains("NUX")) {
+			Config.appDataPath = System.getProperty("user.home");
+			Config.launcherDir = "/." + launcherName;
+			Config.minecraft = "/.minecraft";
+		} else {
+			Config.appDataPath =  System.getProperty("user.dir");
+			Config.launcherDir = "/." + launcherName;
+			Config.minecraft = "/.minecraft";
+		}
+
+		Config.slash = System.getProperty("file.separator");
+		Config.launcherTempDir = launcherDir + slash + "temp";
+		Config.minecraftDir = appDataPath + minecraft;
+		Config.launcherLocation = appDataPath + launcherDir;
+		Config.launcherMinecraftJar = launcherLocation + slash + "Minecraft.jar";
+		Config.profilesPath = minecraftDir + slash + "launcher_profiles.json";
+		Config.profilesVersionPath =  launcherLocation + slash + "profiles.txt";
+		Config.logFile = launcherLocation + slash + "launcher_logs.txt";
+	}
+
+	public static void setup() throws SecurityException, IOException {
+		logger = new fr.minepod.utils.UtilsLogger().SetLogger(Config.logFile);
+
+		InputStream InputStream = Launcher.class.getProtectionDomain().getCodeSource().getLocation().openStream();
+		JarInputStream JarInputStream = new JarInputStream(InputStream);
+		Manifest manifest = JarInputStream.getManifest();
+		JarInputStream.close();
+		InputStream.close();
+
+		if(manifest != null) {
+			Attributes Attributes = manifest.getMainAttributes();
+			setLauncherVersion(Attributes.getValue("Launcher-version"));
+			setLauncherBuildTime(Langage.COMPILEDON.toString() + Attributes.getValue("Build-time"));
+		} else {
+			setLauncherVersion(Langage.DEVELOPMENTVERSION.toString());
+			setLauncherBuildTime("");
+		}
+	}
+
+	public static void setBootstrapVersion(String Version) {
+		Config.bootstrapVersion = Version;
+	}
+
+	public static void setLauncherVersion(String Version) {
+		Config.launcherVersion = Version;
+	}
+
+	public static void setLauncherBuildTime(String BuildTime) {
+		Config.launcherBuildTime = BuildTime;
+	}
 }

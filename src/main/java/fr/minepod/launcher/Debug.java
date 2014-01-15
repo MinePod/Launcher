@@ -1,7 +1,7 @@
 package fr.minepod.launcher;
 
 import java.util.Date;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.json.simple.JSONPrettyPrint;
@@ -10,10 +10,10 @@ public class Debug {
 	public String GetDebugString() {
 		return JSONPrettyPrint.toJSONString(GetDebugMap());
 	}
-	
+
 	public Map<String,String> GetDebugMap() {
-		Map<String, String> obj = new LinkedHashMap<String, String>();
-		
+		Map<String, String> obj = new HashMap<String, String>();
+
 		obj.put("OS-name", System.getProperty("os.name", "Unknown"));
 		obj.put("OS-arch", System.getProperty("os.arc", "Unknown"));
 		obj.put("OS-version", System.getProperty("os.version", "Unknown"));
@@ -24,12 +24,12 @@ public class Debug {
 		obj.put("User-dir", System.getProperty("user.dir"));
 		obj.put("User-home", System.getProperty("user.home"));
 		obj.put("User-name", System.getProperty("user.name"));
-		obj.put("Launcher-version", Config.LauncherVersion);
-		obj.put("Launcher-location", Config.LauncherLocation);
-		obj.put("Profiles-version", Config.ProfilesVersion);
-		obj.put("Profiles-version-location", Config.ProfilesVersionPath);
-		obj.put("Minecraft-location", Config.MinecraftAppData);
-		obj.put("Bootstrap-version", Config.BootstrapVersion);
+		obj.put("Launcher-version", Config.launcherVersion);
+		obj.put("Launcher-location", Config.launcherLocation);
+		obj.put("Profiles-version", Config.profilesVersion);
+		obj.put("Profiles-version-location", Config.profilesVersionPath);
+		obj.put("Minecraft-location", Config.minecraftDir);
+		obj.put("Bootstrap-version", Config.bootstrapVersion);
 		obj.put("Time", new Date().toString());
 		
 		return obj;
