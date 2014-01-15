@@ -48,7 +48,7 @@ public class DownloaderThread extends Thread{
 			if(fileType.equalsIgnoreCase("zip")) {
 				fr.minepod.utils.UtilsFiles.unZip(fileLocation, folderLocation, folderName);
 			} else {
-				fr.minepod.utils.UtilsFiles.writeFile(folderLocation + folderName + "." + fileType, fr.minepod.utils.UtilsFiles.readFile(fileLocation));
+				fr.minepod.utils.UtilsFiles.copyFile(fileLocation, folderLocation + folderName + "." + fileType);
 			}
 		} catch (MalformedURLException e) {
 			new CrashReport(e.toString(), "downloading file");
