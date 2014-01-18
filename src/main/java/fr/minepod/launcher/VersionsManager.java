@@ -22,6 +22,10 @@ public class VersionsManager {
 		String dataFile = fr.minepod.utils.UtilsFiles.readFile(launcherDataFile);
 		JSONObject jsonObject = (JSONObject) jsonParser.parse(dataFile);
 
+		if(jsonObject.get("skip") != null && (Boolean) jsonObject.get("skip")) {
+			new CrashReport("Le serveur de fichiers est actuellement en cours de maintenance. Retestez plus tard.", Langage.LAUNCHINGGAME.toString());
+		}
+
 		String release = (String) jsonObject.get("release");
 		String beta = (String) jsonObject.get("beta");
 		String alpha = (String) jsonObject.get("alpha");
@@ -43,25 +47,28 @@ public class VersionsManager {
 		while(iterator.hasNext()) {
 			JSONObject object = (JSONObject) iterator.next();
 
-			String fileId = (String) object.get("id");
-			String fileVersion = (String) object.get("version");
-			String fileType = (String) object.get("type");
-			String filePath = fill((String) object.get("path"), fileId, fileVersion, fileType, true);
-			String fileName = fill((String) object.get("name"), fileId, fileVersion, fileType, true);
-			String fileTemp = fill((String) object.get("temp"), fileId, fileVersion, fileType, true);
-			String fileUrl = fill((String) object.get("url"), fileId, fileVersion, fileType, false);
-			String fileMd5 = (String) object.get("md5");
-			Boolean fileReplace = (Boolean) object.get("replace");
+			if(object.get("skip") == null || !(Boolean) object.get("skip")) {
+				String fileId = (String) object.get("id");
+				String fileVersion = (String) object.get("version");
+				String fileType = (String) object.get("type");
+				String fileAction = (String) object.get("action");
+				String filePath = fill((String) object.get("path"), fileId, fileVersion, fileType, true);
+				String fileName = fill((String) object.get("name"), fileId, fileVersion, fileType, true);
+				String fileTemp = fill((String) object.get("temp"), fileId, fileVersion, fileType, true);
+				String fileUrl = fill((String) object.get("url"), fileId, fileVersion, fileType, false);
+				String fileMd5 = (String) object.get("md5");
+				Boolean fileReplace = (Boolean) object.get("replace");
 
-			if(!new File(fileTemp).getParentFile().exists())
-				new File(fileTemp).getParentFile().mkdirs();
+				if(!new File(fileTemp).getParentFile().exists())
+					new File(fileTemp).getParentFile().mkdirs();
 
-			if(!new File(fileTemp).exists())
-				new File(fileTemp).createNewFile();
+				if(!new File(fileTemp).exists())
+					new File(fileTemp).createNewFile();
 
-			int arrayListSize = arrayList.size();
-			arrayList.add(new DownloaderThread(fileUrl, fileMd5, filePath, fileName, fileTemp, fr.minepod.utils.UtilsFiles.md5(fileTemp), fileType));
-			arrayList.get(arrayListSize).start();
+				int arrayListSize = arrayList.size();
+				arrayList.add(new DownloaderThread(fileUrl, fileMd5, filePath, fileName, fileTemp, fr.minepod.utils.UtilsFiles.md5(fileTemp), fileType, fileAction));
+				arrayList.get(arrayListSize).start();
+			}
 		}
 
 		for(DownloaderThread temp : arrayList) {

@@ -15,8 +15,9 @@ public class DownloaderThread extends Thread{
 	private String fileLocation;
 	private String fileMd5;
 	private String fileType;
+	private String fileAction;
 
-	public DownloaderThread(String url, String md5, String folderLocation, String folderName, String fileLocation, String fileMd5, String fileType) {
+	public DownloaderThread(String url, String md5, String folderLocation, String folderName, String fileLocation, String fileMd5, String fileType, String fileAction) {
 		this.url = url;
 		this.md5 = md5;
 		this.folderLocation = folderLocation;
@@ -24,6 +25,7 @@ public class DownloaderThread extends Thread{
 		this.fileLocation = fileLocation;
 		this.fileMd5 = fileMd5;
 		this.fileType = fileType;
+		this.fileAction = fileAction;
 	}
 
 	public void run() {
@@ -44,8 +46,8 @@ public class DownloaderThread extends Thread{
 			}
 
 			Config.gui.setLoading();
-			
-			if(fileType.equalsIgnoreCase("zip")) {
+
+			if(fileAction.equalsIgnoreCase("unzip")) {
 				fr.minepod.utils.UtilsFiles.unZip(fileLocation, folderLocation, folderName);
 			} else {
 				fr.minepod.utils.UtilsFiles.copyFile(fileLocation, folderLocation + folderName + "." + fileType);
