@@ -67,12 +67,12 @@ public class VersionsManager {
 					new File(fileTemp).createNewFile();
 				}
 
-				if(!new File(fileName).getParentFile().exists()) {
-					new File(fileName).getParentFile().mkdirs();
+				if(!new File(filePath).getParentFile().exists()) {
+					new File(filePath).getParentFile().mkdirs();
 				}
 
-				if(!new File(fileName).exists()) {
-					new File(fileName).createNewFile();
+				if(!new File(filePath).exists()) {
+					new File(filePath).createNewFile();
 				}
 
 				int arrayListSize = arrayList.size();
