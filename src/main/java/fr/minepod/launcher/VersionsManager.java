@@ -59,16 +59,20 @@ public class VersionsManager {
 				String fileMd5 = (String) object.get("md5");
 				Boolean fileReplace = (Boolean) object.get("replace");
 
-				if(!new File(fileTemp).getParentFile().exists()) {
-					new File(fileTemp).getParentFile().mkdirs();
-				}
-
 				if(!new File(fileTemp).exists()) {
+					if(!new File(fileTemp).getParentFile().exists()) {
+						new File(fileTemp).getParentFile().mkdirs();
+					}
+					
 					new File(fileTemp).createNewFile();
 				}
 
-				if(!new File(filePath).getParentFile().exists()) {
-					new File(filePath).getParentFile().mkdirs();
+				if(!new File(filePath).exists()) {
+					if(!new File(filePath).getParentFile().exists()) {
+						new File(filePath).getParentFile().mkdirs();
+					}
+
+					new File(filePath).mkdir();
 				}
 
 				int arrayListSize = arrayList.size();
