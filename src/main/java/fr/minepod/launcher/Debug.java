@@ -31,7 +31,7 @@ public class Debug {
 		obj.put("Minecraft-location", Config.minecraftDir);
 		obj.put("Bootstrap-version", Config.bootstrapVersion);
 		obj.put("Time", new Date().toString());
-		
+
 		return obj;
 	}
 }

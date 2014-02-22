@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 
-
 public class Gui {
 	private JProgressBar current = new JProgressBar(0, 100);
 	private Button play = new Button(Langage.LAUNCHBUTTON.toString());

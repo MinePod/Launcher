@@ -59,11 +59,21 @@ public class VersionsManager {
 				String fileMd5 = (String) object.get("md5");
 				Boolean fileReplace = (Boolean) object.get("replace");
 
-				if(!new File(fileTemp).getParentFile().exists())
+				if(!new File(fileTemp).getParentFile().exists()) {
 					new File(fileTemp).getParentFile().mkdirs();
+				}
 
-				if(!new File(fileTemp).exists())
+				if(!new File(fileTemp).exists()) {
 					new File(fileTemp).createNewFile();
+				}
+
+				if(!new File(fileName).getParentFile().exists()) {
+					new File(fileName).getParentFile().mkdirs();
+				}
+
+				if(!new File(fileName).exists()) {
+					new File(fileName).createNewFile();
+				}
 
 				int arrayListSize = arrayList.size();
 				arrayList.add(new DownloaderThread(fileUrl, fileMd5, filePath, fileName, fileTemp, fr.minepod.utils.UtilsFiles.md5(fileTemp), fileType, fileAction));
@@ -83,8 +93,9 @@ public class VersionsManager {
 		input = input.replace("{version}", version);
 		input = input.replace("{type}", type);
 
-		if(replaceSlashes)
+		if(replaceSlashes) {
 			input = input.replace("/", Config.slash);
+		}
 
 		return input;
 	}
