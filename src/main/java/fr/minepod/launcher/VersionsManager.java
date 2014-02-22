@@ -71,10 +71,6 @@ public class VersionsManager {
 					new File(filePath).getParentFile().mkdirs();
 				}
 
-				if(!new File(filePath).exists()) {
-					new File(filePath).createNewFile();
-				}
-
 				int arrayListSize = arrayList.size();
 				arrayList.add(new DownloaderThread(fileUrl, fileMd5, filePath, fileName, fileTemp, fr.minepod.utils.UtilsFiles.md5(fileTemp), fileType, fileAction));
 				arrayList.get(arrayListSize).start();
