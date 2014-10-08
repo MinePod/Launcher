@@ -7,57 +7,59 @@ import java.net.URL;
 
 import net.lingala.zip4j.exception.ZipException;
 
-public class DownloaderThread extends Thread{	
-	private String url;
-	private String md5;
-	private String folderLocation;
-	private String folderName;
-	private String fileLocation;
-	private String fileMd5;
-	private String fileType;
-	private String fileAction;
+public class DownloaderThread extends Thread {
+  private String url;
+  private String md5;
+  private String folderLocation;
+  private String folderName;
+  private String fileLocation;
+  private String fileMd5;
+  private String fileType;
+  private String fileAction;
 
-	public DownloaderThread(String url, String md5, String folderLocation, String folderName, String fileLocation, String fileMd5, String fileType, String fileAction) {
-		this.url = url;
-		this.md5 = md5;
-		this.folderLocation = folderLocation;
-		this.folderName = folderName;
-		this.fileLocation = fileLocation;
-		this.fileMd5 = fileMd5;
-		this.fileType = fileType;
-		this.fileAction = fileAction;
-	}
+  public DownloaderThread(String url, String md5, String folderLocation, String folderName,
+      String fileLocation, String fileMd5, String fileType, String fileAction) {
+    this.url = url;
+    this.md5 = md5;
+    this.folderLocation = folderLocation;
+    this.folderName = folderName;
+    this.fileLocation = fileLocation;
+    this.fileMd5 = fileMd5;
+    this.fileType = fileType;
+    this.fileAction = fileAction;
+  }
 
-	public void run() {
-		try {
-			Config.logger.info("Running new thread for downloading " + folderName);
+  public void run() {
+    try {
+      Config.logger.info("Running new thread for downloading " + folderName);
 
-			if(new File(fileLocation).exists()) {
-				Config.logger.info("Expected md5: " + md5);
-				Config.logger.info("Current md5: " + fileMd5 + " for " + fileLocation);
+      if (new File(fileLocation).exists()) {
+        Config.logger.info("Expected md5: " + md5);
+        Config.logger.info("Current md5: " + fileMd5 + " for " + fileLocation);
 
-				if(!md5.equalsIgnoreCase(fileMd5)) {
-					Config.logger.warning("Detecting modified " + folderName + " files, downloading...");
-					new Downloader(new URL(url), fileLocation, true);
-				}
-			} else {
-				Config.logger.warning("No file found for " + folderName + ", downloading...");
-				new Downloader(new URL(url), fileLocation, true);
-			}
+        if (!md5.equalsIgnoreCase(fileMd5)) {
+          Config.logger.warning("Detecting modified " + folderName + " files, downloading...");
+          new Downloader(new URL(url), fileLocation, true);
+        }
+      } else {
+        Config.logger.warning("No file found for " + folderName + ", downloading...");
+        new Downloader(new URL(url), fileLocation, true);
+      }
 
-			Config.gui.setLoading();
+      Config.gui.setLoading(true);
 
-			if(fileAction.equalsIgnoreCase("unzip")) {
-				fr.minepod.utils.UtilsFiles.unZip(fileLocation, folderLocation, folderName);
-			} else {
-				fr.minepod.utils.UtilsFiles.copyFile(fileLocation, folderLocation + folderName + "." + fileType);
-			}
-		} catch (MalformedURLException e) {
-			new CrashReport(e.toString(), "downloading file");
-		} catch (ZipException e) {
-			new CrashReport(e.toString(), "unzipping file");
-		} catch (IOException e) {
-			new CrashReport(e.toString(), "copying file");
-		}
-	}
+      if (fileAction.equalsIgnoreCase("unzip")) {
+        fr.minepod.utils.UtilsFiles.unZip(fileLocation, folderLocation, folderName);
+      } else {
+        fr.minepod.utils.UtilsFiles.copyFile(fileLocation, folderLocation + folderName + "."
+            + fileType);
+      }
+    } catch (MalformedURLException e) {
+      new CrashReport(e.toString(), "downloading file");
+    } catch (ZipException e) {
+      new CrashReport(e.toString(), "unzipping file");
+    } catch (IOException e) {
+      new CrashReport(e.toString(), "copying file");
+    }
+  }
 }

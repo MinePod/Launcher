@@ -1,14 +1,15 @@
 package fr.minepod.launcher;
 
 public class CrashReport {
-	public CrashReport(String exception, String when) {
-		if(Config.logger != null)
-			Config.logger.severe(exception);
+  public CrashReport(String exception, String when) {
+    if (Config.logger != null)
+      Config.logger.severe(exception);
 
-		String msg = exception + "\n" +  Langage.WHEN.toString() + when + "\n\n\n";
-		msg+= Langage.DEBUGINFORMATIONS.toString() + ":\n\n" + new Debug().GetDebugString();
+    String msg = exception + "\n" + Langage.WHEN.toString() + when + "\n\n\n";
+    msg += Langage.DEBUGINFORMATIONS.toString() + ":\n\n" + new Debug().getDebugString();
 
-		javax.swing.JOptionPane.showMessageDialog(null, msg, Langage.ERROR.toString(), javax.swing.JOptionPane.ERROR_MESSAGE);
-		System.exit(0);
-	}
+    javax.swing.JOptionPane.showMessageDialog(null, msg, Langage.ERROR.toString(),
+        javax.swing.JOptionPane.ERROR_MESSAGE);
+    System.exit(0);
+  }
 }
