@@ -9,25 +9,38 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class Profile {
+  public void set() throws IOException, ParseException {
+    set(false);
+  }
+
+  public void update() throws IOException, ParseException {
+    set(true);
+  }
+
   @SuppressWarnings("unchecked")
-  public void set(String LauncherName, String ProfilesPath, String LauncherLocation)
-      throws IOException, ParseException {
+  public void set(boolean update) throws IOException, ParseException {
     Config.logger.info("Detecting profile...");
-    String profile = fr.minepod.utils.UtilsFiles.readFile(ProfilesPath);
+    String profile = fr.minepod.utils.UtilsFiles.readFile(Config.profilesPath);
 
-    JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader(ProfilesPath));
+    JSONObject jsonObject =
+        (JSONObject) new JSONParser().parse(new FileReader(Config.profilesPath));
 
-    if (!jsonObject.containsKey("MinePod")) {
+    if (update || !((JSONObject) jsonObject.get("profiles")).containsKey("MinePod")) {
       Config.logger.info("Adding profile...");
       String selectedProfile = (String) jsonObject.get("selectedProfile");
       JSONObject profiles = (JSONObject) jsonObject.get("profiles");
       JSONObject currentProfile = (JSONObject) profiles.get(selectedProfile);
       String playerUUID = (String) currentProfile.get("playerUUID");
 
-      JSONObject newProfile = new JSONObject();
-      newProfile.put("name", LauncherName);
-      newProfile.put("gameDir", LauncherLocation.replace("\\", "\\\\"));
-      newProfile.put("lastVersionId", LauncherName);
+      JSONObject newProfile;
+      if (update && profiles.containsKey("MinePod")) {
+        newProfile = (JSONObject) profiles.get("MinePod");
+      } else {
+        newProfile = new JSONObject();
+      }
+      newProfile.put("name", Config.launcherName);
+      newProfile.put("gameDir", Config.launcherLocation.replace("\\", "\\\\"));
+      newProfile.put("lastVersionId", Config.launcherName);
       newProfile.put("playerUUID", playerUUID);
       // TODO: Let this be totally configurable in a small config file
       newProfile
@@ -38,25 +51,11 @@ public class Profile {
       profiles.put("MinePod", newProfile);
 
       jsonObject.put("profiles", profiles);
-      jsonObject.put("selectedProfile", LauncherName);
+      jsonObject.put("selectedProfile", Config.launcherName);
       profile = jsonObject.toJSONString();
     }
 
-    new File(ProfilesPath).delete();
-    fr.minepod.utils.UtilsFiles.writeFile(ProfilesPath, profile);
-  }
-
-  public void update(String LauncherName, String ProfilesPath, String LauncherLocation)
-      throws IOException, ParseException {
-    String Profile = fr.minepod.utils.UtilsFiles.readFile(ProfilesPath);
-
-    if (Profile.contains(LauncherName)) {
-      JSONObject jsonObject = (JSONObject) new JSONParser().parse(new FileReader(ProfilesPath));
-      jsonObject.remove("MinePod");
-      new File(ProfilesPath).delete();
-      fr.minepod.utils.UtilsFiles.writeFile(ProfilesPath, jsonObject.toJSONString());
-    }
-
-    set(LauncherName, ProfilesPath, LauncherLocation);
+    new File(Config.profilesPath).delete();
+    fr.minepod.utils.UtilsFiles.writeFile(Config.profilesPath, profile);
   }
 }

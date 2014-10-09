@@ -49,24 +49,25 @@ public class Launcher {
 
   public static void checkProfile() throws IOException, ParseException {
     try {
-      if (new File(Config.profilesPath).exists()) {
+      if (new File(Config.profilesPath).exists()
+          && !fr.minepod.utils.UtilsFiles.readFile(Config.profilesPath).isEmpty()) {
         Profile profile = new Profile();
 
         if (new File(Config.profilesVersionPath).exists()) {
           if (fr.minepod.utils.UtilsFiles.readFile(Config.profilesVersionPath).contains(
               Config.profilesVersion)) {
-            profile.set(Config.launcherName, Config.profilesPath, Config.launcherLocation);
+            profile.set();
           } else {
             Config.logger.info("Current version: "
                 + fr.minepod.utils.UtilsFiles.readFile(Config.profilesVersionPath));
             Config.logger.info("New profile version found: " + Config.profilesVersion);
-            profile.update(Config.launcherName, Config.profilesPath, Config.launcherLocation);
+            profile.update();
             fr.minepod.utils.UtilsFiles.writeFile(Config.profilesVersionPath,
                 Config.profilesVersion);
           }
         } else {
           Config.logger.warning("Profile version does not exist, creating new one");
-          profile.set(Config.launcherName, Config.profilesPath, Config.launcherLocation);
+          profile.set();
           fr.minepod.utils.UtilsFiles.writeFile(Config.profilesVersionPath, Config.profilesVersion);
         }
       } else {
