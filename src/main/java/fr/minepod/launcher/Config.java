@@ -6,6 +6,8 @@ import java.util.jar.Attributes;
 import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 
+import fr.minepod.utils.UtilsLogger;
+
 public class Config {
   public static String launcherChangelogPage = "http://assets.minepod.fr/launcher/news/news.html";
   public static String launcherDataUrl = "http://assets.minepod.fr/launcher/data.json";
@@ -27,7 +29,6 @@ public class Config {
   public static String profilesVersionPath;
   public static String bootstrapVersion;
   public static String language;
-  public static Gui gui;
 
   public static java.util.logging.Logger logger;
 
@@ -62,7 +63,7 @@ public class Config {
   }
 
   public static void setup() throws SecurityException, IOException {
-    logger = new fr.minepod.utils.UtilsLogger().SetLogger(Config.logFile);
+    logger = new UtilsLogger().SetLogger(Config.logFile);
 
     InputStream InputStream =
         Launcher.class.getProtectionDomain().getCodeSource().getLocation().openStream();

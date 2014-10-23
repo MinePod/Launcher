@@ -4,9 +4,16 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 import org.json.simple.parser.ParseException;
 
+import fr.minepod.utils.UtilsFiles;
+
 public class Launcher {
+  public static VersionsManager versionsManager;
+  public static Gui gui;
+
   public static void main(String[] args) throws IOException {
     if (args.length != 0)
       start(args[0]);
@@ -27,22 +34,17 @@ public class Launcher {
         new File(Config.launcherLocation).mkdir();
 
       Config.setup();
-      Config.gui =
-          new Gui(Config.launcherChangelogPage, Config.launcherVersion, Config.launcherBuildTime);
 
-      new VersionsManager();
+      versionsManager = new VersionsManager();
+      gui = new Gui(versionsManager.versions);
+      gui.setLoading(true);
+      Config.logger.info("Downloaded versions informations");
+
       checkProfile();
-
-      Config.gui.finish();
-      Config.logger.info("Ready!");
-      Config.gui.enableButton();
-    } catch (SecurityException e) {
-      new CrashReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
-    } catch (IOException e) {
-      new CrashReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
-    } catch (ParseException e) {
-      new CrashReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
-    } catch (InterruptedException e) {
+      gui.finish();
+      gui.setLoading(false);
+      gui.setButtonState(true);
+    } catch (SecurityException | IOException | ParseException | InterruptedException e) {
       new CrashReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
     }
   }
@@ -50,31 +52,29 @@ public class Launcher {
   public static void checkProfile() throws IOException, ParseException {
     try {
       if (new File(Config.profilesPath).exists()
-          && !fr.minepod.utils.UtilsFiles.readFile(Config.profilesPath).isEmpty()) {
+          && !UtilsFiles.readFile(Config.profilesPath).isEmpty()) {
         Profile profile = new Profile();
 
         if (new File(Config.profilesVersionPath).exists()) {
-          if (fr.minepod.utils.UtilsFiles.readFile(Config.profilesVersionPath).contains(
-              Config.profilesVersion)) {
+          if (UtilsFiles.readFile(Config.profilesVersionPath).contains(Config.profilesVersion)) {
             profile.set();
           } else {
-            Config.logger.info("Current version: "
-                + fr.minepod.utils.UtilsFiles.readFile(Config.profilesVersionPath));
-            Config.logger.info("New profile version found: " + Config.profilesVersion);
+            Config.logger.info("Current profile version: "
+                + UtilsFiles.readFile(Config.profilesVersionPath));
+            Config.logger.info("New profile version: " + Config.profilesVersion);
             profile.update();
-            fr.minepod.utils.UtilsFiles.writeFile(Config.profilesVersionPath,
-                Config.profilesVersion);
+            UtilsFiles.writeFile(Config.profilesVersionPath, Config.profilesVersion);
           }
         } else {
-          Config.logger.warning("Profile version does not exist, creating new one");
+          Config.logger.warning("The profile version doesn't exist, creating a new one...");
           profile.set();
-          fr.minepod.utils.UtilsFiles.writeFile(Config.profilesVersionPath, Config.profilesVersion);
+          UtilsFiles.writeFile(Config.profilesVersionPath, Config.profilesVersion);
         }
       } else {
-        Config.logger.severe("Profile do not exists");
-        javax.swing.JOptionPane.showMessageDialog(null,
+        Config.logger.severe("The profile file doesn't exist");
+        JOptionPane.showMessageDialog(null,
             "Lancez le jeu via le launcher Mojang, fermez-le et relancez le launcher "
-                + Config.launcherName, "Attention", javax.swing.JOptionPane.WARNING_MESSAGE);
+                + Config.launcherName, "Attention", JOptionPane.WARNING_MESSAGE);
         System.exit(0);
       }
     } catch (Exception e) {

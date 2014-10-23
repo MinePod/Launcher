@@ -1,9 +1,12 @@
 package fr.minepod.launcher;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,68 +14,87 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 
 public class Gui {
-  private JProgressBar current = new JProgressBar(0, 100);
-  private Button play = new Button(Langage.LAUNCHBUTTON.toString());
-  private double totalBytesRead = 0.0D;
-  private double totalLength = 0.0D;
+  private JProgressBar progress = new JProgressBar(0, 100);
+  private JComboBox<String> versions = new JComboBox<String>();
+  private Button button = new Button(Langage.LAUNCHBUTTON.toString());
+  private int totalBytesRead = 0;
+  private int totalLength = 0;
 
-  public Gui(String changelogPage, String LauncherVersion, String LauncherCompileTime)
-      throws IOException {
+  private Map<String, VersionClass> versionsList;
+
+  public Gui(Map<String, VersionClass> versionsList) throws IOException {
+    this.versionsList = versionsList;
 
     JEditorPane page = new JEditorPane();
     page.setContentType("text/html");
     page.setEditable(false);
+    page.setSize(400, 600);
     page.setPage(Config.launcherChangelogPage);
 
-    current.setValue(0);
-    current.setStringPainted(true);
+    progress.setValue(0);
+    progress.setStringPainted(true);
+
+    for (String key : versionsList.keySet()) {
+      versions.addItem(key);
+    }
 
     JFrame j =
-        new JFrame("MinePod Launcher - Salsepareille " + LauncherVersion + " "
-            + LauncherCompileTime);
+        new JFrame("MinePod Launcher - Salsepareille " + Config.launcherVersion + " "
+            + Config.launcherBuildTime);
 
-    JPanel b1 = new JPanel();
-    b1.setLayout(new BoxLayout(b1, BoxLayout.LINE_AXIS));
-    b1.add(page);
+    JPanel top = new JPanel();
+    // TODO: Avoid this
+    top.setMaximumSize(new Dimension(2000, 800));
+    top.setLayout(new BorderLayout());
+    top.add(page);
 
-    JPanel b2 = new JPanel();
-    b2.setLayout(new BoxLayout(b2, BoxLayout.LINE_AXIS));
-    b2.add(current);
-    b2.add(play);
+    JPanel bottom = new JPanel();
+    // TODO: Avoid this
+    bottom.setMaximumSize(new Dimension(2000, 800));
+    bottom.setLayout(new BorderLayout());
+    bottom.add(versions, BorderLayout.LINE_START);
+    bottom.add(progress, BorderLayout.CENTER);
+    bottom.add(button, BorderLayout.LINE_END);
 
-    JPanel b3 = new JPanel();
-    b3.setLayout(new BoxLayout(b3, BoxLayout.PAGE_AXIS));
-    b3.add(new JScrollPane(page));
-    b3.add(b1);
-    b3.add(b2);
+    JPanel whole = new JPanel();
+    whole.setLayout(new BoxLayout(whole, BoxLayout.PAGE_AXIS));
+    whole.add(new JScrollPane(page));
+    whole.add(top);
+    whole.add(bottom);
 
-    j.setContentPane(b3);
-
+    j.setContentPane(whole);
     j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     j.setSize(new Dimension(800, 600));
     j.setLocationRelativeTo(null);
     j.setVisible(true);
   }
 
-  public void enableButton() {
-    play.enableButton();
+  public VersionClass getSelectedVersion() {
+    return versionsList.get(versions.getSelectedItem());
   }
 
-  public void update(int UpdateNumber) {
-    current.setValue(UpdateNumber);
+  public void setButtonState(boolean state) {
+    button.setEnabled(state);
   }
 
-  public void setMax(Double fileLength) {
+  public void update(int percent) {
+    System.out.println(percent);
+    progress.setValue(percent);
+    progress.update(progress.getGraphics());
+  }
+
+  public void addMax(int fileLength) {
     totalLength += fileLength;
   }
 
   public void add(int bytesRead) {
     totalBytesRead += bytesRead;
-    update(((int) Math.round(totalBytesRead / totalLength * 100.0D)));
+    update((int) ((double) totalBytesRead / (double) totalLength * 100D));
   }
 
   public void setLoading(boolean loading) {
-    current.setIndeterminate(loading);
+    progress.setIndeterminate(loading);
+    progress.update(progress.getGraphics());
   }
 
   public void finish() {

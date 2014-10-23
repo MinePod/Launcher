@@ -8,6 +8,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import fr.minepod.utils.UtilsFiles;
+
 public class Profile {
   public void set() throws IOException, ParseException {
     set(false);
@@ -20,7 +22,7 @@ public class Profile {
   @SuppressWarnings("unchecked")
   public void set(boolean update) throws IOException, ParseException {
     Config.logger.info("Detecting profile...");
-    String profile = fr.minepod.utils.UtilsFiles.readFile(Config.profilesPath);
+    String profile = UtilsFiles.readFile(Config.profilesPath);
 
     JSONObject jsonObject =
         (JSONObject) new JSONParser().parse(new FileReader(Config.profilesPath));
@@ -56,6 +58,8 @@ public class Profile {
     }
 
     new File(Config.profilesPath).delete();
-    fr.minepod.utils.UtilsFiles.writeFile(Config.profilesPath, profile);
+    UtilsFiles.writeFile(Config.profilesPath, profile);
+
+    Config.logger.info("Waiting for user action...");
   }
 }
