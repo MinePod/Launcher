@@ -83,7 +83,6 @@ public class Gui {
   }
 
   public void update(int percent) {
-    System.out.println(percent);
     progress.setValue(percent);
     progress.update(progress.getGraphics());
   }
