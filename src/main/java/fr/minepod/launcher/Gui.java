@@ -9,14 +9,15 @@ import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 
 public class Gui {
+  private JComboBox<String> versions = new JComboBox<>();
   private JProgressBar progress = new JProgressBar(0, 100);
-  private JComboBox<String> versions = new JComboBox<String>();
-  private Button button = new Button(Langage.LAUNCHBUTTON.toString());
+  private Button button = new Button("Jouer");
   private int totalBytesRead = 0;
   private int totalLength = 0;
 
@@ -28,38 +29,42 @@ public class Gui {
     JEditorPane page = new JEditorPane();
     page.setContentType("text/html");
     page.setEditable(false);
-    page.setSize(400, 600);
     page.setPage(Config.launcherChangelogPage);
-
-    progress.setValue(0);
-    progress.setStringPainted(true);
 
     for (String key : versionsList.keySet()) {
       versions.addItem(key);
     }
+
+    progress.setValue(0);
+    progress.setStringPainted(true);
 
     JFrame j =
         new JFrame("MinePod Launcher - Salsepareille " + Config.launcherVersion + " "
             + Config.launcherBuildTime);
 
     JPanel top = new JPanel();
-    // TODO: Avoid this
-    top.setMaximumSize(new Dimension(2000, 800));
     top.setLayout(new BorderLayout());
     top.add(page);
+    top.add(new JScrollPane(page));
+
+    JPanel middle = new JPanel();
+    // TODO: Avoid this
+    middle.setMaximumSize(new Dimension(800, 20));
+    middle.setLayout(new BorderLayout());
+    middle.add(progress, BorderLayout.CENTER);
 
     JPanel bottom = new JPanel();
     // TODO: Avoid this
-    bottom.setMaximumSize(new Dimension(2000, 800));
+    bottom.setMaximumSize(new Dimension(800, 20));
     bottom.setLayout(new BorderLayout());
-    bottom.add(versions, BorderLayout.LINE_START);
-    bottom.add(progress, BorderLayout.CENTER);
+    bottom.add(new JLabel("Version: "), BorderLayout.LINE_START);
+    bottom.add(versions, BorderLayout.CENTER);
     bottom.add(button, BorderLayout.LINE_END);
 
     JPanel whole = new JPanel();
     whole.setLayout(new BoxLayout(whole, BoxLayout.PAGE_AXIS));
-    whole.add(new JScrollPane(page));
     whole.add(top);
+    whole.add(middle);
     whole.add(bottom);
 
     j.setContentPane(whole);

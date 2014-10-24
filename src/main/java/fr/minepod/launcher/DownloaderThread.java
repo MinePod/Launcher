@@ -63,18 +63,17 @@ public class DownloaderThread extends Thread {
         if (fileAction.equalsIgnoreCase("unzip")) {
           UtilsFiles.unZip(fileLocation, folderLocation, folderName);
         } else {
-          UtilsFiles.copyFile(fileLocation, folderLocation + folderName + "."
-              + fileType);
+          UtilsFiles.copyFile(fileLocation, folderLocation + folderName + "." + fileType);
         }
       } else {
         download(new URL(url), fileLocation, false);
       }
     } catch (MalformedURLException e) {
-      new CrashReport(e.toString(), "downloading file");
+      CrashReport.show(e.toString());
     } catch (ZipException e) {
-      new CrashReport(e.toString(), "unzipping file");
+      CrashReport.show(e.toString());
     } catch (IOException e) {
-      new CrashReport(e.toString(), "copying file");
+      CrashReport.show(e.toString());
     }
   }
 
@@ -107,7 +106,7 @@ public class DownloaderThread extends Thread {
 
       fos.close();
     } catch (IOException e) {
-      new CrashReport(e.toString(), "downloading file");
+      CrashReport.show(e.toString());
     }
 
     Config.logger.info("Downloading complete!");

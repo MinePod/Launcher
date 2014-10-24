@@ -45,7 +45,7 @@ public class Launcher {
       gui.setLoading(false);
       gui.setButtonState(true);
     } catch (SecurityException | IOException | ParseException | InterruptedException e) {
-      new CrashReport(e.toString(), Langage.DOINGMAINTHREADTASKS.toString());
+      CrashReport.show(e.toString());
     }
   }
 
@@ -62,11 +62,13 @@ public class Launcher {
             Config.logger.info("Current profile version: "
                 + UtilsFiles.readFile(Config.profilesVersionPath));
             Config.logger.info("New profile version: " + Config.profilesVersion);
+
             profile.update();
             UtilsFiles.writeFile(Config.profilesVersionPath, Config.profilesVersion);
           }
         } else {
           Config.logger.warning("The profile version doesn't exist, creating a new one...");
+
           profile.set();
           UtilsFiles.writeFile(Config.profilesVersionPath, Config.profilesVersion);
         }
@@ -77,8 +79,8 @@ public class Launcher {
                 + Config.launcherName, "Attention", JOptionPane.WARNING_MESSAGE);
         System.exit(0);
       }
-    } catch (Exception e) {
-      new CrashReport(e.toString(), Langage.LAUNCHINGGAME.toString());
+    } catch (IOException e) {
+      CrashReport.show(e.toString());
     }
   }
 
@@ -97,7 +99,7 @@ public class Launcher {
 
       System.exit(0);
     } catch (Exception e) {
-      new CrashReport(e.toString(), Langage.LAUNCHINGGAME.toString());
+      CrashReport.show(e.toString());
     }
   }
 }

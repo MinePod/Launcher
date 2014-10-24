@@ -18,7 +18,7 @@ import fr.minepod.utils.UtilsFiles;
 public class VersionsManager {
   String launcherDataFile = Config.launcherLocation + Config.slash + "launcher_data.json";
 
-  public Map<String, VersionClass> versions = new LinkedHashMap<String, VersionClass>();
+  public Map<String, VersionClass> versions = new LinkedHashMap<>();
 
   public VersionsManager() throws IOException, ParseException, InterruptedException {
     DownloaderThread downloader = new DownloaderThread(Config.launcherDataUrl, launcherDataFile);
@@ -29,9 +29,8 @@ public class VersionsManager {
     JSONObject jsonObject = (JSONObject) new JSONParser().parse(dataFile);
 
     if (jsonObject.get("skip") != null && (Boolean) jsonObject.get("skip")) {
-      new CrashReport(
-          "Le serveur de fichiers est actuellement en cours de maintenance. Retestez plus tard.",
-          Langage.LAUNCHINGGAME.toString());
+      CrashReport
+          .show("Le serveur de fichiers est actuellement en cours de maintenance. Retestez plus tard.");
     }
 
     JSONArray versions = (JSONArray) jsonObject.get("versions");
@@ -50,7 +49,7 @@ public class VersionsManager {
             .put(date + "-" + version + "-" + id, new VersionClass(url, date, version, id));
       }
     } else {
-      new CrashReport("Pas de versions disponibles.", Langage.LAUNCHINGGAME.toString());
+      CrashReport.show("Pas de versions disponibles.");
     }
   }
 

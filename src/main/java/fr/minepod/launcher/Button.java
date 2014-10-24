@@ -34,10 +34,10 @@ public class Button extends JButton implements MouseListener {
         Config.logger.info("Launching game soon...");
         Launcher.launchGame();
       } catch (IOException | ParseException | InterruptedException error) {
-        new CrashReport(error.toString(), "downloading file");
+        CrashReport.show(error.toString());
       }
     } else {
-      new CrashReport("Null VersionsManager", "installing version");
+      CrashReport.show("Null VersionsManager");
     }
   }
 

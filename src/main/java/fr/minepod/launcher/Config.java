@@ -75,9 +75,9 @@ public class Config {
     if (manifest != null) {
       Attributes Attributes = manifest.getMainAttributes();
       setLauncherVersion(Attributes.getValue("Launcher-version"));
-      setLauncherBuildTime(Langage.COMPILEDON.toString() + Attributes.getValue("Build-time"));
+      setLauncherBuildTime("Compilé le " + Attributes.getValue("Build-time"));
     } else {
-      setLauncherVersion(Langage.DEVELOPMENTVERSION.toString());
+      setLauncherVersion("Version de développement");
       setLauncherBuildTime("");
     }
   }
