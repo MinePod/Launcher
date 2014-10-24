@@ -63,7 +63,7 @@ public class Config {
   }
 
   public static void setup() throws SecurityException, IOException {
-    logger = new UtilsLogger().SetLogger(Config.logFile);
+    logger = UtilsLogger.setLogger(Config.logFile);
 
     InputStream InputStream =
         Launcher.class.getProtectionDomain().getCodeSource().getLocation().openStream();

@@ -2,6 +2,7 @@ package fr.minepod.launcher;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -54,7 +55,7 @@ public class VersionsManager {
   }
 
   public void installVersion(VersionClass version) throws IOException, ParseException,
-      InterruptedException {
+      InterruptedException, NoSuchAlgorithmException {
     List<DownloaderThread> list = new ArrayList<DownloaderThread>();
 
     Config.logger.info("Launching installation of version:");

@@ -3,6 +3,7 @@ package fr.minepod.launcher;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.swing.JButton;
 
@@ -33,7 +34,7 @@ public class Button extends JButton implements MouseListener {
         Launcher.versionsManager.installVersion(Launcher.gui.getSelectedVersion());
         Config.logger.info("Launching game soon...");
         Launcher.launchGame();
-      } catch (IOException | ParseException | InterruptedException error) {
+      } catch (IOException | ParseException | InterruptedException | NoSuchAlgorithmException error) {
         CrashReport.show(error.toString());
       }
     } else {
