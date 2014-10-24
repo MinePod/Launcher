@@ -39,15 +39,17 @@ public class VersionsManager {
       for (int i = 0; i < versions.size(); i++) {
         JSONObject versionObject = (JSONObject) versions.get(i);
 
-        String url = (String) versionObject.get("url");
         String date = (String) versionObject.get("date");
         String version = (String) versionObject.get("version");
         String id = (String) versionObject.get("id");
+        String type = (String) versionObject.get("type");
 
-        url = fillVersionUrl(url, date, version, id);
+        String url = fillVersionUrl((String) versionObject.get("url"), date, version, id);
 
-        this.versions
-            .put(date + "-" + version + "-" + id, new VersionClass(url, date, version, id));
+        String key = type + " " + version;
+        if (!this.versions.containsKey(key)) {
+          this.versions.put(key, new VersionClass(url, date, version, id, type));
+        }
       }
     } else {
       CrashReport.show("Pas de versions disponibles.");
@@ -82,6 +84,8 @@ public class VersionsManager {
         String fileVersion = (String) object.get("version");
         String fileType = (String) object.get("type");
         String fileAction = (String) object.get("action");
+        String fileMd5 = (String) object.get("md5");
+
         String filePath =
             fillVersionData((String) object.get("path"), fileId, fileVersion, fileType, true);
         String fileName =
@@ -90,7 +94,6 @@ public class VersionsManager {
             fillVersionData((String) object.get("temp"), fileId, fileVersion, fileType, true);
         String fileUrl =
             fillVersionData((String) object.get("url"), fileId, fileVersion, fileType, false);
-        String fileMd5 = (String) object.get("md5");
 
         if (!new File(fileTemp).exists()) {
           if (!new File(fileTemp).getParentFile().exists()) {

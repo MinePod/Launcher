@@ -5,12 +5,14 @@ public class VersionClass {
   String date;
   String version;
   String id;
+  String type;
 
-  public VersionClass(String url, String date, String version, String id) {
+  public VersionClass(String url, String date, String version, String id, String type) {
     this.url = url;
     this.date = date;
     this.version = version;
     this.id = id;
+    this.type = type;
   }
 
   public String getUrl() {
@@ -27,5 +29,9 @@ public class VersionClass {
 
   public String getId() {
     return id;
+  }
+
+  public String getType() {
+    return type;
   }
 }
