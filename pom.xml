@@ -7,7 +7,8 @@
 	<version>2.4.1</version>
 
 	<properties>
-		<timestamp>${maven.build.timestamp}</timestamp>
+		<build.builder>File Server</build.builder>
+		<build.timestamp>${maven.build.timestamp}</build.timestamp>
 		<maven.build.timestamp.format>dd-MM-yyyy HH:mm:ss</maven.build.timestamp.format>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -47,7 +48,8 @@
 							<mainClass>fr.minepod.launcher.Launcher</mainClass>
 						</manifest>
 						<manifestEntries>
-							<Build-Time>${timestamp}</Build-Time>
+							<Built-By>${build.builder}</Built-By>
+							<Build-Time>${build.timestamp}</Build-Time>
 							<Launcher-Version>${project.version}</Launcher-Version>
 						</manifestEntries>
 					</archive>
