@@ -14,18 +14,20 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 
-public class Gui {
+public class LauncherGui {
   private JComboBox<String> versions = new JComboBox<>();
-  private JProgressBar progress = new JProgressBar(0, 100);
+  protected JProgressBar progress = new JProgressBar(0, 100);
   private Button button = new Button("Jouer");
   private int totalBytesRead = 0;
   private int totalLength = 0;
 
   private Map<String, VersionClass> versionsList;
 
-  public Gui(Map<String, VersionClass> versionsList) throws IOException {
+  public LauncherGui(Map<String, VersionClass> versionsList) {
     this.versionsList = versionsList;
+  }
 
+  public void initGui() throws IOException {
     JEditorPane page = new JEditorPane();
     page.setContentType("text/html");
     page.setEditable(false);

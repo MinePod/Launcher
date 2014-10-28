@@ -32,38 +32,36 @@ public class Config {
 
   public static java.util.logging.Logger logger;
 
-  public static void setConfig() {
+  public static void setConfig() throws SecurityException, IOException {
     String OS = System.getProperty("os.name").toUpperCase();
     if (OS.contains("WIN")) {
-      Config.appDataPath = System.getenv("APPDATA");
-      Config.launcherDir = "\\." + launcherName;
-      Config.minecraft = "\\.minecraft";
+      appDataPath = System.getenv("APPDATA");
+      launcherDir = "\\." + launcherName;
+      minecraft = "\\.minecraft";
     } else if (OS.contains("MAC")) {
-      Config.appDataPath = System.getProperty("user.home") + "/Library/Application Support";
-      Config.launcherDir = "/" + launcherName;
-      Config.minecraft = "/minecraft";
+      appDataPath = System.getProperty("user.home") + "/Library/Application Support";
+      launcherDir = "/" + launcherName;
+      minecraft = "/minecraft";
     } else if (OS.contains("NUX")) {
-      Config.appDataPath = System.getProperty("user.home");
-      Config.launcherDir = "/." + launcherName;
-      Config.minecraft = "/.minecraft";
+      appDataPath = System.getProperty("user.home");
+      launcherDir = "/." + launcherName;
+      minecraft = "/.minecraft";
     } else {
-      Config.appDataPath = System.getProperty("user.dir");
-      Config.launcherDir = "/." + launcherName;
-      Config.minecraft = "/.minecraft";
+      appDataPath = System.getProperty("user.dir");
+      launcherDir = "/." + launcherName;
+      minecraft = "/.minecraft";
     }
 
-    Config.slash = System.getProperty("file.separator");
-    Config.launcherTempDir = launcherDir + slash + "temp";
-    Config.minecraftDir = appDataPath + minecraft;
-    Config.launcherLocation = appDataPath + launcherDir;
-    Config.launcherMinecraftJar = launcherLocation + slash + "minecraft.jar";
-    Config.profilesPath = minecraftDir + slash + "launcher_profiles.json";
-    Config.profilesVersionPath = launcherLocation + slash + "profiles.txt";
-    Config.logFile = launcherLocation + slash + "launcher_logs.txt";
-  }
+    slash = System.getProperty("file.separator");
+    launcherTempDir = launcherDir + slash + "temp";
+    minecraftDir = appDataPath + minecraft;
+    launcherLocation = appDataPath + launcherDir;
+    launcherMinecraftJar = launcherLocation + slash + "minecraft.jar";
+    profilesPath = minecraftDir + slash + "launcher_profiles.json";
+    profilesVersionPath = launcherLocation + slash + "profiles.txt";
+    logFile = launcherLocation + slash + "launcher_logs.txt";
 
-  public static void setup() throws SecurityException, IOException {
-    logger = UtilsLogger.setLogger(Config.logFile);
+    logger = UtilsLogger.setLogger(logFile);
 
     InputStream InputStream =
         Launcher.class.getProtectionDomain().getCodeSource().getLocation().openStream();
@@ -74,23 +72,11 @@ public class Config {
 
     if (manifest != null) {
       Attributes Attributes = manifest.getMainAttributes();
-      setLauncherVersion(Attributes.getValue("Launcher-version"));
-      setLauncherBuildTime("Compilé le " + Attributes.getValue("Build-time"));
+      launcherVersion = Attributes.getValue("Launcher-version");
+      launcherBuildTime = "Compilé le " + Attributes.getValue("Build-time");
     } else {
-      setLauncherVersion("Version de développement");
-      setLauncherBuildTime("");
+      launcherVersion = "Version de développement";
+      launcherBuildTime = "";
     }
-  }
-
-  public static void setBootstrapVersion(String Version) {
-    Config.bootstrapVersion = Version;
-  }
-
-  public static void setLauncherVersion(String Version) {
-    Config.launcherVersion = Version;
-  }
-
-  public static void setLauncherBuildTime(String BuildTime) {
-    Config.launcherBuildTime = BuildTime;
   }
 }

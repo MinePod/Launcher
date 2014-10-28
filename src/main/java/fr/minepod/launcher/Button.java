@@ -31,9 +31,12 @@ public class Button extends JButton implements MouseListener {
       Launcher.gui.setLoading(true);
 
       try {
-        Launcher.versionsManager.installVersion(Launcher.gui.getSelectedVersion());
+        Launcher.versionsManager.installVersion(Launcher.gui.getSelectedVersion(), Launcher.gui,
+            Config.logger);
+        Launcher.gui.setLoading(false);
+
         Config.logger.info("Launching game soon...");
-        Launcher.launchGame();
+        new LaunchJar(Config.launcherMinecraftJar);
       } catch (IOException | ParseException | InterruptedException | NoSuchAlgorithmException error) {
         CrashReport.show(error.toString());
       }

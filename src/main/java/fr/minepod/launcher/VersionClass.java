@@ -6,13 +6,16 @@ public class VersionClass {
   String version;
   String id;
   String type;
+  String message;
 
-  public VersionClass(String url, String date, String version, String id, String type) {
+  public VersionClass(String url, String date, String version, String id, String type,
+      String message) {
     this.url = url;
     this.date = date;
     this.version = version;
     this.id = id;
     this.type = type;
+    this.message = message;
   }
 
   public String getUrl() {
@@ -33,5 +36,9 @@ public class VersionClass {
 
   public String getType() {
     return type;
+  }
+
+  public String getMessage() {
+    return message;
   }
 }

@@ -1,6 +1,5 @@
 package fr.minepod.launcher;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 
@@ -12,7 +11,7 @@ import fr.minepod.utils.UtilsFiles;
 
 public class Launcher {
   public static VersionsManager versionsManager;
-  public static Gui gui;
+  public static LauncherGui gui;
 
   public static void main(String[] args) throws IOException {
     if (args.length != 0)
@@ -27,16 +26,19 @@ public class Launcher {
 
   public static void start(String args) {
     try {
-      Config.setBootstrapVersion(args);
+      Config.bootstrapVersion = args;
       Config.setConfig();
 
-      if (!new File(Config.launcherLocation).exists())
+      if (!new File(Config.launcherLocation).exists()) {
         new File(Config.launcherLocation).mkdir();
+      }
 
-      Config.setup();
-
-      versionsManager = new VersionsManager();
-      gui = new Gui(versionsManager.versions);
+      versionsManager =
+          new VersionsManager(Config.launcherLocation, Config.launcherDataUrl, Config.minecraftDir,
+              Config.slash, Config.logger);
+      versionsManager.initVersionsManager();
+      gui = new LauncherGui(versionsManager.versions);
+      gui.initGui();
       gui.setLoading(true);
       Config.logger.info("Downloaded versions informations");
 
@@ -80,25 +82,6 @@ public class Launcher {
         System.exit(0);
       }
     } catch (IOException e) {
-      CrashReport.show(e.toString());
-    }
-  }
-
-  public static void launchGame() {
-    try {
-      String OS = System.getProperty("os.name").toUpperCase();
-
-      if (OS.contains("WIN"))
-        Runtime.getRuntime().exec("java -jar -Xmx1G \"" + Config.launcherMinecraftJar + "\"");
-      else if (OS.contains("MAC"))
-        Desktop.getDesktop().open(new File(Config.launcherMinecraftJar));
-      else if (OS.contains("NUX"))
-        Runtime.getRuntime().exec("java -jar -Xmx1G \"" + Config.launcherMinecraftJar + "\"");
-      else
-        Runtime.getRuntime().exec("java -jar -Xmx1G \"" + Config.launcherMinecraftJar + "\"");
-
-      System.exit(0);
-    } catch (Exception e) {
       CrashReport.show(e.toString());
     }
   }
