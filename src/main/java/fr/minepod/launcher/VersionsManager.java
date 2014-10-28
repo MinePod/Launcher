@@ -77,7 +77,7 @@ public class VersionsManager {
 
   public void installVersion(VersionClass version, LauncherGui gui, Logger logger)
       throws IOException, ParseException, InterruptedException, NoSuchAlgorithmException {
-    List<DownloaderThread> list = new ArrayList<DownloaderThread>();
+    List<DownloaderThread> list = new ArrayList<>();
 
     logger.info("Launching installation of version:");
     logger.info("URL: " + version.getUrl());

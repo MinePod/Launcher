@@ -28,18 +28,22 @@ public class Button extends JButton implements MouseListener {
     if (Launcher.versionsManager != null) {
       Config.logger.info("Launching version installing...");
       Launcher.gui.update(0);
-      Launcher.gui.setLoading(true);
 
-      try {
-        Launcher.versionsManager.installVersion(Launcher.gui.getSelectedVersion(), Launcher.gui,
-            Config.logger);
-        Launcher.gui.setLoading(false);
+      new Thread(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            Launcher.versionsManager.installVersion(Launcher.gui.getSelectedVersion(),
+                Launcher.gui, Config.logger);
+            Launcher.gui.setLoading(true);
 
-        Config.logger.info("Launching game soon...");
-        new LaunchJar(Config.launcherMinecraftJar);
-      } catch (IOException | ParseException | InterruptedException | NoSuchAlgorithmException error) {
-        CrashReport.show(error.toString());
-      }
+            Config.logger.info("Launching game soon...");
+            new LaunchJar(Config.launcherMinecraftJar);
+          } catch (IOException | ParseException | InterruptedException | NoSuchAlgorithmException error) {
+            CrashReport.show(error.toString());
+          }
+        }
+      }).start();
     } else {
       CrashReport.show("Null VersionsManager");
     }

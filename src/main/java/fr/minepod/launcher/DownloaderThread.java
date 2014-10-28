@@ -65,8 +65,6 @@ public class DownloaderThread extends Thread {
           download(new URL(url), fileLocation, true);
         }
 
-        gui.setLoading(true);
-
         if (fileAction.equalsIgnoreCase("unzip")) {
           UtilsFiles.unZip(fileLocation, folderLocation, folderName);
         } else {

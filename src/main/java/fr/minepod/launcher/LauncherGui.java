@@ -86,7 +86,6 @@ public class LauncherGui {
 
   public void update(int percent) {
     progress.setValue(percent);
-    progress.update(progress.getGraphics());
   }
 
   public void addMax(int fileLength) {
@@ -100,7 +99,6 @@ public class LauncherGui {
 
   public void setLoading(boolean loading) {
     progress.setIndeterminate(loading);
-    progress.update(progress.getGraphics());
   }
 
   public void finish() {
