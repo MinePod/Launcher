@@ -40,7 +40,7 @@ public class VersionsManager {
 
   public void initVersionsManager() throws IOException, ParseException, InterruptedException {
     DownloaderThread downloader =
-        new DownloaderThread(Launcher.gui, logger, launcherDataUrl, launcherDataFile);
+        new DownloaderThread(logger, launcherDataUrl, launcherDataFile);
     downloader.start();
     downloader.join();
 
@@ -85,7 +85,7 @@ public class VersionsManager {
     logger.info("Version: " + version.getId());
 
     DownloaderThread downloader =
-        new DownloaderThread(gui, logger, version.getUrl(), launcherDataFile);
+        new DownloaderThread(logger, version.getUrl(), launcherDataFile);
     downloader.start();
     downloader.join();
 

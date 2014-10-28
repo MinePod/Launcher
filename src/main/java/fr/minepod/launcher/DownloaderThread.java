@@ -24,9 +24,8 @@ public class DownloaderThread extends Thread {
   private String fileType;
   private String fileAction;
 
-  public DownloaderThread(LauncherGui gui, Logger logger, String url, String fileLocation) {
+  public DownloaderThread(Logger logger, String url, String fileLocation) {
     all = false;
-    this.gui = gui;
     this.logger = logger;
     this.url = url;
     this.fileLocation = fileLocation;
