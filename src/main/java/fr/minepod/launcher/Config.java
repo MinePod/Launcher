@@ -1,5 +1,6 @@
 package fr.minepod.launcher;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.jar.Attributes;
@@ -24,6 +25,7 @@ public class Config {
   public static String minecraft;
   public static String slash;
   public static String launcherLocation;
+  public static String launcherDataFile;
   public static String launcherMinecraftJar;
   public static String profilesPath;
   public static String profilesVersionPath;
@@ -56,6 +58,7 @@ public class Config {
     launcherTempDir = launcherDir + slash + "temp";
     minecraftDir = appDataPath + minecraft;
     launcherLocation = appDataPath + launcherDir;
+    launcherDataFile = launcherLocation + File.separator + "launcher_data.json";
     launcherMinecraftJar = launcherLocation + slash + "minecraft.jar";
     profilesPath = minecraftDir + slash + "launcher_profiles.json";
     profilesVersionPath = launcherLocation + slash + "profiles.txt";

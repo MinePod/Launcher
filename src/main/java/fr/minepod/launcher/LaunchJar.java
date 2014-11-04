@@ -2,6 +2,7 @@ package fr.minepod.launcher;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 
 public class LaunchJar {
   public LaunchJar(String path) {
@@ -19,8 +20,8 @@ public class LaunchJar {
       }
 
       System.exit(0);
-    } catch (Exception e) {
-      CrashReport.show(e.toString());
+    } catch (IOException e) {
+      CrashReport.show(e);
     }
   }
 }

@@ -1,4 +1,4 @@
-package fr.minepod.launcher;
+package fr.minepod.launcher.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -13,6 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
+
+import fr.minepod.launcher.Config;
+import fr.minepod.launcher.updater.versions.VersionClass;
 
 public class LauncherGui {
   private JComboBox<String> versions = new JComboBox<>();

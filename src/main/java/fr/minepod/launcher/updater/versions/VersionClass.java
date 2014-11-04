@@ -1,4 +1,4 @@
-package fr.minepod.launcher;
+package fr.minepod.launcher.updater.versions;
 
 public class VersionClass {
   String url;
@@ -6,16 +6,15 @@ public class VersionClass {
   String version;
   String id;
   String type;
-  String message;
 
-  public VersionClass(String url, String date, String version, String id, String type,
-      String message) {
+  boolean skip = false;
+
+  public VersionClass(String url, String date, String version, String id, String type) {
     this.url = url;
     this.date = date;
     this.version = version;
     this.id = id;
     this.type = type;
-    this.message = message;
   }
 
   public String getUrl() {
@@ -38,7 +37,11 @@ public class VersionClass {
     return type;
   }
 
-  public String getMessage() {
-    return message;
+  public boolean isSkip() {
+    return skip;
+  }
+
+  public void setSkip(boolean skip) {
+    this.skip = skip;
   }
 }

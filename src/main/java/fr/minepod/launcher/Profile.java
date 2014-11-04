@@ -22,7 +22,7 @@ public class Profile {
   @SuppressWarnings("unchecked")
   public void set(boolean update) throws IOException, ParseException {
     Config.logger.info("Detecting profile...");
-    String profile = UtilsFiles.readFile(Config.profilesPath);
+    String profile = new UtilsFiles().readFile(Config.profilesPath);
 
     JSONObject jsonObject =
         (JSONObject) new JSONParser().parse(new FileReader(Config.profilesPath));
@@ -58,7 +58,7 @@ public class Profile {
     }
 
     new File(Config.profilesPath).delete();
-    UtilsFiles.writeFile(Config.profilesPath, profile);
+    new UtilsFiles().writeFile(Config.profilesPath, profile);
 
     Config.logger.info("Waiting for user action...");
   }

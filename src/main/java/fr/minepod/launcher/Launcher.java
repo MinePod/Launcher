@@ -7,10 +7,12 @@ import javax.swing.JOptionPane;
 
 import org.json.simple.parser.ParseException;
 
+import fr.minepod.launcher.gui.LauncherGui;
+import fr.minepod.launcher.updater.versions.VersionsUpdater;
 import fr.minepod.utils.UtilsFiles;
 
 public class Launcher {
-  public static VersionsManager versionsManager;
+  public static VersionsUpdater versionsUpdater;
   public static LauncherGui gui;
 
   public static void main(String[] args) throws IOException {
@@ -33,46 +35,46 @@ public class Launcher {
         new File(Config.launcherLocation).mkdir();
       }
 
-      versionsManager =
-          new VersionsManager(Config.launcherLocation, Config.launcherDataUrl, Config.minecraftDir,
-              Config.slash, Config.logger);
-      versionsManager.initVersionsManager();
-      gui = new LauncherGui(versionsManager.versions);
+      Config.logger.info("Downloading versions informations...");
+      versionsUpdater = new VersionsUpdater(Config.logger);
+      versionsUpdater.init(gui);
+      gui = new LauncherGui(versionsUpdater.versions);
       gui.initGui();
       gui.setLoading(true);
-      Config.logger.info("Downloaded versions informations");
+      Config.logger.info("Downloaded versions informations.");
 
       checkProfile();
       gui.finish();
       gui.setLoading(false);
       gui.setButtonState(true);
     } catch (SecurityException | IOException | ParseException | InterruptedException e) {
-      CrashReport.show(e.toString());
+      CrashReport.show(e);
     }
   }
 
   public static void checkProfile() throws IOException, ParseException {
     try {
       if (new File(Config.profilesPath).exists()
-          && !UtilsFiles.readFile(Config.profilesPath).isEmpty()) {
+          && !new UtilsFiles().readFile(Config.profilesPath).isEmpty()) {
         Profile profile = new Profile();
 
         if (new File(Config.profilesVersionPath).exists()) {
-          if (UtilsFiles.readFile(Config.profilesVersionPath).contains(Config.profilesVersion)) {
+          if (new UtilsFiles().readFile(Config.profilesVersionPath)
+              .contains(Config.profilesVersion)) {
             profile.set();
           } else {
             Config.logger.info("Current profile version: "
-                + UtilsFiles.readFile(Config.profilesVersionPath));
+                + new UtilsFiles().readFile(Config.profilesVersionPath));
             Config.logger.info("New profile version: " + Config.profilesVersion);
 
             profile.update();
-            UtilsFiles.writeFile(Config.profilesVersionPath, Config.profilesVersion);
+            new UtilsFiles().writeFile(Config.profilesVersionPath, Config.profilesVersion);
           }
         } else {
           Config.logger.warning("The profile version doesn't exist, creating a new one...");
 
           profile.set();
-          UtilsFiles.writeFile(Config.profilesVersionPath, Config.profilesVersion);
+          new UtilsFiles().writeFile(Config.profilesVersionPath, Config.profilesVersion);
         }
       } else {
         Config.logger.severe("The profile file doesn't exist");
@@ -82,7 +84,7 @@ public class Launcher {
         System.exit(0);
       }
     } catch (IOException e) {
-      CrashReport.show(e.toString());
+      CrashReport.show(e);
     }
   }
 }
