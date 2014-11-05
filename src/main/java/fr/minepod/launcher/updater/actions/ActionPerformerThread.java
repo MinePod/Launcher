@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import fr.minepod.launcher.updater.actions.performers.CopyPerformer;
 import fr.minepod.launcher.updater.actions.performers.DeletePerformer;
 import fr.minepod.launcher.updater.actions.performers.InjectPerformer;
+import fr.minepod.launcher.updater.actions.performers.MkdirPerformer;
 import fr.minepod.launcher.updater.actions.performers.MovePerformer;
 import fr.minepod.launcher.updater.actions.performers.UnZipPerformer;
 
@@ -31,6 +32,8 @@ public class ActionPerformerThread extends Thread {
         new MovePerformer(action).run();
       } else if (action.getAction().equalsIgnoreCase("unzip")) {
         new UnZipPerformer(action).run();
+      } else if (action.getAction().equalsIgnoreCase("mkdir")) {
+        new MkdirPerformer(action).run();
       }
     } catch (PerformerException e) {
       exception = e;
