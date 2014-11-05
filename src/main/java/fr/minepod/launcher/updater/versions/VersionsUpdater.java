@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import de.schlichtherle.truezip.file.TVFS;
 import fr.minepod.launcher.Config;
 import fr.minepod.launcher.CrashReport;
 import fr.minepod.launcher.Utils;
@@ -96,5 +97,7 @@ public class VersionsUpdater {
     gui.setLoading(true);
 
     new ActionPerformer(logger, json);
+
+    TVFS.umount();
   }
 }

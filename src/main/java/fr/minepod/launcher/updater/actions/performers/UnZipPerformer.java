@@ -1,6 +1,5 @@
 package fr.minepod.launcher.updater.actions.performers;
 
-import java.io.IOException;
 import java.util.Map;
 
 import fr.minepod.launcher.updater.actions.ActionClass;
@@ -22,7 +21,7 @@ public class UnZipPerformer extends AbstractPerformer {
     try {
       new UtilsFiles().unZip((String) this.getArgs().get("input"),
           (String) this.getArgs().get("output"));
-    } catch (IOException e) {
+    } catch (Exception e) {
       throw new PerformerException(e);
     }
   }

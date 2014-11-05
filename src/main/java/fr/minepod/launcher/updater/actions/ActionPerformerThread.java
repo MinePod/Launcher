@@ -2,7 +2,6 @@ package fr.minepod.launcher.updater.actions;
 
 import java.util.logging.Logger;
 
-import fr.minepod.launcher.CrashReport;
 import fr.minepod.launcher.updater.actions.performers.CopyPerformer;
 import fr.minepod.launcher.updater.actions.performers.DeletePerformer;
 import fr.minepod.launcher.updater.actions.performers.InjectPerformer;
@@ -12,6 +11,8 @@ import fr.minepod.launcher.updater.actions.performers.UnZipPerformer;
 public class ActionPerformerThread extends Thread {
   Logger logger;
   ActionClass action;
+
+  Exception exception;
 
   public ActionPerformerThread(Logger logger, ActionClass action) {
     this.logger = logger;
@@ -32,7 +33,11 @@ public class ActionPerformerThread extends Thread {
         new UnZipPerformer(action).run();
       }
     } catch (PerformerException e) {
-      CrashReport.show(e);
+      exception = e;
     }
+  }
+
+  public Exception getException() {
+    return exception;
   }
 }

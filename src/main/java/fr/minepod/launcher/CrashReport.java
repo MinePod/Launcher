@@ -4,7 +4,6 @@ import javax.swing.JOptionPane;
 
 public class CrashReport {
   public static void show(Exception exception) {
-    Config.logger.info(Thread.currentThread().getStackTrace()[2].getClassName());
     show(exception.getLocalizedMessage());
   }
 

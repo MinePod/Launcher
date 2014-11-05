@@ -17,6 +17,10 @@ public class DeletePerformer extends AbstractPerformer {
 
   @Override
   public void run() throws PerformerException {
-    new UtilsFiles().delete((String) this.getArgs().get("input"));
+    try {
+      new UtilsFiles().delete((String) this.getArgs().get("input"));
+    } catch (Exception e) {
+      throw new PerformerException(e);
+    }
   }
 }

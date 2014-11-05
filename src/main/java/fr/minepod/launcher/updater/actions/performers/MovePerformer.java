@@ -18,7 +18,11 @@ public class MovePerformer extends AbstractPerformer {
 
   @Override
   public void run() throws PerformerException {
-    new UtilsFiles().moveFile((String) this.getArgs().get("input"),
-        (String) this.getArgs().get("output"));
+    try {
+      new UtilsFiles().moveFile((String) this.getArgs().get("input"),
+          (String) this.getArgs().get("output"));
+    } catch (Exception e) {
+      throw new PerformerException(e);
+    }
   }
 }

@@ -1,6 +1,5 @@
 package fr.minepod.launcher.updater.actions.performers;
 
-import java.io.IOException;
 import java.util.Map;
 
 import fr.minepod.launcher.updater.actions.ActionClass;
@@ -21,7 +20,7 @@ public class InjectPerformer extends AbstractPerformer {
     try {
       new UtilsFiles().mergeZip((String) this.getArgs().get("input"),
           (String) this.getArgs().get("merge"), (String) this.getArgs().get("output"));
-    } catch (IOException e) {
+    } catch (Exception e) {
       throw new PerformerException(e);
     }
   }
