@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 
 public class CrashReport {
   public static void show(Exception exception) {
-    show(exception.getLocalizedMessage());
+    show(Utils.getStackTrace(exception));
   }
 
   public static void show(String exception) {

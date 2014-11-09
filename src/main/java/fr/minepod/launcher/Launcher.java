@@ -3,8 +3,6 @@ package fr.minepod.launcher;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.JOptionPane;
-
 import org.json.simple.parser.ParseException;
 
 import fr.minepod.launcher.gui.LauncherGui;
@@ -59,12 +57,12 @@ public class Launcher {
         Profile profile = new Profile();
 
         if (new File(Config.profilesVersionPath).exists()) {
-          if (new UtilsFiles().readFile(Config.profilesVersionPath)
-              .contains(Config.profilesVersion)) {
+          String version = new UtilsFiles().readFile(Config.profilesVersionPath);
+
+          if (version != null && version.contains(Config.profilesVersion)) {
             profile.set();
           } else {
-            Config.logger.info("Current profile version: "
-                + new UtilsFiles().readFile(Config.profilesVersionPath));
+            Config.logger.info("Current profile version: " + version);
             Config.logger.info("New profile version: " + Config.profilesVersion);
 
             profile.update();
@@ -78,10 +76,7 @@ public class Launcher {
         }
       } else {
         Config.logger.severe("The profile file doesn't exist");
-        JOptionPane.showMessageDialog(null,
-            "Lancez le jeu via le launcher Mojang, fermez-le et relancez le launcher "
-                + Config.launcherName, "Attention", JOptionPane.WARNING_MESSAGE);
-        System.exit(0);
+        CrashReport.show("Le jeu doit avoir été lancé au moins une fois avant.");
       }
     } catch (IOException e) {
       CrashReport.show(e);
