@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import fr.minepod.launcher.Config;
 import fr.minepod.launcher.CrashReport;
 import fr.minepod.launcher.json.CustomJSONObject;
 
@@ -27,15 +28,23 @@ public class ActionPerformer {
       ActionPerformerThread thread = new ActionPerformerThread(logger, action);
       thread.start();
 
-      threads.add(thread);
+      if (Config.threaded) {
+        threads.add(thread);
+      } else {
+        joinThread(thread);
+      }
     }
 
     for (ActionPerformerThread thread : threads) {
-      thread.join();
-      
-      if(thread.getException() != null) {
-        CrashReport.show(thread.getException());
-      }
+      joinThread(thread);
+    }
+  }
+
+  public void joinThread(ActionPerformerThread thread) throws InterruptedException {
+    thread.join();
+
+    if (thread.getException() != null) {
+      CrashReport.show(thread.getException());
     }
   }
 }

@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import fr.minepod.launcher.Config;
 import fr.minepod.launcher.gui.LauncherGui;
 import fr.minepod.launcher.json.CustomJSONObject;
 
@@ -28,7 +29,11 @@ public class FileInstaller {
       DownloaderThread thread = new DownloaderThread(gui, logger, url, temp, file);
       thread.start();
 
-      threads.add(thread);
+      if (Config.threaded) {
+        threads.add(thread);
+      } else {
+        thread.join();
+      }
     }
 
     for (DownloaderThread thread : threads) {

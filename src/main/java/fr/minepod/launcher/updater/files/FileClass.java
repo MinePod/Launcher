@@ -5,21 +5,19 @@ import fr.minepod.launcher.json.CustomJSONObject;
 public class FileClass {
   String id;
   String version;
-  String name;
   String type;
   String md5;
 
   public FileClass() {}
 
   public FileClass(CustomJSONObject json) {
-    this(json.getString("id"), json.getString("version"), json.getString("name"), json
-        .getString("type"), json.getString("md5"));
+    this(json.getString("id"), json.getString("version"), json.getString("type"), json
+        .getString("md5"));
   }
 
-  public FileClass(String id, String version, String name, String type, String md5) {
+  public FileClass(String id, String version, String type, String md5) {
     this.id = id;
     this.version = version;
-    this.name = name;
     this.type = type;
     this.md5 = md5;
   }
@@ -30,10 +28,6 @@ public class FileClass {
 
   public String getVersion() {
     return version;
-  }
-
-  public String getName() {
-    return name;
   }
 
   public String getType() {

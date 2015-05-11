@@ -30,7 +30,8 @@ public class Config {
   public static String profilesPath;
   public static String profilesVersionPath;
   public static String bootstrapVersion;
-  public static String language;
+
+  public static boolean threaded = true;
 
   public static java.util.logging.Logger logger;
 

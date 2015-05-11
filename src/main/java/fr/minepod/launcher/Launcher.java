@@ -2,6 +2,7 @@ package fr.minepod.launcher;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map.Entry;
 
 import org.json.simple.parser.ParseException;
 
@@ -14,10 +15,11 @@ public class Launcher {
   public static LauncherGui gui;
 
   public static void main(String[] args) throws IOException {
-    if (args.length != 0)
+    if (args.length != 0) {
       start(args[0]);
-    else
+    } else {
       start();
+    }
   }
 
   public static void start() {
@@ -26,8 +28,23 @@ public class Launcher {
 
   public static void start(String args) {
     try {
-      Config.bootstrapVersion = args;
       Config.setConfig();
+      Config.logger.setUseParentHandlers(false);
+      Config.bootstrapVersion = args;
+
+      Config.logger.info("VM parameters");
+      for (Entry<Object, Object> entry : System.getProperties().entrySet()) {
+        Config.logger.info(entry.getKey() + ": " + entry.getValue());
+      }
+
+      if (System.getProperty("threaded") == null
+          || !System.getProperty("threaded").equalsIgnoreCase("no")) {
+        Config.logger.info("Threading status: threaded");
+      } else {
+        Config.threaded = false;
+
+        Config.logger.info("Threading status: not threaded - debug?");
+      }
 
       if (!new File(Config.launcherLocation).exists()) {
         new File(Config.launcherLocation).mkdir();

@@ -89,7 +89,7 @@ public class DownloaderThread extends Thread {
         gui.addMax(fileLength);
       }
 
-      logger.info("Downloading...");
+      logger.info("Downloading " + website + ", size: " + fileLength / 1000 + "kB");
       while ((bytesRead = input.read(buffer)) > 0) {
         fos.write(buffer, 0, bytesRead);
         buffer = new byte[153600];
@@ -100,10 +100,12 @@ public class DownloaderThread extends Thread {
       }
 
       fos.close();
+
+      logger.info("Final size for " + path + ": " + new File(path).length() / 1000 + "kB");
     } catch (IOException e) {
       CrashReport.show(e);
     }
 
-    logger.info("Downloading complete!");
+    logger.info("Downloading " + website + " to " + path + " complete!");
   }
 }
