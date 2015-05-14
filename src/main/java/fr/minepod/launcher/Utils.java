@@ -30,8 +30,8 @@ public class Utils {
   }
 
   public static String fillLocations(String input, boolean replaceSlashes) {
-    input = input.replace("{launcherdir}", Config.launcherLocation);
-    input = input.replace("{minecraftdir}", Config.minecraftDir);
+    input = input.replace("{launcherdir}", LauncherConfig.launcherLocation);
+    input = input.replace("{minecraftdir}", LauncherConfig.minecraftDir);
 
     if (replaceSlashes) {
       input = input.replace("/", File.separator);

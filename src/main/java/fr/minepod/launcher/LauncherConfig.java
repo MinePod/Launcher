@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.util.jar.Attributes;
 import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
-import java.util.logging.Logger;
 
 import fr.minepod.utils.UtilsLogger;
 
@@ -18,24 +17,25 @@ public class LauncherConfig {
   public static String launcherVersion;
   public static String launcherBuildTime;
 
+  public static String logFile;
   public static String appDataPath;
   public static String launcherDir;
-  public static String minecraft;
   public static String launcherTempDir;
   public static String minecraftDir;
+  public static String minecraft;
+  public static String slash;
   public static String launcherLocation;
   public static String launcherDataFile;
   public static String launcherMinecraftJar;
   public static String profilesPath;
   public static String profilesVersionPath;
-  public static String launcherJar;
-  public static String launcherMd5;
-  public static String bootstrapVersionFile;
-  public static String logFile;
+  public static String bootstrapVersion;
 
-  public static Logger logger;
+  public static boolean threaded = true;
 
-  public static void setConfig() throws SecurityException, IOException {
+  public static java.util.logging.Logger logger;
+
+  public static void setLauncherConfig() throws SecurityException, IOException {
     String OS = System.getProperty("os.name").toUpperCase();
     if (OS.contains("WIN")) {
       appDataPath = System.getenv("APPDATA");
@@ -55,26 +55,18 @@ public class LauncherConfig {
       minecraft = "/.minecraft";
     }
 
-    launcherTempDir = launcherDir + File.separator + "temp";
+    slash = System.getProperty("file.separator");
+    launcherTempDir = launcherDir + slash + "temp";
     minecraftDir = appDataPath + minecraft;
     launcherLocation = appDataPath + launcherDir;
     launcherDataFile = launcherLocation + File.separator + "launcher_data.json";
-    launcherMinecraftJar = launcherLocation + File.separator + "minecraft.jar";
-    profilesPath = minecraftDir + File.separator + "launcher_profiles.json";
-    profilesVersionPath = launcherLocation + File.separator + "profiles.txt";
-    launcherJar = launcherLocation + File.separator + "launcher.jar";
-    launcherMd5 = launcherLocation + File.separator + "launcher.md5";
-    bootstrapVersionFile = launcherLocation + File.separator + "bootstrap.txt";
-    logFile = launcherLocation + File.separator + "logs.txt";
-
-    if (!new File(launcherLocation).exists()) {
-      new File(launcherLocation).mkdir();
-    }
+    launcherMinecraftJar = launcherLocation + slash + "minecraft.jar";
+    profilesPath = minecraftDir + slash + "launcher_profiles.json";
+    profilesVersionPath = launcherLocation + slash + "profiles.txt";
+    logFile = launcherLocation + slash + "launcher_logs.txt";
 
     logger = UtilsLogger.setLogger(logFile);
-  }
 
-  public static void setVersionInfos() throws IOException {
     InputStream InputStream =
         Launcher.class.getProtectionDomain().getCodeSource().getLocation().openStream();
     JarInputStream JarInputStream = new JarInputStream(InputStream);

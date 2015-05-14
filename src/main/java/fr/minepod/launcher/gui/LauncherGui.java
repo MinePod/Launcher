@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 
-import fr.minepod.launcher.Config;
+import fr.minepod.launcher.LauncherConfig;
 import fr.minepod.launcher.updater.versions.VersionClass;
 
 public class LauncherGui {
@@ -34,7 +34,7 @@ public class LauncherGui {
     JEditorPane page = new JEditorPane();
     page.setContentType("text/html");
     page.setEditable(false);
-    page.setPage(Config.launcherChangelogPage);
+    page.setPage(LauncherConfig.launcherChangelogPage);
 
     for (String key : versionsList.keySet()) {
       versions.addItem(key);
@@ -44,8 +44,8 @@ public class LauncherGui {
     progress.setStringPainted(true);
 
     JFrame j =
-        new JFrame("MinePod Launcher - Salsepareille " + Config.launcherVersion + " "
-            + Config.launcherBuildTime);
+        new JFrame("MinePod Launcher - Salsepareille " + LauncherConfig.launcherVersion + " "
+            + LauncherConfig.launcherBuildTime);
 
     JPanel top = new JPanel();
     top.setLayout(new BorderLayout());

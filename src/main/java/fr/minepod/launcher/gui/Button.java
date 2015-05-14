@@ -9,7 +9,8 @@ import javax.swing.JButton;
 
 import org.json.simple.parser.ParseException;
 
-import fr.minepod.launcher.Config;
+import de.schlichtherle.truezip.file.TVFS;
+import fr.minepod.launcher.LauncherConfig;
 import fr.minepod.launcher.CrashReport;
 import fr.minepod.launcher.LaunchJar;
 import fr.minepod.launcher.Launcher;
@@ -38,7 +39,7 @@ public class Button extends JButton implements MouseListener {
 
         setEnabled(true);
       } else {
-        Config.logger.info("Launching version installing...");
+        LauncherConfig.logger.info("Launching version installing...");
         Launcher.gui.update(0);
 
         new Thread(new Runnable() {
@@ -46,10 +47,12 @@ public class Button extends JButton implements MouseListener {
           public void run() {
             try {
               Launcher.versionsUpdater.installVersion(Launcher.gui, version);
+              TVFS.umount();
+
               Launcher.gui.setLoading(true);
 
-              Config.logger.info("Launching game soon...");
-              new LaunchJar(Config.launcherMinecraftJar);
+              LauncherConfig.logger.info("Launching game soon...");
+              new LaunchJar(LauncherConfig.launcherMinecraftJar);
             } catch (IOException | ParseException | InterruptedException | NoSuchAlgorithmException e) {
               CrashReport.show(e);
             }

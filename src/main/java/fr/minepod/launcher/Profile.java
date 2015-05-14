@@ -21,14 +21,14 @@ public class Profile {
 
   @SuppressWarnings("unchecked")
   public void set(boolean update) throws IOException, ParseException {
-    Config.logger.info("Detecting profile...");
-    String profile = new UtilsFiles().readFile(Config.profilesPath);
+    LauncherConfig.logger.info("Detecting profile...");
+    String profile = new UtilsFiles().readFile(LauncherConfig.profilesPath);
 
     JSONObject jsonObject =
-        (JSONObject) new JSONParser().parse(new FileReader(Config.profilesPath));
+        (JSONObject) new JSONParser().parse(new FileReader(LauncherConfig.profilesPath));
 
     if (update || !((JSONObject) jsonObject.get("profiles")).containsKey("MinePod")) {
-      Config.logger.info("Adding profile...");
+      LauncherConfig.logger.info("Adding profile...");
       String selectedProfile = (String) jsonObject.get("selectedProfile");
       JSONObject profiles = (JSONObject) jsonObject.get("profiles");
       JSONObject currentProfile = (JSONObject) profiles.get(selectedProfile);
@@ -40,9 +40,9 @@ public class Profile {
       } else {
         newProfile = new JSONObject();
       }
-      newProfile.put("name", Config.launcherName);
-      newProfile.put("gameDir", Config.launcherLocation.replace("\\", "\\\\"));
-      newProfile.put("lastVersionId", Config.launcherName);
+      newProfile.put("name", LauncherConfig.launcherName);
+      newProfile.put("gameDir", LauncherConfig.launcherLocation.replace("\\", "\\\\"));
+      newProfile.put("lastVersionId", LauncherConfig.launcherName);
       newProfile.put("playerUUID", playerUUID);
       // TODO: Let this be totally configurable in a small config file
       newProfile
@@ -53,13 +53,13 @@ public class Profile {
       profiles.put("MinePod", newProfile);
 
       jsonObject.put("profiles", profiles);
-      jsonObject.put("selectedProfile", Config.launcherName);
+      jsonObject.put("selectedProfile", LauncherConfig.launcherName);
       profile = jsonObject.toJSONString();
     }
 
-    new File(Config.profilesPath).delete();
-    new UtilsFiles().writeFile(Config.profilesPath, profile);
+    new File(LauncherConfig.profilesPath).delete();
+    new UtilsFiles().writeFile(LauncherConfig.profilesPath, profile);
 
-    Config.logger.info("Waiting for user action...");
+    LauncherConfig.logger.info("Waiting for user action...");
   }
 }

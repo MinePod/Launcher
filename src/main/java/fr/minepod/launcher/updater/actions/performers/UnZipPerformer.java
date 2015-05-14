@@ -4,7 +4,7 @@ import java.util.Map;
 
 import fr.minepod.launcher.updater.actions.ActionClass;
 import fr.minepod.launcher.updater.actions.PerformerException;
-import fr.minepod.utils.UtilsFiles;
+import fr.minepod.utils.UtilsArchive;
 
 public class UnZipPerformer extends AbstractPerformer {
   public UnZipPerformer(ActionClass action) {
@@ -19,7 +19,7 @@ public class UnZipPerformer extends AbstractPerformer {
   @Override
   public void run() throws PerformerException {
     try {
-      new UtilsFiles().unZip((String) this.getArgs().get("input"),
+      new UtilsArchive().unZip((String) this.getArgs().get("input"),
           (String) this.getArgs().get("output"));
     } catch (Exception e) {
       throw new PerformerException(e);

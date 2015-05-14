@@ -12,8 +12,8 @@ public class CrashReport {
   }
 
   public static void show(String exception, boolean exit) {
-    if (Config.logger != null) {
-      Config.logger.severe(exception);
+    if (LauncherConfig.logger != null) {
+      LauncherConfig.logger.severe(exception);
     }
 
     JOptionPane.showMessageDialog(null, exception, "Erreur", JOptionPane.ERROR_MESSAGE);

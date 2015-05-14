@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import fr.minepod.launcher.Config;
+import fr.minepod.launcher.LauncherConfig;
 import fr.minepod.launcher.CrashReport;
 import fr.minepod.launcher.json.CustomJSONObject;
 
@@ -28,7 +28,7 @@ public class ActionPerformer {
       ActionPerformerThread thread = new ActionPerformerThread(logger, action);
       thread.start();
 
-      if (Config.threaded) {
+      if (LauncherConfig.threaded) {
         threads.add(thread);
       } else {
         joinThread(thread);

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import fr.minepod.launcher.updater.actions.ActionClass;
 import fr.minepod.launcher.updater.actions.PerformerException;
-import fr.minepod.utils.UtilsFiles;
+import fr.minepod.utils.UtilsArchive;
 
 public class InjectPerformer extends AbstractPerformer {
   public InjectPerformer(ActionClass action) {
@@ -18,7 +18,7 @@ public class InjectPerformer extends AbstractPerformer {
   @Override
   public void run() throws PerformerException {
     try {
-      new UtilsFiles().mergeZip((String) this.getArgs().get("input"),
+      new UtilsArchive().mergeZip((String) this.getArgs().get("input"),
           (String) this.getArgs().get("merge"), (String) this.getArgs().get("output"));
     } catch (Exception e) {
       throw new PerformerException(e);

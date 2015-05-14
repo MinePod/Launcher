@@ -11,9 +11,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import de.schlichtherle.truezip.file.TVFS;
-import fr.minepod.launcher.Config;
 import fr.minepod.launcher.CrashReport;
+import fr.minepod.launcher.LauncherConfig;
 import fr.minepod.launcher.Utils;
 import fr.minepod.launcher.gui.LauncherGui;
 import fr.minepod.launcher.json.CustomJSONObject;
@@ -33,11 +32,12 @@ public class VersionsUpdater {
 
   public void init(LauncherGui gui) throws IOException, ParseException, InterruptedException {
     DownloaderThread downloader =
-        new DownloaderThread(gui, logger, Config.launcherDataUrl, Config.launcherDataFile);
+        new DownloaderThread(gui, logger, LauncherConfig.launcherDataUrl,
+            LauncherConfig.launcherDataFile);
     downloader.start();
     downloader.join();
 
-    String dataFile = new UtilsFiles().readFile(Config.launcherDataFile);
+    String dataFile = new UtilsFiles().readFile(LauncherConfig.launcherDataFile);
     JSONObject jsonObject = (JSONObject) new JSONParser().parse(dataFile);
 
     if (jsonObject.get("skip") != null && (Boolean) jsonObject.get("skip")) {
@@ -78,18 +78,17 @@ public class VersionsUpdater {
 
   public void installVersion(LauncherGui gui, VersionClass version) throws IOException,
       ParseException, InterruptedException, NoSuchAlgorithmException {
-
     logger.info("Launching installation of version:");
     logger.info("URL: " + version.getUrl());
     logger.info("Date: " + version.getDate());
     logger.info("Version: " + version.getId());
 
     DownloaderThread downloader =
-        new DownloaderThread(gui, logger, version.getUrl(), Config.launcherDataFile);
+        new DownloaderThread(gui, logger, version.getUrl(), LauncherConfig.launcherDataFile);
     downloader.start();
     downloader.join();
 
-    String dataFile = new UtilsFiles().readFile(Config.launcherDataFile);
+    String dataFile = new UtilsFiles().readFile(LauncherConfig.launcherDataFile);
 
     CustomJSONObject json = new CustomJSONObject((JSONObject) new JSONParser().parse(dataFile));
     new FileInstaller(gui, logger, json);
@@ -97,7 +96,5 @@ public class VersionsUpdater {
     gui.setLoading(true);
 
     new ActionPerformer(logger, json);
-
-    TVFS.umount();
   }
 }

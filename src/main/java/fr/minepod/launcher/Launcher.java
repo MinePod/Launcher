@@ -2,7 +2,6 @@ package fr.minepod.launcher;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map.Entry;
 
 import org.json.simple.parser.ParseException;
 
@@ -28,35 +27,30 @@ public class Launcher {
 
   public static void start(String args) {
     try {
-      Config.setConfig();
-      Config.logger.setUseParentHandlers(false);
-      Config.bootstrapVersion = args;
-
-      Config.logger.info("VM parameters");
-      for (Entry<Object, Object> entry : System.getProperties().entrySet()) {
-        Config.logger.info(entry.getKey() + ": " + entry.getValue());
-      }
+      LauncherConfig.setLauncherConfig();
+      LauncherConfig.logger.setUseParentHandlers(false);
+      LauncherConfig.bootstrapVersion = args;
 
       if (System.getProperty("threaded") == null
           || !System.getProperty("threaded").equalsIgnoreCase("no")) {
-        Config.logger.info("Threading status: threaded");
+        LauncherConfig.logger.info("Threading status: threaded");
       } else {
-        Config.threaded = false;
+        LauncherConfig.threaded = false;
 
-        Config.logger.info("Threading status: not threaded - debug?");
+        LauncherConfig.logger.info("Threading status: not threaded - debug?");
       }
 
-      if (!new File(Config.launcherLocation).exists()) {
-        new File(Config.launcherLocation).mkdir();
+      if (!new File(LauncherConfig.launcherLocation).exists()) {
+        new File(LauncherConfig.launcherLocation).mkdir();
       }
 
-      Config.logger.info("Downloading versions informations...");
-      versionsUpdater = new VersionsUpdater(Config.logger);
+      LauncherConfig.logger.info("Downloading versions informations...");
+      versionsUpdater = new VersionsUpdater(LauncherConfig.logger);
       versionsUpdater.init(gui);
       gui = new LauncherGui(versionsUpdater.versions);
       gui.initGui();
       gui.setLoading(true);
-      Config.logger.info("Downloaded versions informations.");
+      LauncherConfig.logger.info("Downloaded versions informations.");
 
       checkProfile();
       gui.finish();
@@ -69,30 +63,32 @@ public class Launcher {
 
   public static void checkProfile() throws IOException, ParseException {
     try {
-      if (new File(Config.profilesPath).exists()
-          && !new UtilsFiles().readFile(Config.profilesPath).isEmpty()) {
+      if (new File(LauncherConfig.profilesPath).exists()
+          && !new UtilsFiles().readFile(LauncherConfig.profilesPath).isEmpty()) {
         Profile profile = new Profile();
 
-        if (new File(Config.profilesVersionPath).exists()) {
-          String version = new UtilsFiles().readFile(Config.profilesVersionPath);
+        if (new File(LauncherConfig.profilesVersionPath).exists()) {
+          String version = new UtilsFiles().readFile(LauncherConfig.profilesVersionPath);
 
-          if (version != null && version.contains(Config.profilesVersion)) {
+          if (version != null && version.contains(LauncherConfig.profilesVersion)) {
             profile.set();
           } else {
-            Config.logger.info("Current profile version: " + version);
-            Config.logger.info("New profile version: " + Config.profilesVersion);
+            LauncherConfig.logger.info("Current profile version: " + version);
+            LauncherConfig.logger.info("New profile version: " + LauncherConfig.profilesVersion);
 
             profile.update();
-            new UtilsFiles().writeFile(Config.profilesVersionPath, Config.profilesVersion);
+            new UtilsFiles().writeFile(LauncherConfig.profilesVersionPath,
+                LauncherConfig.profilesVersion);
           }
         } else {
-          Config.logger.warning("The profile version doesn't exist, creating a new one...");
+          LauncherConfig.logger.warning("The profile version doesn't exist, creating a new one...");
 
           profile.set();
-          new UtilsFiles().writeFile(Config.profilesVersionPath, Config.profilesVersion);
+          new UtilsFiles().writeFile(LauncherConfig.profilesVersionPath,
+              LauncherConfig.profilesVersion);
         }
       } else {
-        Config.logger.severe("The profile file doesn't exist");
+        LauncherConfig.logger.severe("The profile file doesn't exist");
         CrashReport.show("Le jeu doit avoir été lancé au moins une fois avant.");
       }
     } catch (IOException e) {
