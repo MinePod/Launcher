@@ -25,6 +25,7 @@
 			<groupId>fr.minepod</groupId>
 			<artifactId>utils</artifactId>
 			<version>1.6.0.0</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>fr.minepod.jsonpretty</groupId>
@@ -75,6 +76,12 @@
 								<exclude>META-INF/*.DSA</exclude>
 								<exclude>META-INF/*.RSA</exclude>
 							</excludes>
+						</filter>
+						<filter>
+							<artifact>de.schlichtherle.truezip</artifact>
+							<includes>
+								<include>**</include>
+							</includes>
 						</filter>
 					</filters>
 				</configuration>
