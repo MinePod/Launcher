@@ -4,7 +4,7 @@
 
 	<groupId>fr.minepod</groupId>
 	<artifactId>launcher</artifactId>
-	<version>3.0.3.0</version>
+	<version>3.0.3.1</version>
 
 	<properties>
 		<build.builder>File Server</build.builder>

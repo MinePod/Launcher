@@ -65,6 +65,10 @@ public class LauncherConfig {
     profilesVersionPath = launcherLocation + slash + "profiles.txt";
     logFile = launcherLocation + slash + "launcher_logs.txt";
 
+    if (!new File(launcherLocation).exists()) {
+      new File(launcherLocation).mkdir();
+    }
+
     logger = UtilsLogger.setLogger(logFile);
 
     InputStream InputStream =
